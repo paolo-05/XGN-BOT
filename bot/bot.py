@@ -1,0 +1,136 @@
+import datetime
+import os
+import sys
+import traceback
+from asyncio import sleep
+from glob import glob
+from os import getcwd
+from pathlib import Path
+
+import discord
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+from discord.ext import commands
+from discord.ext.commands import command, has_permissions, when_mentioned_or
+from discord.flags import Intents
+from discord_slash import *
+from discord_slash import SlashCommand
+from dislash import ActionRow, Button, ButtonStyle, InteractionClient
+from requests import get
+from tortoise import Tortoise
+
+import constants
+import db
+from models import GuildConfig
+
+COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
+
+
+async def connect_db():
+    await Tortoise.init(
+        db_url=f"postgres://xgnbot:12345@localhost:5432/xgnbot",
+        modules={"models": ["models"]},
+    )
+    await Tortoise.generate_schemas()
+    print("db connected")
+
+
+async def get_prefix(bot: commands.Bot, message: discord.Message):
+    config = await GuildConfig.filter(id=message.guild.id).get_or_none()
+    return config.prefix if config else constants.DEFAULT_PREFIX
+
+
+class Ready(object):
+    def __init__(self):
+        for cog in COGS:
+            setattr(self, cog, False)
+
+    def ready_up(self, cog):
+        setattr(self, cog, True)
+        print(f" {cog} cog ready")
+
+    def all_ready(self):
+        return all([getattr(self, cog) for cog in COGS])
+
+
+class XGNbot(commands.Bot):
+    def __init__(self):
+        self.ready = False
+        self.scheduler = AsyncIOScheduler()
+        self.cogs_ready = Ready()
+        super().__init__(command_prefix=get_prefix,
+                         case_insensitive=True, intents=discord.Intents.all())
+
+    def setup(self):
+        for cog in COGS:
+            self.load_extension(f"cogs.{cog}")
+            print(f"{cog} loaded")
+        print("Setup completed")
+
+    def run(self):
+        print("Running setup...")
+        self.setup()
+
+        with open("../data/token.txt", "r", encoding="utf8") as tf:
+            token = tf.readline()
+
+        print("Running bot...")
+        super().run(token, reconnect=True)
+
+    async def shutdown(self):
+        print("Closing connection to Discord...")
+        await super().close()
+
+    async def close(self):
+        print("Closing on keyboard interrupt...")
+        await self.shutdown()
+
+    async def on_connect(self):
+        print(f" Connected to Discord (latency: {self.latency*1000:,.0f} ms).")
+
+    async def on_resumed(self):
+        print("Bot resumed.")
+
+    async def on_disconnect(self):
+        print("Bot disconnected.")
+
+    async def on_ready(self):
+        await connect_db()
+        self.client_id = (await self.application_info()).id
+        if not self.ready:
+            self.scheduler.start()
+
+            while not self.cogs_ready.all_ready():
+                await sleep(0.5)
+
+            self.ready = True
+            print(" bot ready")
+
+        else:
+            print("bot reconnected")
+
+    async def process_commands(self, msg):
+        ctx = await self.get_context(msg, cls=commands.Context)
+
+        if ctx.command is not None:
+            await self.invoke(ctx)
+
+    async def on_message(self, msg):
+        if not msg.author.bot:
+            await self.process_commands(msg)
+
+
+# launcher.py
+
+bot = XGNbot()
+#slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
+components = InteractionClient(bot)
+
+
+def main():
+    connect_db()
+    bot.run()
+
+
+if __name__ == '__main__':
+    main()
