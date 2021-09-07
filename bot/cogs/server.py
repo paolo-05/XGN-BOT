@@ -36,7 +36,7 @@ class Server(commands.Cog):
         if not guild_id:
             return web.json_response({"error": "Invalid guild"}, status=400)
 
-        guild: discord.Guild = self.bot.get_guild(guild_id)
+        guild: discord.Guild = self.bot.get_guild(int(guild_id))
 
         person_count = len([m for m in guild.members if not m.bot])
         bot_count = len([m for m in guild.members if m.bot])

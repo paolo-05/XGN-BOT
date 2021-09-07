@@ -41,6 +41,8 @@ class Config(commands.Cog):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         welcome_config = await WelcomeConfig.filter(guild_id=ctx.guild.id).get_or_none()
 
+        await ctx.send(f'you can modify this event by going here https://xgnbot.herokuapp.com/guild/{ctx.guild.id}')
+
         if config.welcome_enabled:
             welcome_channel = discord.utils.get(
                 ctx.guild.channels, id=welcome_config.channel_id
@@ -52,61 +54,10 @@ class Config(commands.Cog):
             return await ctx.send("Welcome messages are not enabled for this guild")
 
     @commands.command()
-    @commands.has_guild_permissions(manage_guild=True)
-    async def setwelcome(self, ctx: commands.Context):
-        async def ask_welcome_msg():
-            try:
-                msg: discord.Message = await self.bot.wait_for(
-                    "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-                )
-                return await commands.TextChannelConverter().convert(ctx, msg.content)
-            except commands.errors.ChannelNotFound as e:
-                await ctx.send(
-                    f"Invalid channel `{e.argument}`. Please enter a channel name again"
-                )
-                return await ask_welcome_msg()
-
-        await ctx.send(
-            "Please enter the channel where all the welcome messages will be sent."
-        )
-        channel = await ask_welcome_msg()
-
-        await ctx.send(
-            "Please enter your welcome message below. use `{}` where you want to mention the user"
-        )
-        welcome_msg = (
-            await self.bot.wait_for(
-                "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-            )
-        ).content
-
-        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
-        welcome_config = await WelcomeConfig.filter(guild_id=ctx.guild.id).get_or_none()
-
-        config.welcome_enabled = True
-        await config.save()
-
-        if not welcome_config:
-            new_welcome_config = WelcomeConfig(
-                guild_id=ctx.guild.id, channel_id=channel.id, message=welcome_msg
-            )
-            await new_welcome_config.save()
-            return await ctx.send(
-                f"Enabled welcome messages. All member join events will be sent to {channel.mention}."
-            )
-        else:
-            welcome_config.channel_id = channel.id
-            welcome_config.message = welcome_msg
-            await welcome_config.save()
-            return await ctx.send(
-                f"Updated welcome config. All member join events will be sent to {channel.mention}."
-            )
-
-    @commands.command()
     async def leave_event(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         leave_config = await LeaveConfig.filter(guild_id=ctx.guild.id).get_or_none()
-
+        await ctx.send(f'you can modify this event by going here https://xgnbot.herokuapp.com/guild/{ctx.guild.id}')
         if config.leave_enabled:
             leave_channel = discord.utils.get(
                 ctx.guild.channels, id=leave_config.channel_id
@@ -118,61 +69,10 @@ class Config(commands.Cog):
             return await ctx.send("Leave messages are not enabled for this guild")
 
     @commands.command()
-    @commands.has_guild_permissions(manage_guild=True)
-    async def setleave(self, ctx: commands.Context):
-        async def ask_leave_msg():
-            try:
-                msg: discord.Message = await self.bot.wait_for(
-                    "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-                )
-                return await commands.TextChannelConverter().convert(ctx, msg.content)
-            except commands.errors.ChannelNotFound as e:
-                await ctx.send(
-                    f"Invalid channel `{e.argument}`. Please enter a channel name again"
-                )
-                return await ask_leave_msg()
-
-        await ctx.send(
-            "Please enter the channel where all the leave messages will be sent."
-        )
-        channel = await ask_leave_msg()
-
-        await ctx.send(
-            "Please enter your leave message below. use `{}` where you want to mention the user"
-        )
-        leave_msg = (
-            await self.bot.wait_for(
-                "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-            )
-        ).content
-
-        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
-        leave_config = await LeaveConfig.filter(guild_id=ctx.guild.id).get_or_none()
-
-        config.leave_enabled = True
-        await config.save()
-
-        if not leave_config:
-            new_welcome_config = LeaveConfig(
-                guild_id=ctx.guild.id, channel_id=channel.id, message=leave_msg
-            )
-            await new_welcome_config.save()
-            return await ctx.send(
-                f"Enabled leave messages. All member leave events will be sent to {channel.mention}."
-            )
-        else:
-            leave_config.channel_id = channel.id
-            leave_config.message = leave_msg
-            await leave_config.save()
-            return await ctx.send(
-                f"Updated leave config. All member leave events will be sent to {channel.mention}."
-            )
-
-    @commands.command()
     async def log(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         log_config = await LogChannel.filter(guild_id=ctx.guild.id).get_or_none()
-
+        await ctx.send(f'you can modify this event by going here https://xgnbot.herokuapp.com/guild/{ctx.guild.id}')
         if config.log_enabled:
             log_channel = discord.utils.get(
                 ctx.guild.channels, id=log_config.channel_id
@@ -185,34 +85,10 @@ class Config(commands.Cog):
 
     @commands.command()
     @commands.has_guild_permissions(manage_guild=True)
-    async def setlog(self, ctx: commands.Context, channel: discord.TextChannel):
-        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
-        log_config = await LogChannel.filter(guild_id=ctx.guild.id).get_or_none()
-        config.log_enabled = True
-        await config.save()
-
-        if not log_config:
-            config.leave_enabled = True
-            new_log_config = LogChannel(
-                guild_id=ctx.guild.id, channel_id=channel.id
-            )
-            await new_log_config.save()
-            return await ctx.send(
-                f"Enabled log messages. All guild log will be sent to {channel.mention}."
-            )
-        else:
-            log_config.channel_id = channel.id
-            await log_config.save()
-            return await ctx.send(
-                f"Updated log config. All guild log will be sent to {channel.mention}."
-            )
-
-    @commands.command()
-    @commands.has_guild_permissions(manage_guild=True)
     async def levelling(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         levelling_config = await LevelUpConfig.filter(guild_id=ctx.guild.id).get_or_none()
-
+        await ctx.send(f'you can modify this event by going here https://xgnbot.herokuapp.com/guild/{ctx.guild.id}')
         if config.level_up_enabled:
             log_channel = discord.utils.get(
                 ctx.guild.channels, id=levelling_config.channel_id
@@ -222,57 +98,6 @@ class Config(commands.Cog):
             )
         else:
             return await ctx.send("The levelling system is not enabled")
-
-    @commands.command()
-    @commands.has_guild_permissions(manage_guild=True)
-    async def setlevelling(self, ctx: commands.Context):
-        async def ask_level_msg():
-            try:
-                msg: discord.Message = await self.bot.wait_for(
-                    "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-                )
-                return await commands.TextChannelConverter().convert(ctx, msg.content)
-            except commands.errors.ChannelNotFound as e:
-                await ctx.send(
-                    f"Invalid channel `{e.argument}`. Please enter a channel name again"
-                )
-                return await ask_level_msg()
-
-        await ctx.send(
-            "Please enter the channel where all the level up messages will be sent."
-        )
-        channel = await ask_level_msg()
-
-        await ctx.send(
-            "Please enter your level up message below. use `{mention}` where you want to mention the user and {level} for the current level"
-        )
-        levelup_msg = (
-            await self.bot.wait_for(
-                "message", check=lambda x: x.author.id == ctx.author.id, timeout=20
-            )
-        ).content
-
-        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
-        levelup_config = await LevelUpConfig.filter(guild_id=ctx.guild.id).get_or_none()
-
-        config.level_up_enabled= True
-        await config.save()
-
-        if not levelup_config:
-            new_welcome_config = LevelUpConfig(
-                guild_id=ctx.guild.id, channel_id=channel.id, message=levelup_msg
-            )
-            await new_welcome_config.save()
-            return await ctx.send(
-                f"Enabled levelling system. All level up events will be sent to {channel.mention}."
-            )
-        else:
-            levelup_config.channel_id = channel.id
-            levelup_config.message = levelup_msg
-            await levelup_config.save()
-            return await ctx.send(
-                f"Updated levelling config. All level up events will be sent to {channel.mention}."
-            )
 
 
 def setup(bot: commands.Bot):

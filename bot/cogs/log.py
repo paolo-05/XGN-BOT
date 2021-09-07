@@ -89,7 +89,7 @@ class Log(commands.Cog):
         if channel.category is None:
             date = datetime.datetime.utcnow()
             embed = discord.Embed(
-                title=f"a category has been deleted", timestamp=date)
+                title=f"a category has been deleted", timestamp=date, colour=0x00aaff)
             embed.set_author(name=self.bot.user,
                              icon_url=self.bot.user.avatar_url)
             embed.add_field(name="category", value=str(
@@ -100,7 +100,7 @@ class Log(commands.Cog):
             embed = discord.Embed(
                 title=f"a channel has been deleted", timestamp=date)
             embed.set_author(name=self.bot.user,
-                             icon_url=self.bot.user.avatar_url)
+                             icon_url=self.bot.user.avatar_url, colour=0x00aaff)
             embed.add_field(name="channel", value=str(
                 channel), inline=False)
             embed.add_field(name="date", value=f"{date}", inline=False)
@@ -123,7 +123,7 @@ class Log(commands.Cog):
         if channel.category is None:
             date = datetime.datetime.utcnow()
             embed = discord.Embed(
-                title=f"a category has been created", timestamp=date)
+                title=f"a category has been created", timestamp=date, colour=0x00aaff)
             embed.set_author(name=self.bot.user,
                              icon_url=self.bot.user.avatar_url)
             embed.add_field(name="category",
@@ -172,7 +172,7 @@ class Log(commands.Cog):
                 embed = discord.Embed(
                     title=f"a category has been renamed", timestamp=date)
                 embed.set_author(name=self.bot.user,
-                                 icon_url=self.bot.user.avatar_url)
+                                 icon_url=self.bot.user.avatar_url, colour=0x00aaff)
                 embed.add_field(name="category", value=after.mention)
                 embed.add_field(name="before name", value=before.name)
                 embed.add_field(name="after name", value=after.name)
@@ -181,7 +181,7 @@ class Log(commands.Cog):
                 await send_channel.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    title=f"a category has been changed", timestamp=date)
+                    title=f"a category has been changed", timestamp=date, colour=0x00aaff)
                 embed.set_author(name=self.bot.user,
                                  icon_url=self.bot.user.avatar_url)
                 embed.add_field(name="category", value=after.mention)
@@ -191,7 +191,7 @@ class Log(commands.Cog):
             date = datetime.datetime.utcnow()
             if before.name != after.name:
                 embed = discord.Embed(
-                    title=f"a channel has been renamed", timestamp=date)
+                    title=f"a channel has been renamed", timestamp=date, colour=0x00aaff)
                 embed.set_author(name=self.bot.user,
                                  icon_url=self.bot.user.avatar_url)
                 embed.add_field(name="channel", value=after.mention)
@@ -201,7 +201,7 @@ class Log(commands.Cog):
                 await send_channel.send(embed=embed)
             else:
                 embed = discord.Embed(
-                    title=f"a channel has been changed", timestamp=date)
+                    title=f"a channel has been changed", timestamp=date, colour=0x00aaff)
                 embed.set_author(name=self.bot.user,
                                  icon_url=self.bot.user.avatar_url)
                 embed.add_field(name="channel", value=after.mention)
@@ -224,7 +224,7 @@ class Log(commands.Cog):
 
         if before.nick != after.nick:
             embed = discord.Embed(
-                title=f"{after} had his nickname changed", timestamp=datetime.datetime.utcnow())
+                title=f"{after} had his nickname changed", timestamp=datetime.datetime.utcnow(), colour=after.colour)
             embed.set_author(name=f"{after}", icon_url=after.avatar_url)
             embed.add_field(
                 name="Member", value=after.mention, inline=False)
@@ -243,7 +243,7 @@ class Log(commands.Cog):
                 elif roles[i] == "given":
                     added_roles += f"{i.name}({i.id}) \n"
             embed = discord.Embed(
-                title=f"{after} had his roles changed", timestamp=datetime.datetime.utcnow())
+                title=f"{after} had his roles changed", timestamp=datetime.datetime.utcnow(), colour=after.colour)
             embed.set_author(name=f"{after}", icon_url=after.avatar_url)
             embed.add_field(
                 name="Member", value=after.mention, inline=False)
@@ -260,11 +260,11 @@ class Log(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_role_create(self, role: discord.Role):
         embed = discord.Embed(
-            title=f"{role.name} has been created", timestamp=datetime.datetime.utcnow())
+            title=f"{role.name} has been created", timestamp=datetime.datetime.utcnow(), colour=role.colour)
         embed.set_author(name=f"{self.bot.user}",
                          icon_url=self.bot.user.avatar_url)
-        embed.add_field(name=f"role", value=role.name, inline=False)
-        embed.add_field(name="ID", value=f"````py\n Role = {role.id}")
+        embed.add_field(name=f"role", value=role.mention, inline=False)
+        embed.add_field(name="ID", value=f"```py\n Role = {role.id}\n```")
 
         config = await GuildConfig.filter(id=role.guild.id).get_or_none()
         if not config:
@@ -283,11 +283,11 @@ class Log(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
         embed = discord.Embed(
-            title=f"{role.name} has been deleted", timestamp=datetime.datetime.utcnow())
+            title=f"{role.name} has been deleted", timestamp=datetime.datetime.utcnow(), colour=role.colour)
         embed.set_author(name=f"{self.bot.user}",
                          icon_url=self.bot.user.avatar_url)
-        embed.add_field(name=f"role", value=role.name, inline=False)
-        embed.add_field(name="ID", value=f"````py\n Role = {role.id}")
+        embed.add_field(name=f"role", value=role.mention, inline=False)
+        embed.add_field(name="ID", value=f"```py\n Role = {role.id}\n```")
         config = await GuildConfig.filter(id=role.guild.id).get_or_none()
         if not config:
             return
@@ -310,11 +310,11 @@ class Log(commands.Cog):
         :type before: discord.Role
         """
         embed = discord.Embed(
-            title=f"{after.name} has been updated", timestamp=datetime.datetime.utcnow())
+            title=f"{after.name} has been updated", timestamp=datetime.datetime.utcnow(), colour=after.colour)
         embed.set_author(name=f"{self.bot.user}",
                          icon_url=self.bot.user.avatar_url)
         embed.add_field(name=f"role", value=after.name, inline=False)
-        embed.add_field(name="ID", value=f"````py\n Role = {after.id}")
+        embed.add_field(name="ID", value=f"```py\n Role = {after.id}\n```")
         config = await GuildConfig.filter(id=after.guild.id).get_or_none()
         if not config:
             return
@@ -334,22 +334,22 @@ class Log(commands.Cog):
                                     after: discord.VoiceState):
         date = datetime.datetime.utcnow()
 
-        config = await GuildConfig.filter(id=after.guild.id).get_or_none()
+        config = await GuildConfig.filter(id=member.guild.id).get_or_none()
         if not config:
             return
 
         if config.log_enabled:
             log_channel = await LogChannel.filter(
-                guild_id=after.guild.id
+                guild_id=member.guild.id
             ).get_or_none()
 
             audit_log_channel = discord.utils.get(
-                after.guild.channels, id=log_channel.channel_id)
+                member.guild.channels, id=log_channel.channel_id)
 
         if after.channel != before.channel:
             if before.channel is None:  # joined voice
                 embed = discord.Embed(
-                    timestamp=date, title=f"{member} has joined {after.channel} ")
+                    timestamp=date, title=f"{member} has joined {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(
@@ -371,7 +371,7 @@ class Log(commands.Cog):
                 await audit_log_channel.send(embed=embed)
             else:
                 embed = discord.Embed(timestamp=date,
-                                      title=f"{member} has moved from {before.channel} to {after.channel}")
+                                      title=f"{member} has moved from {before.channel} to {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(name="before channel",
@@ -385,7 +385,7 @@ class Log(commands.Cog):
         if before.deaf != after.deaf:
             if after.deaf is True:
                 embed = discord.Embed(timestamp=date,
-                                      title=f"{member} has been server deafened at {after.channel}")
+                                      title=f"{member} has been server deafened at {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(
@@ -396,7 +396,7 @@ class Log(commands.Cog):
                 await audit_log_channel.send(embed=embed)
             else:
                 embed = discord.Embed(timestamp=date,
-                                      title=f"{member} has been server undeafened at {after.channel}")
+                                      title=f"{member} has been server undeafened at {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(
@@ -408,7 +408,7 @@ class Log(commands.Cog):
         if before.mute != after.mute:
             if after.mute is True:
                 embed = discord.Embed(timestamp=date,
-                                      title=f"{member} has been server muted at {after.channel}")
+                                      title=f"{member} has been server muted at {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(
@@ -419,7 +419,7 @@ class Log(commands.Cog):
                 await audit_log_channel.send(embed=embed)
             else:
                 embed = discord.Embed(timestamp=date,
-                                      title=f"{member} has been server unmuted at {after.channel}")
+                                      title=f"{member} has been server unmuted at {after.channel}", colour=member.colour)
                 embed.set_author(name=f"{member}",
                                  icon_url=member.avatar_url)
                 embed.add_field(
@@ -445,7 +445,7 @@ class Log(commands.Cog):
                 guild.channels, id=log_channel.channel_id)
 
         embed = discord.Embed(
-            title=f"{user} has been banned", timestamp=date)
+            title=f"{user} has been banned", timestamp=date, color=0x00aaff)
         embed.set_author(name=f"{user}", icon_url=user.avatar_url)
         embed.add_field(name="ID", value=f"```py\n User = {user.id}\n```")
         await audit_log_channel.send(embed=embed)
@@ -465,7 +465,7 @@ class Log(commands.Cog):
             audit_log_channel = discord.utils.get(
                 guild.channels, id=log_channel.channel_id)
         embed = discord.Embed(
-            title=f"{user} has been unbanned", timestamp=date)
+            title=f"{user} has been unbanned", timestamp=date, color=0x00aaff)
         embed.set_author(name=f"{user}", icon_url=user.avatar_url)
         embed.add_field(name="ID", value=f"```py\n User = {user.id}\n```")
         await audit_log_channel.send(embed=embed)
