@@ -117,6 +117,8 @@ class Log(commands.Cog):
                 channel.guild.channels, id=log_channel.channel_id)
 
             await send_channel.send(embed=embed)
+        else:
+            return
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: discord.abc.GuildChannel):
@@ -152,6 +154,8 @@ class Log(commands.Cog):
                 channel.guild.channels, id=log_channel.channel_id)
 
             await send_channel.send(embed=embed)
+        else:
+            return
 
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before: discord.abc.GuildChannel, after: discord.abc.GuildChannel):
@@ -166,6 +170,8 @@ class Log(commands.Cog):
 
             send_channel = discord.utils.get(
                 before.guild.channels, id=log_channel.channel_id)
+        else:
+            return
         if after.category is None:
             date = datetime.datetime.utcnow()
             if before.name != after.name:
@@ -221,6 +227,8 @@ class Log(commands.Cog):
 
             send_channel = discord.utils.get(
                 before.guild.channels, id=log_channel.channel_id)
+        else:
+            return
 
         if before.nick != after.nick:
             embed = discord.Embed(
@@ -278,7 +286,9 @@ class Log(commands.Cog):
             send_channel = discord.utils.get(
                 role.guild.channels, id=log_channel.channel_id)
 
-        await send_channel.send(embed=embed)
+            await send_channel.send(embed=embed)
+        else:
+            return
 
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
@@ -300,7 +310,9 @@ class Log(commands.Cog):
             send_channel = discord.utils.get(
                 role.guild.channels, id=log_channel.channel_id)
 
-        await send_channel.send(embed=embed)
+            await send_channel.send(embed=embed)
+        else:
+            return
 
     @commands.Cog.listener()
     async def on_guild_role_update(self, before: discord.Role, after: discord.Role):
@@ -327,7 +339,9 @@ class Log(commands.Cog):
             send_channel = discord.utils.get(
                 after.guild.channels, id=log_channel.channel_id)
 
-        await send_channel.send(embed=embed)
+            await send_channel.send(embed=embed)
+        else:
+            return
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member: discord.Member, before: discord.VoiceState,
@@ -345,6 +359,8 @@ class Log(commands.Cog):
 
             audit_log_channel = discord.utils.get(
                 member.guild.channels, id=log_channel.channel_id)
+        else:
+            return
 
         if after.channel != before.channel:
             if before.channel is None:  # joined voice
@@ -443,6 +459,8 @@ class Log(commands.Cog):
 
             audit_log_channel = discord.utils.get(
                 guild.channels, id=log_channel.channel_id)
+        else:
+            return
 
         embed = discord.Embed(
             title=f"{user} has been banned", timestamp=date, color=0x00aaff)
@@ -464,6 +482,8 @@ class Log(commands.Cog):
 
             audit_log_channel = discord.utils.get(
                 guild.channels, id=log_channel.channel_id)
+        else:
+            return
         embed = discord.Embed(
             title=f"{user} has been unbanned", timestamp=date, color=0x00aaff)
         embed.set_author(name=f"{user}", icon_url=user.avatar_url)

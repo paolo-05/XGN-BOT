@@ -7,6 +7,7 @@ from time import sleep, time
 import db
 import discord
 import requests
+from _typeshed import FileDescriptorLike
 from aiohttp.client import request
 from apscheduler.triggers.cron import CronTrigger
 from discord import Embed
@@ -65,11 +66,10 @@ class InfoCog(commands.Cog, name="meta"):
         members = sorted(ctx.guild.members, key=lambda m: m.joined_at)
 
         embed.add_field(name="Join position", value=str(members.index(user)+1))
-        embed.add_field(name="JOINED AT", value=user.joined_at, inline=True)
+        embed.add_field(name="JOINED AT", value=user.joined_at.strftime(
+            date_format), inline=True)
         embed.add_field(name="REGISTERED",
                         value=user.created_at.strftime(date_format))
-
-        embed.add_field(name="USER CREATED", value=created_at)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
         await ctx.channel.send(embed=embed)
@@ -111,11 +111,10 @@ class InfoCog(commands.Cog, name="meta"):
         members = sorted(ctx.guild.members, key=lambda m: m.joined_at)
 
         embed.add_field(name="Join position", value=str(members.index(user)+1))
-        embed.add_field(name="JOINED AT", value=user.joined_at, inline=True)
+        embed.add_field(name="JOINED AT", value=user.joined_at.strftime(
+            date_format), inline=True)
         embed.add_field(name="REGISTERED",
                         value=user.created_at.strftime(date_format))
-
-        embed.add_field(name="USER CREATED", value=created_at)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
 
@@ -200,7 +199,7 @@ class InfoCog(commands.Cog, name="meta"):
             mem_of_total = proc.memory_percent()
             mem_usage = mem_total * (mem_of_total / 100)
 
-        r = requests.get(f'https://xgnbot.herokuapp.com/status')
+        r = requests.get(f'https://xgnbot.xyz/status')
         if r.status_code == 200:
             website_status = 'online'
         else:
@@ -239,11 +238,11 @@ class InfoCog(commands.Cog, name="meta"):
             mem_of_total = proc.memory_percent()
             mem_usage = mem_total * (mem_of_total / 100)
 
-        r = requests.get(f'https://xgnbot.herokuapp.com/api/status')
+        r = requests.get(f'https://xgnbot.xyz/')
         if r.status_code == 200:
             website_status = 'online'
         else:
-            website_status = 'onffline'
+            website_status = 'offline'
 
         fields = [
             ("Python version", python_version(), True),
@@ -268,9 +267,9 @@ class InfoCog(commands.Cog, name="meta"):
 
         row = ActionRow(
             Button(style=ButtonStyle.link, label="Website",
-                   url='https://xgnbot.herokuapp.com/'),
-            Button(style=ButtonStyle.link, label="Dashboard",
-                   url='https://xgnbot.herokuapp.com/dashboard'),
+                   url='https://xgnbot.xyz/'),
+            Button(style=ButtonStyle.link, label="Server Dashboard",
+                   url='https://xgnbot.xyz/login'),
             Button(style=ButtonStyle.link, label="Top.gg",
                    url='https://top.gg/bot/840300480382894080'),
             Button(style=ButtonStyle.link, label="Prime Bots ",
@@ -281,27 +280,23 @@ class InfoCog(commands.Cog, name="meta"):
                               description="Here you are all the usefull links for XGN BOT",
                               colour=ctx.author.colour)
         embed.set_thumbnail(url=self.bot.user.avatar_url)
-        msg = await ctx.send(embed=embed, components=[row])
+        await ctx.send(embed=embed, components=[row])
 
     @cog_slash(name="about", description="Sends all the urls for the bot")
     async def _about(self, ctx):
 
-        row = ActionRow(
-            Button(style=ButtonStyle.link, label="Website",
-                   url='https://xgnbot.herokuapp.com/'),
-            Button(style=ButtonStyle.link, label="Dashboard",
-                   url='https://xgnbot.herokuapp.com/dashboard'),
-            Button(style=ButtonStyle.link, label="Top.gg",
-                   url='https://top.gg/bot/840300480382894080'),
-            Button(style=ButtonStyle.link, label="Prime Bots ",
-                   url='https://primebots.it/bots/840300480382894080'),
-        )
-
         embed = discord.Embed(title="XGN BOT's links",
                               description="Here you are all the usefull links for XGN BOT",
                               colour=ctx.author.colour)
+        fields = [
+            ("WEBSITE",
+             "[homepage](https://xgnbot.xyz/)\n [Server Dashboard](https://xgnbot.xyz/login)", False),
+            ("VOTE", "[Top.gg](https://top.gg/bot/840300480382894080) \n [Prime Bots](https://primebots.it/bots/840300480382894080)", False),
+        ]
+        for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
         embed.set_thumbnail(url=self.bot.user.avatar_url)
-        msg = await ctx.send(embed=embed, components=[row])
+        await ctx.send(embed=embed)
 
     @commands.command(hidden=True)
     @commands.is_owner()

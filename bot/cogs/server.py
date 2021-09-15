@@ -30,6 +30,25 @@ class Server(commands.Cog):
     async def get_status(self, request):
         return web.json_response({"guilds": len(self.bot.guilds), "ping": round(self.bot.latency * 1000), "users": len(self.bot.users)})
 
+    async def get_mutual_guilds(self, request):
+        json_data = await request.json()
+        guild_ids = json_data.get("guilds")
+        if not guild_ids:
+            return web.json_response({"error": "Invalid guilds"}, status=400)
+
+        guilds = []
+        for i in guild_ids:
+            guild: discord.Guild = self.bot.get_guild(int(i))
+            if not guild:
+                continue
+            if guild.get_member(self.bot.user.id):
+                guilds.append({
+                    "id": str(guild.id),
+                    "name": guild.name,
+                    "icon_url": str(guild.icon_url_as(format="png", size=512))
+                })
+        return web.json_response({"guilds": guilds})
+
     async def get_guild_data(self, request):
         json_data = await request.json()
         guild_id = json_data.get("guild_id")
@@ -63,13 +82,13 @@ class Server(commands.Cog):
         records = db.records(
             f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{guild_id}' ORDER BY exp DESC")
 
-        leaderboard = {}
+        leaderboard = []
 
         for record in records:
             leaderboard.append({
-                'user': records[0],
-                'exp': records[1],
-                'lvl': records[2]
+                'user': record[0],
+                'exp': record[1],
+                'lvl': record[2]
             })
 
         return web.json_response({"leaderboard": leaderboard}, status=200)
@@ -80,6 +99,14 @@ class Server(commands.Cog):
 
         cors.add(
             cors.add(app.router.add_resource("/status")).add_route("GET", self.get_status), {
+                "*": aiohttp_cors.ResourceOptions(
+                    allow_credentials=True,
+                    expose_headers="*",
+                    allow_headers="*"
+                )
+            })
+        cors.add(
+            cors.add(app.router.add_resource("/mutuals")).add_route("POST", self.get_guild_data), {
                 "*": aiohttp_cors.ResourceOptions(
                     allow_credentials=True,
                     expose_headers="*",

@@ -1,16 +1,18 @@
-from models import GuildConfig, LevelUpConfig
-import db
-from discord.ext.menus import ListPageSource, MenuPages
-from discord.ext.commands import command, has_permissions
-from random import randint
-from datetime import datetime, timedelta
 import sqlite3
+from datetime import datetime, timedelta
+from random import randint
+
+import db
 import discord
 from discord import Embed
 from discord.activity import CustomActivity
 from discord.ext import commands
+from discord.ext.commands import command, has_permissions
+from discord.ext.menus import ListPageSource, MenuPages
 from discord_slash import *
 from discord_slash.cog_ext import cog_slash
+from dislash import ActionRow, Button, ButtonStyle, InteractionClient
+from models import GuildConfig, LevelUpConfig
 
 intents = discord.Intents.all()
 
@@ -222,15 +224,18 @@ class LvlCog(commands.Cog, name="levelling"):
         if not config.level_up_enabled:
             return await ctx.send('Levelling system plugin not enabled. Please contact a mod.')
         if config.level_up_enabled:
-            records = db.records(
-                f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.author.guild.id}' ORDER BY exp DESC")
+            # records = db.records(
+            #    f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.author.guild.id}' ORDER BY exp DESC")
 
-            menu = MenuPages(source=HelpMenu(ctx, records),
-                             clear_reactions_after=True,
-                             timeout=60.0)
-            await menu.start(ctx)
-
-            await ctx.send(f'You can see a more beatyfull version of this by going [here](https://xgnbot.herokuapp.com/leaderboard/{ctx.guild.id})')
+            # menu = MenuPages(source=HelpMenu(ctx, records),
+            #                 clear_reactions_after=True,
+            #                 timeout=60.0)
+            # await menu.start(ctx)
+            row = ActionRow(
+                Button(style=ButtonStyle.link, label=f"{ctx.guild.name} Leaderboard",
+                       url=f"https://xgnbot.xyz/leaderboard/{ctx.guild.id}")
+            )
+            await ctx.send("Ok, you got it.", components=[row])
 
     @cog_slash(name="leaderboard", description="Shows the leaderboard of the server based on the XP")
     async def _display_leaderboard(self, ctx):
@@ -238,15 +243,17 @@ class LvlCog(commands.Cog, name="levelling"):
         if not config.level_up_enabled:
             return await ctx.send('Levelling system plugin not enabled. Please contact a mod.')
         if config.level_up_enabled:
-            records = db.records(
-                f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.guild.id}' ORDER BY exp DESC")
+            # records = db.records(
+            #    f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.guild.id}' ORDER BY exp DESC")
 
-            menu = MenuPages(source=HelpMenu(ctx, records),
-                             clear_reactions_after=True,
-                             timeout=60.0)
-            await menu.start(ctx)
+            # menu = MenuPages(source=HelpMenu(ctx, records),
+            # clear_reactions_after=True,
+            # timeout=60.0)
+            # await menu.start(ctx)
 
-            await ctx.send(f'You can see a more beatyfull version of this by going [here](https://xgnbot.herokuapp.com/leaderboard/{ctx.guild.id})')
+            embed = discord.Embed(title=f"{ctx.guild.name} leaderboard",
+                                  description=f"[leaderboard](https://xgnbot.xyz/leaderboard/{ctx.guild.id})")
+            await ctx.send(embed=embed)
 
 
 def setup(bot):

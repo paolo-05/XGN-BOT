@@ -40,7 +40,7 @@ class Events(commands.Cog):
                 await new_config.save()
                 print(f"{guild} modified")
             except:
-                pass
+                print("all guild modified")
 
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
