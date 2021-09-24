@@ -34,8 +34,7 @@ async def get_config(guild_id):
                 welcome_message = welcome_conf.message
                 welcome_channel_id = welcome_conf.channel_id
 
-                welcome_channel = await get_channel_by_id(
-                    guild_id, f'{welcome_channel_id}')
+                welcome_channel = welcome_conf.channel_name
 
         else:
             welcome_message = False
@@ -49,8 +48,7 @@ async def get_config(guild_id):
                 leave_message = leave_conf.message
                 leave_channel_id = leave_conf.channel_id
 
-                leave_channel = await get_channel_by_id(
-                    guild_id, f'{leave_channel_id}')
+                leave_channel = leave_conf.channel_name
         else:
             leave_message = False
             leave_channel = False
@@ -61,8 +59,7 @@ async def get_config(guild_id):
             else:
                 log_channel_id = log_conf.channel_id
 
-                log_channel = await get_channel_by_id(
-                    guild_id, f'{log_channel_id}')
+                log_channel = log_conf.channel_name
         else:
             log_channel = False
         level_up_enabled = config.level_up_enabled
@@ -74,8 +71,7 @@ async def get_config(guild_id):
                 level_message = level_conf.message
                 level_channel_id = level_conf.channel_id
 
-                level_channel = await get_channel_by_id(
-                    guild_id, f'{level_channel_id}')
+                level_channel = level_conf.channel_name
         else:
             level_message = False
             level_channel = False

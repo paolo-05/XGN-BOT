@@ -81,7 +81,6 @@ async def get_guild_channels(guild_id: int):
     )
     channels = []
     for i in resp.json():
-        print(type(i))
         if i['type'] == 0:
             channels.append({
                 'id': i['id'],

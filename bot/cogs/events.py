@@ -3,8 +3,36 @@ from requests import get
 import discord
 import time
 import db
+import requests
 
 from models import GuildConfig, LeaveConfig, LevelUpConfig, WelcomeConfig, LogChannel
+
+
+async def get_guild_channels(guild_id: int):
+    with open("../data/token.txt", "r", encoding="utf8") as tf:
+        token = tf.readline()
+    resp = requests.get(
+        f"https://discord.com/api/v6/guilds/{guild_id}/channels", headers={"Authorization": f"Bot {token}"}
+    )
+    channels = []
+    for i in resp.json():
+        if i['type'] == 0:
+            channels.append({
+                'id': i['id'],
+                'name': i['name'],
+                'guild_id': i['guild_id']
+            })
+
+    return channels
+
+
+async def get_channel_by_id(guild_id: int, channel_id: str):
+    channels = await get_guild_channels(guild_id)
+    for channel in channels:
+        if channel['id'] == channel_id:
+            channel_name = channel['name']
+
+    return channel_name
 
 
 class Events(commands.Cog):
@@ -35,16 +63,31 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         for guild in self.bot.guilds:
-            config = await GuildConfig(id=guild.id).get_or_none()
-            if config.welcome_enabled:
-                level_conf = await WelcomeConfig(id=guild.id).get_or_none()
-                level_conf.channel_name = ''
-            if config.leave_enabled:
-                level_conf = await LeaveConfig(id=guild.id).get_or_none()
-            if config.log_enabled:
-                level_conf = await LogChannel(id=guild.id).get_or_none()
-            if config.level_up_enabled:
-                level_conf = await LevelUpConfig(id=guild.id).get_or_none()
+            try:
+                config = await GuildConfig(id=guild.id)
+                if config.welcome_enabled:
+                    welcome_conf = await WelcomeConfig(id=guild.id)
+                    welcome_conf.channel_name = get_channel_by_id(
+                        guild.id, f'{welcome_conf.channel_id}')
+                    await welcome_conf.save()
+                if config.leave_enabled:
+                    leave_conf = await LeaveConfig(id=guild.id).get_or_none()
+                    leave_conf.channel_name = get_channel_by_id(
+                        guild.id, f'{leave_conf.channel_id}')
+                    await leave_conf.save()
+                if config.log_enabled:
+                    log_conf = await LogChannel(id=guild.id).get_or_none()
+                    log_conf.channel_name = get_channel_by_id(
+                        guild.id, f'{log_conf.channel_id}')
+                    await log_conf.save()
+                if config.level_up_enabled:
+                    level_conf = await LevelUpConfig(id=guild.id).get_or_none()
+                    level_conf.channel_name = get_channel_by_id(
+                        guild.id, f'{level_conf.channel_id}')
+                    await level_conf.save()
+                await config.save()
+            except:
+                print('All guilds modified')
 
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
