@@ -27,10 +27,8 @@ cryptography==3.2
 discord==1.7.3
 discord-components==1.1.4
 discord-ext-ipc==2.1.1
-discord-ext-menus==1.0.0a30+g309c702
 discord-py-slash-command==2.4.0
 discord.py==1.7.3
-discordbotdash==1.2.3
 dislash.py==1.4.6
 Flask==2.0.1
 Flask-Babel==1.0.0
@@ -95,7 +93,6 @@ requests==2.25.1
 requests-oauthlib==1.3.0
 rich==1.3.1
 sanic==21.6.2
-sanic plugin toolkit==1.0.1
 Sanic-Cors==1.0.0
 sanic-routing==0.7.1
 six==1.16.0

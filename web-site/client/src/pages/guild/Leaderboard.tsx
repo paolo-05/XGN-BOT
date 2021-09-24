@@ -47,8 +47,7 @@ export const Leaderboard: React.FC = () => {
                     <ul className="text-xl  text-center"></ul>
                     <ul className="text-xl  text-center"></ul>
                     <p className="text-xl  text-center">
-                      #{user.counter} | {user.username} on level {user.lvl} with
-                      {user.xp}
+                      #{user.counter} | {user.username} on level {user.lvl} with {user.xp} xp.
                       <br />
                     </p>
                   </div>
