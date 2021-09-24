@@ -106,7 +106,7 @@ async def change_prefix(new_prefix, guild_id):
     await Tortoise.close_connections()
 
 
-async def welcome_event(guild_id, message, channel_id):
+async def welcome_event(guild_id, message, channel_id, channel_name):
     await connect_db()
 
     config = await GuildConfig.filter(id=guild_id).get_or_none()
@@ -118,16 +118,18 @@ async def welcome_event(guild_id, message, channel_id):
         if welcome_conf is not None:
             welcome_conf.message = message
             welcome_conf.channel_id = channel_id
+            welcome_conf.channel_name = channel_name
+
             await welcome_conf.save()
         else:
             new_config = WelcomeConfig(
-                guild_id=guild_id, channel_id=channel_id, message=message)
+                guild_id=guild_id, channel_id=channel_id, message=message, channel_name=channel_name)
             await new_config.save()
 
     await Tortoise.close_connections()
 
 
-async def leave_event(guild_id, message, channel_id):
+async def leave_event(guild_id, message, channel_id, channel_name):
     await connect_db()
 
     config = await GuildConfig.filter(id=guild_id).get_or_none()
@@ -139,16 +141,17 @@ async def leave_event(guild_id, message, channel_id):
         if leave_conf is not None:
             leave_conf.message = message
             leave_conf.channel_id = channel_id
+            leave_conf.channel_name = channel_name
             await leave_conf.save()
         else:
             new_config = LeaveConfig(
-                guild_id=guild_id, channel_id=channel_id, message=message)
+                guild_id=guild_id, channel_id=channel_id, message=message, channel_name=channel_name)
             await new_config.save()
 
     await Tortoise.close_connections()
 
 
-async def level_system(guild_id, message, channel_id):
+async def level_system(guild_id, message, channel_id, channel_name):
     await connect_db()
 
     config = await GuildConfig.filter(id=guild_id).get_or_none()
@@ -160,16 +163,17 @@ async def level_system(guild_id, message, channel_id):
         if level_conf is not None:
             level_conf.message = message
             level_conf.channel_id = channel_id
+            level_conf.channel_name = channel_name
             await level_conf.save()
         else:
             new_config = LevelUpConfig(
-                guild_id=guild_id, channel_id=channel_id, message=message, role1=2112, role2=312312, role3=312312, role4=312312, role5=312312,)
+                guild_id=guild_id, channel_id=channel_id, message=message, channel_name=channel_name, role1=2112, role2=312312, role3=312312, role4=312312, role5=312312,)
             await new_config.save()
 
     await Tortoise.close_connections()
 
 
-async def log_system(guild_id, channel_id):
+async def log_system(guild_id, channel_id, channel_name):
     await connect_db()
 
     config = await GuildConfig.filter(id=guild_id).get_or_none()
@@ -183,7 +187,7 @@ async def log_system(guild_id, channel_id):
             await log_conf.save()
         else:
             new_config = LogChannel(
-                guild_id=guild_id, channel_id=channel_id)
+                guild_id=guild_id, channel_id=channel_id, channel_name=channel_name)
             await new_config.save()
 
     await Tortoise.close_connections()

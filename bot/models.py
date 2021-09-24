@@ -14,18 +14,21 @@ class GuildConfig(Model):
 class WelcomeConfig(Model):
     guild_id = fields.BigIntField(pk=True, unique=True, nullable=False)
     channel_id = fields.BigIntField()
+    channel_name = fields.TextField()
     message = fields.TextField()
 
 
 class LeaveConfig(Model):
     guild_id = fields.BigIntField(pk=True, unique=True, nullable=False)
     channel_id = fields.BigIntField()
+    channel_name = fields.TextField()
     message = fields.TextField()
 
 
 class LevelUpConfig(Model):
     guild_id = fields.BigIntField(pk=True, unique=True, nullable=False)
     channel_id = fields.BigIntField(nullable=False)
+    channel_name = fields.TextField()
     message = fields.TextField()
     role1 = fields.BigIntField()
     role2 = fields.BigIntField()
@@ -37,8 +40,4 @@ class LevelUpConfig(Model):
 class LogChannel(Model):
     guild_id = fields.BigIntField(unique=True, nullable=False, pk=True)
     channel_id = fields.BigIntField()
-
-
-class Warnings(Model):
-    guild_id = fields.BigIntField(pk=True, unique=True, nullable=False)
-    user_id = fields.BigIntField(nullable=False, unique=True)
+    channel_name = fields.TextField()

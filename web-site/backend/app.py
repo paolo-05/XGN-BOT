@@ -198,9 +198,10 @@ async def enable_welcome(request):
     guild_id = request.headers.get('guild_id')
     message = ''
     channel_id = 0
+    channel_name = ''
 
     await sql.welcome_event(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -213,9 +214,9 @@ async def change_welcome(request):
     message = request.headers.get('message')
 
     channel_id = request.headers.get('channel_id')
-    print(f"\n {message} {channel_id} {guild_id}\n")
+    channel_name = utils.get_channel_by_id(guild_id, channel_id)
     await sql.welcome_event(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -225,9 +226,10 @@ async def enable_leave(request):
     guild_id = request.headers.get('guild_id')
     message = ''
     channel_id = 0
+    channel_name = ''
 
     await sql.leave_event(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -237,9 +239,10 @@ async def change_leave(request):
     guild_id = request.headers.get('guild_id')
     message = request.headers.get('message')
     channel_id = request.headers.get('channel_id')
+    channel_name = utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.leave_event(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -249,9 +252,10 @@ async def enable_leveling(request):
     guild_id = request.headers.get('guild_id')
     message = ''
     channel_id = 0
+    channel_name = ''
 
     await sql.level_system(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -259,13 +263,12 @@ async def enable_leveling(request):
 @app.route('/api/changeleveling', methods=["POST"])
 async def change_leveling(request):
     guild_id = request.headers.get('guild_id')
-
-    message = json['message']
-
+    message = request.headers.get('message')
     channel_id = request.headers.get('channel_id')
+    channel_name = utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.level_system(
-        guild_id, message, int(channel_id))
+        guild_id, message, int(channel_id), str(channel_name))
 
     return json({"status": 200})
 
@@ -285,9 +288,10 @@ async def change_prefix(request):
 async def enable_log(request):
     guild_id = request.headers.get('guild_id')
     channel_id = 0
+    channel_name = ''
 
     await sql.log_system(
-        guild_id, int(channel_id))
+        guild_id, int(channel_id), channel_name)
 
     return json({"status": 200})
 
@@ -295,11 +299,11 @@ async def enable_log(request):
 @app.route('/api/changelog', methods=["POST"])
 async def change_log(request):
     guild_id = request.headers.get('guild_id')
-
     channel_id = request.headers.get('channel_id')
+    channel_name = utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.log_system(
-        guild_id, int(channel_id))
+        guild_id, int(channel_id), channel_name)
 
     return json({"status": 200})
 

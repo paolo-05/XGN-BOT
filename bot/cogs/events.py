@@ -4,7 +4,7 @@ import discord
 import time
 import db
 
-from models import GuildConfig, LeaveConfig, WelcomeConfig
+from models import GuildConfig, LeaveConfig, LevelUpConfig, WelcomeConfig, LogChannel
 
 
 class Events(commands.Cog):
@@ -35,12 +35,16 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         for guild in self.bot.guilds:
-            try:
-                new_config = GuildConfig(id=message.guild.id)
-                await new_config.save()
-                print(f"{guild} modified")
-            except:
-                print("all guild modified")
+            config = await GuildConfig(id=guild.id).get_or_none()
+            if config.welcome_enabled:
+                level_conf = await WelcomeConfig(id=guild.id).get_or_none()
+                level_conf.channel_name = ''
+            if config.leave_enabled:
+                level_conf = await LeaveConfig(id=guild.id).get_or_none()
+            if config.log_enabled:
+                level_conf = await LogChannel(id=guild.id).get_or_none()
+            if config.level_up_enabled:
+                level_conf = await LevelUpConfig(id=guild.id).get_or_none()
 
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
