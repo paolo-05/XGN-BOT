@@ -44,8 +44,6 @@ export const Leaderboard: React.FC = () => {
   if (loading) {
     return <Loading />;
   }
-  console.log(user);
-
   return (
       <div>
       <style></style>
@@ -168,11 +166,6 @@ export const Leaderboard: React.FC = () => {
                 </div>
               );
             })}
-          </div>
-          <div className="absolute bottom-0 mr-5 mt-5">
-            <div className="flex items-center gap-2 text-center">
-              <a href={"/"}>Back to Index</a>
-            </div>
           </div>
         </div>
       </div>
