@@ -305,6 +305,15 @@ class InfoCog(commands.Cog, name="meta"):
         db.close()
         exit()
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def show_bot_stats(self, ctx):
+        embed = discord.Embed(title='Bot Servers')
+        for guild in self.bot.guilds:
+            embed.add_field(name=guild.name, value=len(
+                guild.members), inline=False)
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(InfoCog(bot))
