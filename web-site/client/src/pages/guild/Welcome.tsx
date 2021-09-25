@@ -229,6 +229,25 @@ export const Welcome: React.FC = (props) => {
           <li>
             <div
               onClick={() =>
+                (window.location.href = `/guilds/settings/${guildConfig?.guild_id}`)
+              }
+            >
+              <i className="bx bx-cog"></i>
+            </div>
+            <ul className="sub-menu blank">
+              <li>
+                <a
+                  className="link_name"
+                  href={`/guilds/setting/${guildConfig?.guild_id}`}
+                >
+                  Settings
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <div
+              onClick={() =>
                 (window.location.href = `/leaderboard/${guildConfig?.guild_id}`)
               }
             >
@@ -241,19 +260,6 @@ export const Welcome: React.FC = (props) => {
                   href={`/leaderboard/${guildConfig?.guild_id}`}
                 >
                   Settings
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#soon">
-              <i className="bx bx-align-justify"></i>
-              <span className="link_name">Leaderboard</span>
-            </a>
-            <ul className="sub-menu blank">
-              <li>
-                <a className="link_name" href="/home">
-                  Leaderboard
                 </a>
               </li>
             </ul>
@@ -402,10 +408,9 @@ export const Welcome: React.FC = (props) => {
                             style={{
                               fontSize: 11,
                               color: "var(--main-color)",
-                              position: "fixed",
                             }}
                           >
-                            <a href="https://some-random-api.ml/">
+                            <a href="https://some-random-api.ml/"  target="_blank">
                               powered by some random api
                             </a>
                           </span>

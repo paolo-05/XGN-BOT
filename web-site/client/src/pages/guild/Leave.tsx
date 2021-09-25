@@ -404,11 +404,10 @@ export const Leave: React.FC = (props) => {
                           <span
                             style={{
                               fontSize: 11,
-                              color: "var(--main-color)",
-                              position: "fixed",
+                              color: "var(--main-color)"
                             }}
                           >
-                            <a href="https://some-random-api.ml/">
+                            <a href="https://some-random-api.ml/" target="_blank">
                               powered by some random api
                             </a>
                           </span>
