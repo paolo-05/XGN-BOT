@@ -402,10 +402,9 @@ export const Welcome: React.FC = (props) => {
                             style={{
                               fontSize: 11,
                               color: "var(--main-color)",
-                              position: "fixed",
                             }}
                           >
-                            <a href="https://some-random-api.ml/">
+                            <a href="https://some-random-api.ml/"  target="_blank">
                               powered by some random api
                             </a>
                           </span>
