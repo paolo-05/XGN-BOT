@@ -7,7 +7,6 @@ from time import sleep, time
 import db
 import discord
 import requests
-from _typeshed import FileDescriptorLike
 from aiohttp.client import request
 from apscheduler.triggers.cron import CronTrigger
 from discord import Embed

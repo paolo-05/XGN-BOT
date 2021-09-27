@@ -3,6 +3,7 @@ import os
 import sys
 import traceback
 from asyncio import sleep
+import time
 from glob import glob
 from os import getcwd
 from pathlib import Path
@@ -28,7 +29,7 @@ COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
 
 async def connect_db():
     await Tortoise.init(
-        db_url=f"postgres://xgnbot:12345@localhost:5432/xgnbot",
+        db_url=f"postgres://xgnbot:12345@207.180.214.184:5432/bot",
         modules={"models": ["models"]},
     )
     await Tortoise.generate_schemas()
@@ -78,7 +79,8 @@ class XGNbot(commands.Bot):
         super().run(token, reconnect=True)
 
     async def shutdown(self):
-        print("Closing connection to Discord...")
+        print("Closing connection to Discord and to postgres...")
+        await Tortoise.close_connections()
         await super().close()
 
     async def close(self):
@@ -86,6 +88,7 @@ class XGNbot(commands.Bot):
         await self.shutdown()
 
     async def on_connect(self):
+        await connect_db()
         print(f" Connected to Discord (latency: {self.latency*1000:,.0f} ms).")
 
     async def on_resumed(self):
@@ -95,7 +98,6 @@ class XGNbot(commands.Bot):
         print("Bot disconnected.")
 
     async def on_ready(self):
-        await connect_db()
         self.client_id = (await self.application_info()).id
         if not self.ready:
             self.scheduler.start()
@@ -128,7 +130,6 @@ components = InteractionClient(bot)
 
 
 def main():
-    connect_db()
     bot.run()
 
 

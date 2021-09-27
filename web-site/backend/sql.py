@@ -9,7 +9,7 @@ from utils import (get_bot_guilds, get_guild_data,
 
 async def connect_db():  # ensatblize the connectio wih the database
     await Tortoise.init(
-        db_url="postgres://xgnbot:12345@207.180.214.184:5432/xgnbot",
+        db_url="postgres://xgnbot:12345@207.180.214.184:5432/bot",
         modules={'models': ['models']}
     )
     await Tortoise.generate_schemas()
