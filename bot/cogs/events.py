@@ -62,7 +62,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        for guild in self.bot.guilds:
+        '''for guild in self.bot.guilds:
             try:
                 config = await GuildConfig(id=guild.id)
                 if config.welcome_enabled:
@@ -88,7 +88,7 @@ class Events(commands.Cog):
                 await config.save()
             except:
                 print('All guilds modified')
-
+        '''
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
         self.message = text

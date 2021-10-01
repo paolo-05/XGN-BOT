@@ -19,6 +19,7 @@ from psutil import Process, virtual_memory
 
 intents = discord.Intents.default()
 
+__VERSION__ = 'BETA 1.0'
 
 class InfoCog(commands.Cog, name="meta"):
     """
@@ -71,7 +72,7 @@ class InfoCog(commands.Cog, name="meta"):
                         value=user.created_at.strftime(date_format))
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
-        await ctx.channel.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @cog_slash(name="info", description="Returns all the info available for a user")
     async def _info(self, ctx: SlashContext, user: discord.Member = None):
@@ -117,7 +118,7 @@ class InfoCog(commands.Cog, name="meta"):
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
 
-        await ctx.channel.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(help="Returns all the info available for the server")
     async def server(self, ctx):
@@ -198,16 +199,10 @@ class InfoCog(commands.Cog, name="meta"):
             mem_of_total = proc.memory_percent()
             mem_usage = mem_total * (mem_of_total / 100)
 
-        r = requests.get(f'https://xgnbot.xyz/status')
-        if r.status_code == 200:
-            website_status = 'online'
-        else:
-            website_status = 'offline'
-
         fields = [
             ("Python version", python_version(), True),
-            ("discord.py version", discord_version, True),
-            ("Website status", website_status, True),
+            ("API version", __VERSION__, True),
+            ("Website status", 'online', True),
             ("Uptime", uptime, True),
             ("CPU time", cpu_time, True),
             ("Memory usage",
@@ -237,16 +232,10 @@ class InfoCog(commands.Cog, name="meta"):
             mem_of_total = proc.memory_percent()
             mem_usage = mem_total * (mem_of_total / 100)
 
-        r = requests.get(f'https://xgnbot.xyz/')
-        if r.status_code == 200:
-            website_status = 'online'
-        else:
-            website_status = 'offline'
-
         fields = [
             ("Python version", python_version(), True),
-            ("discord.py version", discord_version, True),
-            ("Website status", website_status, True),
+            ("discord.py version", __VERSION__, True),
+            ("Website status", 'online', True),
             ("Uptime", uptime, True),
             ("CPU time", cpu_time, True),
             ("Memory usage",
