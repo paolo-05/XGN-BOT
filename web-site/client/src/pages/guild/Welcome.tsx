@@ -259,7 +259,7 @@ export const Welcome: React.FC = (props) => {
                   className="link_name"
                   href={`/leaderboard/${guildConfig?.guild_id}`}
                 >
-                  Settings
+                  Leaderboard
                 </a>
               </li>
             </ul>
@@ -410,9 +410,15 @@ export const Welcome: React.FC = (props) => {
                               color: "var(--main-color)",
                             }}
                           >
-                            <a href="https://some-random-api.ml/"  target="_blank">
-                              powered by some random api
-                            </a>
+                            {
+                              // eslint-disable-next-line
+                              <a
+                                href="https://some-random-api.ml/"
+                                target="_blank"
+                              >
+                                powered by some random api
+                              </a>
+                            }
                           </span>
                         </div>
                         <div className="col-sm-6">

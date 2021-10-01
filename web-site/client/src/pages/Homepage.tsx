@@ -86,7 +86,7 @@ export const Homepage: React.FC = () => {
                 <li className="nav-item">
                   <a
                     className="nav-link smoothScroll"
-                    href="#commands"
+                    href="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
