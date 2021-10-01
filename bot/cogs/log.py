@@ -38,7 +38,7 @@ class Log(commands.Cog):
                               timestamp=datetime.datetime.utcnow())
 
                 fields = [("Before", f"`{before.content}`", False),
-                          ("After", f"`{after.content}`", False)]
+                          ("After", f"`{after.content}`\n\n[jump to message](https://discord.com/channels/{after.guild.id}/{after.channel.id}/{after.id})", False)]
 
                 for name, value, inline in fields:
                     embed.add_field(name=name, value=value, inline=inline)
