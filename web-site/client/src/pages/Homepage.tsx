@@ -577,8 +577,7 @@ export const Homepage: React.FC = () => {
               made with <i className="bx bxs-heart"></i>, React and python.{" "}
               <br />
               Not affiliated with discord.com
-            </p>
-            <p className="copyright" style={{ color: "var(--text-color)" }}>
+              <br/>
               <a href="/privacy">Privacy Policy</a>
             </p>
           </div>
