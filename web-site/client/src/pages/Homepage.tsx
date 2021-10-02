@@ -554,7 +554,7 @@ export const Homepage: React.FC = () => {
             <div className="row">
               <div className="col item social">
                 <a className="smoothScroll" href="#top">
-                  <i className="icon ion-android-arrow-up"></i>
+                  <i className="icon ion-android-arrow-up" ></i>
                 </a>
               </div>
             </div>
@@ -578,7 +578,7 @@ export const Homepage: React.FC = () => {
               <br />
               Not affiliated with discord.com
               <br/>
-              <a href="/privacy">Privacy Policy</a>
+              <a style={{ color: "var(--text-color)"}} href="/privacy">Privacy Policy</a>
             </p>
           </div>
         </div>

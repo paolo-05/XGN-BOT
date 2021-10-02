@@ -13,6 +13,7 @@ import { Leveling } from "./pages/guild/Leveling";
 import { Logging } from "./pages/guild/Logging";
 import { Settings } from "./pages/guild/Settings";
 import { Leaderboard } from "./pages/guild/Leaderboard";
+import { Privacy } from "./pages/Privacy";
 
 export const Router: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ export const Router: React.FC = () => {
         <Route exact path="/commands" component={Commands} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/logout" component={Logout} />
+        <Route exact path="/privacy" component={Privacy}/>
         <Route exact path="/callback" component={CallbackHandler} />
         <Route exact path="/guilds" component={ShowGuilds} />
         <Route exact path="/guilds/home/:id/" key="guild" component={Home} />

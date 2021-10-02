@@ -171,7 +171,7 @@ export const Settings: React.FC = () => {
             </div>
             <ul className="sub-menu blank">
               <li>
-                <a className="link_name" href="https://google.com">
+                <a className="link_name" href={`/guilds/settings/${guildConfig?.guild_id}`}>
                   Settings
                 </a>
               </li>
