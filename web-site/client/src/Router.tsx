@@ -23,7 +23,7 @@ export const Router: React.FC = () => {
         <Route exact path="/commands" component={Commands} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/logout" component={Logout} />
-        <Route exact path="/privacy" component={Privacy}/>
+        <Route exact path="/privacy" component={Privacy} />
         <Route exact path="/callback" component={CallbackHandler} />
         <Route exact path="/guilds" component={ShowGuilds} />
         <Route exact path="/guilds/home/:id/" key="guild" component={Home} />

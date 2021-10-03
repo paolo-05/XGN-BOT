@@ -42,6 +42,86 @@ export const ShowGuilds: React.FC = () => {
 
   return (
     <div className="features-boxed" style={{ background: "var(--background" }}>
+      <div id="top" style={{ height: 12, background: "var(--background)" }}>
+        <nav
+          className="navbar navbar-light navbar-expand fixed-top"
+          style={{
+            color: "var(--main-color)",
+            borderTopWidth: 6,
+            borderTopStyle: "solid",
+            background: "var(--background)",
+          }}
+        >
+          <div className="container-fluid">
+            <a
+              className="navbar-brand"
+              href={"/"}
+              style={{
+                color: "var(--main-color)",
+                fontFamily: "Alfa Slab One",
+              }}
+            >
+              XGN BOT
+            </a>
+            <button
+              data-toggle="collapse"
+              className="navbar-toggler"
+              data-target="#navcol-1"
+            >
+              <span className="sr-only">Toggle navigation</span>
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navcol-1">
+              <ul className="nav navbar-nav">
+                <li className="nav-item">
+                  <a
+                    className="nav-link active smoothScroll"
+                    href="#feature"
+                    style={{ color: "var(--text-color)" }}
+                  >
+                    See Features
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link smoothScroll"
+                    href="/commands"
+                    style={{ color: "var(--text-color)" }}
+                  >
+                    Commands
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    href="##"
+                    className="nav-link smoothScroll"
+                    style={{ color: "var(--text-color)" }}
+                  >
+                    {user?.username}#{user?.discriminator}
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <img
+                    src={user?.avatar_url}
+                    width="50"
+                    alt=""
+                    className="rounded-full"
+                  />
+                </li>
+                <li className="nav-item" style={{ marginRight: 2 }}>
+                  <a
+                    href="/logout"
+                    className="nav-link smoothScroll"
+                    style={{ color: "var(--text-color)" }}
+                  >
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
       <div className="container mx-auto h-screen">
         <div className="flex items-center h-full justify-center">
           <div className="h-3/4">
@@ -56,6 +136,7 @@ export const ShowGuilds: React.FC = () => {
                 Here you can see all the server that you can manage:
               </p>
             </header>
+            <hr />
             <br />
             <div className="row justify-content-center features">
               {guilds?.map((guild: Guild) => {
@@ -127,30 +208,6 @@ export const ShowGuilds: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
-            <div className="absolute top-0 right-0 mr-5 mt-5">
-              <div className="flex items-center gap-2">
-                <ul>
-                  <li>
-                    <img
-                      src={user?.avatar_url}
-                      width="50"
-                      alt=""
-                      className="rounded-full"
-                    />
-                    <h1 className="text-white text-lg">
-                      {user?.username}#{user?.discriminator}
-                    </h1>
-                  </li>
-                  <li>
-                    <a href="/">Home</a>
-                  </li>
-                  <li>
-                    <a href="/logout">Logout</a>
-                  </li>
-                </ul>
-                <p></p>
-              </div>
             </div>
           </div>
         </div>

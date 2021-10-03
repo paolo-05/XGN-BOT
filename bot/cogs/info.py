@@ -21,6 +21,7 @@ intents = discord.Intents.default()
 
 __VERSION__ = 'BETA 1.0'
 
+
 class InfoCog(commands.Cog, name="meta"):
     """
     This commands shows information.
@@ -234,7 +235,7 @@ class InfoCog(commands.Cog, name="meta"):
 
         fields = [
             ("Python version", python_version(), True),
-            ("discord.py version", __VERSION__, True),
+            ("API version", __VERSION__, True),
             ("Website status", 'online', True),
             ("Uptime", uptime, True),
             ("CPU time", cpu_time, True),

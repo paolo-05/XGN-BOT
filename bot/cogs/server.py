@@ -20,7 +20,7 @@ with open(PATH, encoding='utf-8') as f:
 
 class Server(commands.Cog):
     """
-    The super scecret bot API used for the making up of the [website](https://xgnbot.herokuapp.com/)
+    The super scecret bot API used for the making up of the [website](https://xgnbot.xyz/)
     """
 
     def __init__(self, bot: commands.Bot):
