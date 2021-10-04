@@ -152,7 +152,7 @@ export const Homepage: React.FC = () => {
       >
         <img
           className="rounded center"
-          src="https://cdn.discordapp.com/attachments/785971390977277992/878987424615768094/My_Post.png"
+          src="https://cdn.discordapp.com/attachments/785971390977277992/894499601590128640/logo.png"
           width="150"
           height="150"
           style={{ marginTop: 30 }}
