@@ -125,7 +125,7 @@ class Events(commands.Cog):
             if resp.status_code == 200:
 
                 msg = welcome_config.message.format(
-                    mention=member.mention, guild=member.guild, members=len(member.guild.members))
+                    mention=member.mention, server=member.guild, members=len(member.guild.members))
                 await send_channel.send(msg)
                 time.sleep(1)
                 open('image.png', 'wb').write(resp.content)
