@@ -2,7 +2,7 @@ from urllib.parse import quote
 
 CLIENT_ID = "840300480382894080"
 CLIENT_SECRET = "Mx-QzoxHRybIxnTUh96SEP3_KG7Ns7kS"
-BOT_TOKEN = "ODQwMzAwNDgwMzgyODk0MDgw.YJWMzg.Wz5JMqYySVKTxYUQhgQvgZikL_w"
+BOT_TOKEN = "ODQwMzAwNDgwMzgyODk0MDgw.YJWMzg.H1RSKPLqJEf4mzStUE7lTOBZdm4"
 BOT_API_URL = "https://xgnbot.xyz/botapi/"
 
 REDIRECT_URI = "https://xgnbot.xyz/callback"

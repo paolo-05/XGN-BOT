@@ -3,9 +3,6 @@ from tortoise import Tortoise
 
 from models import GuildConfig, WelcomeConfig, LeaveConfig, LevelUpConfig, LogChannel
 
-from utils import (get_bot_guilds, get_guild_data,
-                   get_token, get_user_guilds, get_guild_channels, get_channel_by_id, get_channel_by_name)
-
 
 async def connect_db():  # ensatblize the connectio wih the database
     await Tortoise.init(

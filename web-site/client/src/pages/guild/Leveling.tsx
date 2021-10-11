@@ -58,7 +58,6 @@ export const Leveling: React.FC = (props) => {
       window.alert("Please fill al the forms");
       return;
     }
-    console.log(channel + "\n" + message);
     const url = `${config.API_URL}/api/changeleveling`;
     fetch(url, {
       method: "POST",
@@ -67,16 +66,7 @@ export const Leveling: React.FC = (props) => {
         channel_id: channel,
         message: message,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          //window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   const Enableleveling = () => {
@@ -86,16 +76,7 @@ export const Leveling: React.FC = (props) => {
       headers: {
         guild_id: guildID,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
   const disableleveling = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -105,16 +86,7 @@ export const Leveling: React.FC = (props) => {
         guild_id: guildID,
         action: "leveling",
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
   if (loading) {
     return <Loading />;

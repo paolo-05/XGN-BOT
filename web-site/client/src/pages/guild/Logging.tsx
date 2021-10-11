@@ -56,7 +56,6 @@ export const Logging: React.FC = (props) => {
       window.alert("Please fill al the forms");
       return;
     }
-    console.log(channel + "\n");
     const url = `${config.API_URL}/api/changelog`;
     fetch(url, {
       method: "POST",
@@ -64,16 +63,7 @@ export const Logging: React.FC = (props) => {
         guild_id: guildID,
         channel_id: channel,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          //window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   const Enablelogging = () => {
@@ -83,16 +73,7 @@ export const Logging: React.FC = (props) => {
       headers: {
         guild_id: guildID,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
   const disablelogging = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -102,16 +83,7 @@ export const Logging: React.FC = (props) => {
         guild_id: guildID,
         action: "log",
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   if (loading) {

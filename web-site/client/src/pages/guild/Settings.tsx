@@ -46,7 +46,6 @@ export const Settings: React.FC = () => {
       window.alert("Please fill al the forms");
       return;
     }
-    console.log(+"\n");
     const url = `${config.API_URL}/api/changeprefix`;
     fetch(url, {
       method: "POST",
@@ -54,16 +53,7 @@ export const Settings: React.FC = () => {
         guild_id: guildID,
         prefix: newPrefix,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          //window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   if (loading) {
@@ -171,7 +161,10 @@ export const Settings: React.FC = () => {
             </div>
             <ul className="sub-menu blank">
               <li>
-                <a className="link_name" href={`/guilds/settings/${guildConfig?.guild_id}`}>
+                <a
+                  className="link_name"
+                  href={`/guilds/settings/${guildConfig?.guild_id}`}
+                >
                   Settings
                 </a>
               </li>

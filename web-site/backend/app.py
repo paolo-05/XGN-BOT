@@ -12,6 +12,7 @@ from sanic_cors import CORS
 import constants
 import utils
 import sql
+import time
 
 # try:
 #    import uvloop
@@ -80,28 +81,16 @@ async def mutual_guilds(request):
     if not token:
         raise Unauthorized("Invalid token!")
 
-    user_guilds = await utils.get_user_guilds(token)
-    bot_guilds = await utils.get_bot_guilds()
-
-    valid_guilds = await utils.get_mutual_guilds(user_guilds, bot_guilds)
+    valid_guilds = await utils.get_valid_guilds(token)
     guilds = []
-
     for i in valid_guilds:
         guild_data = await utils.get_guild_data(i['id'])
-        if guild_data is None:
-            guilds.append({
-                "id": str(i['id']),
-                "name": str(i['name']),
-                "icon_url": str(f"https://cdn.discordapp.com/icons/{i['id']}/{i['icon']}.png?size=512"),
-                'in': False
-            })
-        else:
-            guilds.append({
-                "id": str(i['id']),
-                "name": str(i['name']),
-                "icon_url": str(f"https://cdn.discordapp.com/icons/{i['id']}/{i['icon']}.png?size=512"),
-                'in': True
-            })
+        guilds.append({
+            "id": str(i['id']),
+            "name": str(i['name']),
+            "icon_url": str(f"https://cdn.discordapp.com/icons/{i['id']}/{i['icon']}.png?size=512"),
+            'in': False if guild_data is None else True
+        })
     return json({"guilds": guilds})
 
 
@@ -128,7 +117,6 @@ async def guild(request, guild_id):
     voice_c = jason['voice_channels']
 
     prefix, welcome_enabled, welcome_channel, welcome_message, leave_enabled, leave_message, leave_channel, level_up_enabled, level_message, level_channel, log_enabled, log_channel = await sql.get_config(guild_id)
-
     return json({
         "guild_id": guild_id,
         "name": guild_info['name'],
@@ -159,35 +147,26 @@ async def guild(request, guild_id):
 
 @app.route('/leaderboard/<guild_id>')
 async def leaderboard(request, guild_id: int):
+    start = time.time()
     guild_info = await utils.get_guild_data(guild_id)
     if not guild_info:
         return json({"error": "Invalid guilds"}, status=400)
     data = {
         'guild_id': guild_id,
     }
-    r1 = requests.post(f'{constants.BOT_API_URL}/guilds', json=data)
-    people = r1.json()["guild"]['person_count']
-    bot_count = r1.json()["guild"]['bot_count']
-
     leaderboard_users = []
     r = requests.post(f'{constants.BOT_API_URL}/leaderboard', json=data)
-    json1 = r.json()['leaderboard']
     counter = 0
-    for i in json1:
+    for i in r.json()['leaderboard']:
         user = await utils.get_user_info_by_id(i['user'])
         xp = i['exp']
         lvl = i['lvl']
         counter += 1
         leaderboard_users.append(
             {'username': user, 'xp': xp, 'lvl': lvl, 'counter': counter})
-
     return json({
         "name": guild_info['name'],
         'guild_id': guild_id,
-        'members': people+bot_count,
-        'people': people,
-        'bot_count': bot_count,
-
         'leaderboard': leaderboard_users,
     })
 

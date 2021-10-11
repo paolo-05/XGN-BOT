@@ -19,7 +19,6 @@ export const Welcome: React.FC = (props) => {
       window.alert("Please fill al the forms");
       return;
     }
-    console.log(channel + "\n" + message);
     const url = `${config.API_URL}/api/changewelcome`;
     fetch(url, {
       method: "POST",
@@ -28,16 +27,7 @@ export const Welcome: React.FC = (props) => {
         channel_id: channel,
         message: message,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          //window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   const EnableWelcome = () => {
@@ -47,16 +37,7 @@ export const Welcome: React.FC = (props) => {
       headers: {
         guild_id: guildID,
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
   const disableWelcome = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -66,16 +47,7 @@ export const Welcome: React.FC = (props) => {
         guild_id: guildID,
         action: "welcome",
       },
-    })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.status === 200) {
-          window.location.reload();
-          console.log("okk");
-        } else {
-          console.log("Something went wrong");
-        }
-      });
+    }).then((response) => response.json());
   };
 
   useEffect(() => {

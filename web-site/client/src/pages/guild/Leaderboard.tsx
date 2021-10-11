@@ -14,7 +14,6 @@ export const Leaderboard: React.FC = () => {
   const [leaderboard, setLeaderboard] = useState<Array<User> | null>(null);
   const guildID = window.location.pathname.replace("/leaderboard/", "");
   const accessToken = window.localStorage.getItem("access_token");
-  console.log(guildID);
 
   useEffect(() => {
     const makeRequests = async () => {
