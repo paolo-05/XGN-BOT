@@ -14,12 +14,12 @@ import utils
 import sql
 import time
 
-# try:
-#    import uvloop
+try:
+    import uvloop
 
-#    uvloop.install()
-# except:
-#    pass
+    uvloop.install()
+except:
+    pass
 
 app = Sanic(__name__)
 app.config.FALLBACK_ERROR_FORMAT = "json"
@@ -115,7 +115,6 @@ async def guild(request, guild_id):
     boost = jason['boost']
     tc = jason['text_channels']
     voice_c = jason['voice_channels']
-
     prefix, welcome_enabled, welcome_channel, welcome_message, leave_enabled, leave_message, leave_channel, level_up_enabled, level_message, level_channel, log_enabled, log_channel = await sql.get_config(guild_id)
     return json({
         "guild_id": guild_id,
