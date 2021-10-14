@@ -32,6 +32,7 @@ export const ShowGuilds: React.FC = () => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href = "/login";
       }
     };
     makeRequests();
