@@ -409,17 +409,15 @@ export const Homepage: React.FC = () => {
                   className="bx bxs-time-five"
                   style={{ fontSize: 64, margin: 10 }}
                 ></i>
-                <h3 className="name">Getting Started</h3>
+                <h3 className="name">Fastest And Human Support</h3>
                 <p
                   className="description"
                   style={{ color: "var(--secondary-text-color)" }}
                 >
-                  The bot has a lot of event handler, so you can't use commands
-                  wrong. It has a change log event, you can setup the channel in
-                  your server!
-                  <br />
-                  Also you have to setup the welcome channel and the one for the
-                  level up.
+                  The bot staffers are there to help you when ever you need,
+                  make sure to join the support guild or dm to{" "}
+                  <em style={{ color: "var(--main-color)" }}>paolo#5731</em> for
+                  very fast response.
                   <br />
                 </p>
               </div>
@@ -554,7 +552,7 @@ export const Homepage: React.FC = () => {
             <div className="row">
               <div className="col item social">
                 <a className="smoothScroll" href="#top">
-                  <i className="icon ion-android-arrow-up" ></i>
+                  <i className="icon ion-android-arrow-up"></i>
                 </a>
               </div>
             </div>
@@ -574,11 +572,14 @@ export const Homepage: React.FC = () => {
               className="copyright"
               style={{ color: "var(--text-color)", padding: 0 }}
             >
-              made with <i className="bx bxs-heart"></i>, React and python.{" "}
-              <br />
+              made with{" "}
+              <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>,
+              React and python. <br />
               Not affiliated with discord.com
-              <br/>
-              <a style={{ color: "var(--text-color)"}} href="/privacy">Privacy Policy</a>
+              <br />
+              <a style={{ color: "var(--text-color)" }} href="/privacy">
+                Privacy Policy
+              </a>
             </p>
           </div>
         </div>
