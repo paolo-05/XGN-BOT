@@ -1,1 +1,7 @@
--aggiungere il gioco random;controllare il codice del sito;-pushare il codice modificato;
+-aggiungere il gioco random;
+
+-href di react => import { NavLink } from "react-router-dom";
+                  <NavLink to "#">ciao</NavLink>
+
+controllare il codice del sito;
+-pushare il codice modificato;
