@@ -4,6 +4,7 @@ import { User, Status } from "../types";
 
 import config from "../config.json";
 import { Loading } from "../components/Loading";
+import { Footer } from "../components/Footer";
 import "./guild/styles.css";
 
 export const Homepage: React.FC = () => {
@@ -540,49 +541,7 @@ export const Homepage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div
-          className="footer-dark"
-          style={{
-            background: "var(--secondary)",
-            paddingTop: 0,
-            paddingBottom: 0,
-          }}
-        >
-          <div className="container">
-            <div className="row">
-              <div className="col item social">
-                <a className="smoothScroll" href="#top">
-                  <i className="icon ion-android-arrow-up"></i>
-                </a>
-              </div>
-            </div>
-            <p className="copyright" style={{ color: "var(--text-color)" }}>
-              XGN BOT © 2021
-            </p>
-            <p
-              className="copyright"
-              style={{ color: "var(--text-color)", padding: 0 }}
-            >
-              Need help?&nbsp;
-              <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q">
-                Support Guild
-              </a>
-            </p>
-            <p
-              className="copyright"
-              style={{ color: "var(--text-color)", padding: 0 }}
-            >
-              made with{" "}
-              <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>,
-              React and python. <br />
-              Not affiliated with discord.com
-              <br />
-              <a style={{ color: "var(--text-color)" }} href="/privacy">
-                Privacy Policy
-              </a>
-            </p>
-          </div>
-        </div>
+        <Footer/>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Switch, Route, useLocation, NavLink } from "react-router-dom";
 import { CallbackHandler } from "./pages/CallbackHandler";
 import { Homepage } from "./pages/Homepage";
 import { Commands } from "./pages/Commands";
@@ -81,16 +81,16 @@ function NoMatch() {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -111,13 +111,13 @@ function NoMatch() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="#commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <a
@@ -210,9 +210,9 @@ function NoMatch() {
           >
             made with <i className="bx bxs-heart"></i>, React and python. <br />
             Not affiliated with discord.com <br />
-            <a style={{ color: "var(--text-color)" }} href="/privacy">
+            <NavLink style={{ color: "var(--text-color)" }} to="/privacy">
               Privacy Policy
-            </a>
+            </NavLink>
           </p>
         </div>
       </div>

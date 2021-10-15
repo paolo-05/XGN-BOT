@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "../types";
+import { NavLink } from "react-router-dom";
 
 import config from "../config.json";
 import { Loading } from "../components/Loading";
@@ -49,16 +50,16 @@ export const Commands: React.FC = () => {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -70,22 +71,22 @@ export const Commands: React.FC = () => {
             <div className="collapse navbar-collapse" id="navcol-1">
               <ul className="nav navbar-nav">
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link active smoothScroll"
-                    href="#feature"
+                    to="/#feature"
                     style={{ color: "var(--text-color)" }}
                   >
                     See Features
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="#commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <a
@@ -98,28 +99,28 @@ export const Commands: React.FC = () => {
                       );
                     }}
                     style={{ color: "var(--text-color)" }}
-                    href={"/"}
+                    href={"/commands"}
                   >
                     Invite
                   </a>
                 </li>
                 <li className="nav-item">
                   {!accessToken ? (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/login"
+                      to="/login"
                       style={{ color: "var(--text-color)" }}
                     >
                       Login
-                    </a>
+                    </NavLink>
                   ) : (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/guilds"
+                      to="/guilds"
                       style={{ color: "var(--text-color)" }}
                     >
                       Dashboard
-                    </a>
+                    </NavLink>
                   )}
                 </li>
                 <li className="nav-item">
@@ -378,9 +379,9 @@ export const Commands: React.FC = () => {
           >
             made with <i className="bx bxs-heart"></i>, React and python. <br />
             Not affiliated with discord.com <br />
-            <a style={{ color: "var(--text-color)" }} href="/privacy">
+            <NavLink style={{ color: "var(--text-color)" }} to="/privacy">
               Privacy Policy
-            </a>
+            </NavLink>
           </p>
         </div>
       </div>

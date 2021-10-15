@@ -1,5 +1,5 @@
 -aggiungere il gioco random;
-
+-fare un component per la nav bar e il footer;
 -href di react => import { NavLink } from "react-router-dom";
                   <NavLink to "#">ciao</NavLink>
 

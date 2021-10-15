@@ -5,6 +5,7 @@ import { User } from "../types";
 import config from "../config.json";
 import { Loading } from "../components/Loading";
 import "./guild/styles.css";
+import { NavLink } from "react-router-dom";
 
 export const Privacy: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -49,16 +50,16 @@ export const Privacy: React.FC = () => {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -70,25 +71,25 @@ export const Privacy: React.FC = () => {
             <div className="collapse navbar-collapse" id="navcol-1">
               <ul className="nav navbar-nav">
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link active smoothScroll"
-                    href="#feature"
+                    to="/#feature"
                     style={{ color: "var(--text-color)" }}
                   >
                     See Features
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="#commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
                     onClick={() => {
                       window.open(
@@ -98,38 +99,43 @@ export const Privacy: React.FC = () => {
                       );
                     }}
                     style={{ color: "var(--text-color)" }}
-                    href={"/"}
+                    to={"/"}
                   >
                     Invite
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   {!accessToken ? (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/login"
+                      to="/login"
                       style={{ color: "var(--text-color)" }}
                     >
                       Login
-                    </a>
+                    </NavLink>
                   ) : (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/guilds"
+                      to="/guilds"
                       style={{ color: "var(--text-color)" }}
                     >
                       Dashboard
-                    </a>
+                    </NavLink>
                   )}
                 </li>
                 <li className="nav-item">
-                  <a
+                  {
+                    // eslint-disable-next-line
+                    <a
                     className="nav-link smoothScroll"
                     href="https://discord.gg/8V62RTS25Q"
                     style={{ color: "var(--text-color)" }}
+                    
+                    target="_blank"
                   >
                     Support Guild
                   </a>
+                  }
                 </li>
               </ul>
             </div>
@@ -199,46 +205,6 @@ export const Privacy: React.FC = () => {
                     </p>
                 </div>
             </div>
-        </div>
-    </div>
-      <div
-        className="footer-dark"
-        style={{
-          background: "var(--secondary)",
-          paddingTop: 0,
-          paddingBottom: 0,
-        }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col item social">
-              <a className="smoothScroll" href="#top">
-                <i className="icon ion-android-arrow-up"></i>
-              </a>
-            </div>
-          </div>
-          <p className="copyright" style={{ color: "var(--text-color)" }}>
-            XGN BOT © 2021
-          </p>
-          <p
-            className="copyright"
-            style={{ color: "var(--text-color)", padding: 0 }}
-          >
-            Need help?&nbsp;
-            <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q">
-              Support Guild
-            </a>
-          </p>
-          <p
-            className="copyright"
-            style={{ color: "var(--text-color)", padding: 0 }}
-          >
-            made with <i className="bx bxs-heart"></i>, React and python. <br />
-            Not affiliated with discord.com <br />
-            <a style={{ color: "var(--text-color)" }} href="/privacy">
-              Privacy Policy
-            </a>
-          </p>
         </div>
       </div>
     </div>
