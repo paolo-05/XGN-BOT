@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import config from "../config.json";
 import { Loading } from "../components/Loading";
 import "./guild/styles.css";
+import { Footer } from "../components/Footer";
 
 export const Commands: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,7 +90,7 @@ export const Commands: React.FC = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
                     onClick={() => {
                       window.open(
@@ -99,10 +100,10 @@ export const Commands: React.FC = () => {
                       );
                     }}
                     style={{ color: "var(--text-color)" }}
-                    href={"/commands"}
+                    to={"/commands"}
                   >
                     Invite
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   {!accessToken ? (
@@ -307,31 +308,6 @@ export const Commands: React.FC = () => {
             </p>
           </div>
         </div>
-        {/*<h3 style={{ color: "var(--secondary-text-color)"}}>Settings Commands</h3
-              <div>
-                <p>
-                  !prefix [new] - set the new prefix
-                  <br />
-                  !welcome_event - see the current configuration for the welcome
-                  message
-                  <br />
-                  !setwelcome - set the welcome message and the channel
-                  <br />
-                  !leave_event - see the current configuration for the leave
-                  message
-                  <br />
-                  !setleave - set the leave message and the channel
-                  <br />
-                  !log - see the current configuration for the logging
-                  <br />
-                  !setlog [channel] - set the channel for the logs
-                  <br />
-                  !levelling - see the current configuration for the level
-                  system
-                  <br />
-                  !setlevelling - configurate the levelling system
-                </p>
-              </div>*/}
       </div>
       <br />
       <div id="feature" style={{ height: 90, background: "var(--secondary)" }}>
@@ -345,46 +321,7 @@ export const Commands: React.FC = () => {
           </svg>
         </div>
       </div>
-      <div
-        className="footer-dark"
-        style={{
-          background: "var(--secondary)",
-          paddingTop: 0,
-          paddingBottom: 0,
-        }}
-      >
-        <div className="container">
-          <div className="row">
-            <div className="col item social">
-              <a className="smoothScroll" href="#top">
-                <i className="icon ion-android-arrow-up"></i>
-              </a>
-            </div>
-          </div>
-          <p className="copyright" style={{ color: "var(--text-color)" }}>
-            XGN BOT © 2021
-          </p>
-          <p
-            className="copyright"
-            style={{ color: "var(--text-color)", padding: 0 }}
-          >
-            Need help?&nbsp;
-            <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q">
-              Support Guild
-            </a>
-          </p>
-          <p
-            className="copyright"
-            style={{ color: "var(--text-color)", padding: 0 }}
-          >
-            made with <i className="bx bxs-heart"></i>, React and python. <br />
-            Not affiliated with discord.com <br />
-            <NavLink style={{ color: "var(--text-color)" }} to="/privacy">
-              Privacy Policy
-            </NavLink>
-          </p>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 };

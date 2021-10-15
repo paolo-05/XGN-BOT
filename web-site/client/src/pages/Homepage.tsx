@@ -6,6 +6,8 @@ import config from "../config.json";
 import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import "./guild/styles.css";
+import { NavLink } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 export const Homepage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,16 +57,16 @@ export const Homepage: React.FC = () => {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -85,58 +87,82 @@ export const Homepage: React.FC = () => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="/commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    onClick={() => {
-                      window.open(
-                        "https://cutt.ly/XGNbot",
-                        "Invite",
-                        "width=450,height=750"
-                      );
-                    }}
-                    style={{ color: "var(--text-color)" }}
-                    href={"/"}
-                  >
-                    Invite
-                  </a>
-                </li>
-                <li className="nav-item">
-                  {!accessToken ? (
-                    <a
-                      className="nav-link smoothScroll"
-                      href="/login"
-                      style={{ color: "var(--text-color)" }}
-                    >
-                      Login
-                    </a>
-                  ) : (
-                    <a
-                      className="nav-link smoothScroll"
-                      href="/guilds"
-                      style={{ color: "var(--text-color)" }}
-                    >
-                      Dashboard
-                    </a>
-                  )}
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link smoothScroll"
-                    href="https://discord.gg/8V62RTS25Q"
+                    to="https://discord.gg/8V62RTS25Q"
                     style={{ color: "var(--text-color)" }}
                   >
                     Support Guild
-                  </a>
+                  </NavLink>
                 </li>
+
+                {!accessToken ? (
+                  <li className="nav-item">
+                    <NavLink
+                      className="nav-link smoothScroll"
+                      to="/login"
+                      style={{ color: "var(--text-color)" }}
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                ) : (
+                  <>
+                    <li className="nav-item">
+                      <img
+                        src={user?.avatar_url}
+                        width="42"
+                        alt=""
+                        className="rounded-full nav-link"
+                      />
+                    </li>
+                    <li className="nav-item">
+                      <Dropdown>
+                        <Dropdown.Toggle
+                          style={{
+                            background: "var(--background)",
+                            border: "none",
+                          }}
+                        >
+                          {user?.username}#{user?.discriminator}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu
+                          variant="dark"
+                          style={{ background: "var(--background)" }}
+                        >
+                          <Dropdown.Item className="nav-link">
+                            <NavLink
+                              to="/guilds"
+                              style={{ color: "var(--text-color)" }}
+                            >
+                              My servers
+                            </NavLink>
+                          </Dropdown.Item>
+                          <Dropdown.Item>
+                            <NavLink
+                              to="/logout"
+                              style={{
+                                color: "var(--text-color)",
+                              }}
+                            >
+                              Logout
+                            </NavLink>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
@@ -173,7 +199,7 @@ export const Homepage: React.FC = () => {
         </p>
         <div className="tada animated">
           <div role="group" className="btn-group">
-            <a
+            <NavLink
               onClick={() => {
                 window.open(
                   "https://cutt.ly/XGNbot",
@@ -189,10 +215,10 @@ export const Homepage: React.FC = () => {
                 borderColor: "var(--main-color)",
                 borderRadius: 10,
               }}
-              href={"/"}
+              to={"/"}
             >
               Invite Me
-            </a>
+            </NavLink>
 
             <a
               className="btn btn-primary smoothScroll shadow-none"
@@ -225,9 +251,9 @@ export const Homepage: React.FC = () => {
               Support Guild
             </a>
             {!accessToken ? (
-              <a
+              <NavLink
                 className="btn btn-primary smoothScroll shadow-none"
-                href="/login"
+                to="/login"
                 role="button"
                 style={{
                   margin: 5,
@@ -237,11 +263,11 @@ export const Homepage: React.FC = () => {
                 }}
               >
                 Login
-              </a>
+              </NavLink>
             ) : (
-              <a
+              <NavLink
                 className="btn btn-primary smoothScroll shadow-none"
-                href="/guilds"
+                to="/guilds"
                 role="button"
                 style={{
                   margin: 5,
@@ -251,7 +277,7 @@ export const Homepage: React.FC = () => {
                 }}
               >
                 Dashboard
-              </a>
+              </NavLink>
             )}
           </div>
         </div>
@@ -504,8 +530,8 @@ export const Homepage: React.FC = () => {
           <div role="group" className="btn-group">
             <div className="tada animated">
               <div role="group" className="btn-group">
-                <a
-                  href="https://cutt.ly/XGNbot"
+                <NavLink
+                  to="/guilds"
                   className="btn btn-primary shadow-none"
                   type="button"
                   style={{
@@ -516,7 +542,7 @@ export const Homepage: React.FC = () => {
                   }}
                 >
                   Invite Me
-                </a>
+                </NavLink>
               </div>
             </div>
           </div>
@@ -541,7 +567,7 @@ export const Homepage: React.FC = () => {
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );

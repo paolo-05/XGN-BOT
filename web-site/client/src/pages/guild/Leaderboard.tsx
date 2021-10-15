@@ -5,6 +5,8 @@ import axios from "axios";
 import config from "../../config.json";
 import { Loading } from "../../components/Loading";
 import "./side-bar.css";
+import { NavLink } from "react-router-dom";
+import { Footer } from "../../components/Footer";
 
 export const Leaderboard: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +47,6 @@ export const Leaderboard: React.FC = () => {
   }
   return (
     <div>
-      <style></style>
       <div id="top" style={{ height: 12, background: "var(--background)" }}>
         <nav
           className="navbar navbar-light navbar-expand fixed-top"
@@ -57,16 +58,16 @@ export const Leaderboard: React.FC = () => {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -78,25 +79,25 @@ export const Leaderboard: React.FC = () => {
             <div className="collapse navbar-collapse" id="navcol-1">
               <ul className="nav navbar-nav">
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link active smoothScroll"
-                    href="#feature"
+                    to="/#feature"
                     style={{ color: "var(--text-color)" }}
                   >
                     See Features
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="/commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
                     onClick={() => {
                       window.open(
@@ -106,28 +107,28 @@ export const Leaderboard: React.FC = () => {
                       );
                     }}
                     style={{ color: "var(--text-color)" }}
-                    href={"/"}
+                    to={"/commands"}
                   >
                     Invite
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   {!accessToken ? (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/login"
+                      to="/login"
                       style={{ color: "var(--text-color)" }}
                     >
                       Login
-                    </a>
+                    </NavLink>
                   ) : (
-                    <a
+                    <NavLink
                       className="nav-link smoothScroll"
-                      href="/guilds"
+                      to="/guilds"
                       style={{ color: "var(--text-color)" }}
                     >
                       Dashboard
-                    </a>
+                    </NavLink>
                   )}
                 </li>
                 <li className="nav-item">
@@ -170,6 +171,14 @@ export const Leaderboard: React.FC = () => {
           </div>
         </div>
       </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path
+          fill="var(--secondary)"
+          fillOpacity="1"
+          d="M0,160L48,154.7C96,149,192,139,288,154.7C384,171,480,213,576,218.7C672,224,768,192,864,181.3C960,171,1056,181,1152,192C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
+      <Footer />
     </div>
   );
 };

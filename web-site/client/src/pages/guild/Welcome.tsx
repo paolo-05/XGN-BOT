@@ -4,6 +4,7 @@ import axios from "axios";
 
 import config from "../../config.json";
 import { Loading } from "../../components/Loading";
+import { NavLink } from "react-router-dom";
 
 export const Welcome: React.FC = (props) => {
   const [user, setUser] = useState<User | null>(null);
@@ -13,7 +14,8 @@ export const Welcome: React.FC = (props) => {
 
   const [message, setMessage] = useState("");
   const [channel, setChannel] = useState("");
-  const guildID = window.location.pathname.replace("/guilds/welcome/", "");
+  var pathArray = window.location.pathname.split("/");
+  const guildID = pathArray[2];
   const handleSubmit = async () => {
     if (!channel || !message) {
       window.alert("Please fill al the forms");
@@ -103,151 +105,48 @@ export const Welcome: React.FC = (props) => {
         </div>
         <ul className="nav-links">
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/guilds/home/${guildConfig?.guild_id}`)
-              }
-            >
+            <NavLink to={`/guilds/${guildConfig?.guild_id}`}>
               <i className="bx bx-home"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/home/${guildConfig?.guild_id}`}
-                >
-                  Server
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
+            <NavLink
+              to={`/guilds/${guildConfig?.guild_id}/welcome`}
               style={{ background: "#00ddff" }}
-              onClick={() =>
-                (window.location.href = `/guilds/welcome/${guildConfig?.guild_id}`)
-              }
             >
               <i className="bx bx-log-in-circle"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/welcome/${guildConfig?.guild_id}`}
-                >
-                  Welcome
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/guilds/leave/${guildConfig?.guild_id}`)
-              }
-            >
+            <NavLink to={`/guilds/${guildConfig?.guild_id}/leave`}>
               <i className="bx bx-log-out-circle"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/leave/${guildConfig?.guild_id}`}
-                >
-                  Leave
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/guilds/leveling/${guildConfig?.guild_id}`)
-              }
-            >
+            <NavLink to={`/guilds/${guildConfig?.guild_id}/leveling`}>
               <i className="bx bx-stats"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/leveling/${guildConfig?.guild_id}`}
-                >
-                  Leveling System
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/guilds/logging/${guildConfig?.guild_id}`)
-              }
-            >
+            <NavLink to={`/guilds/${guildConfig?.guild_id}/logging`}>
               <i className="bx bx-history"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/logging/${guildConfig?.guild_id}`}
-                >
-                  Logging
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/guilds/settings/${guildConfig?.guild_id}`)
-              }
-            >
+            <NavLink to={`/guilds/${guildConfig?.guild_id}/settings`}>
               <i className="bx bx-cog"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/guilds/setting/${guildConfig?.guild_id}`}
-                >
-                  Settings
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
-            <div
-              onClick={() =>
-                (window.location.href = `/leaderboard/${guildConfig?.guild_id}`)
-              }
-            >
-              <i className="bx bx-cog"></i>
-            </div>
-            <ul className="sub-menu blank">
-              <li>
-                <a
-                  className="link_name"
-                  href={`/leaderboard/${guildConfig?.guild_id}`}
-                >
-                  Leaderboard
-                </a>
-              </li>
-            </ul>
+            <NavLink to={`/leaderboard/${guildConfig?.guild_id}`}>
+              <i className="bx bx-align-justify"></i>
+            </NavLink>
           </li>
           <li>
-            <a href="/guilds">
+            <NavLink to="/guilds">
               <i className="bx bx-arrow-back"></i>
               <span className="link_name">Back to Servers List</span>
-            </a>
-            <ul className="sub-menu blank">
-              <li>
-                <a className="link_name" href="/guilds">
-                  Back to Server List
-                </a>
-              </li>
-            </ul>
+            </NavLink>
           </li>
           <li>
             <div className="profile-details">
@@ -317,7 +216,9 @@ export const Welcome: React.FC = (props) => {
                           width: 200,
                         }}
                       >
-                        <option selected>{guildConfig?.welcome_channel}</option>
+                        <option selected value={guildConfig?.guild_id}>
+                          {guildConfig?.welcome_channel}
+                        </option>
                         {TextChannels?.map((channel: TextChannel) => {
                           return (
                             <option key={channel.id} value={channel.id}>

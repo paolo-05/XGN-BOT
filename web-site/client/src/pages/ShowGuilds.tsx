@@ -6,6 +6,8 @@ import "./guild/styles.css";
 
 import config from "../config.json";
 import { Loading } from "../components/Loading";
+import { NavLink } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 export const ShowGuilds: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -54,16 +56,16 @@ export const ShowGuilds: React.FC = () => {
           }}
         >
           <div className="container-fluid">
-            <a
+            <NavLink
               className="navbar-brand"
-              href={"/"}
+              to={"/"}
               style={{
                 color: "var(--main-color)",
                 fontFamily: "Alfa Slab One",
               }}
             >
               XGN BOT
-            </a>
+            </NavLink>
             <button
               data-toggle="collapse"
               className="navbar-toggler"
@@ -75,48 +77,67 @@ export const ShowGuilds: React.FC = () => {
             <div className="collapse navbar-collapse" id="navcol-1">
               <ul className="nav navbar-nav">
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link active smoothScroll"
-                    href="#feature"
+                    to="/#feature"
                     style={{ color: "var(--text-color)" }}
                   >
                     See Features
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <NavLink
                     className="nav-link smoothScroll"
-                    href="/commands"
+                    to="/commands"
                     style={{ color: "var(--text-color)" }}
                   >
                     Commands
-                  </a>
+                  </NavLink>
                 </li>
-                <li className="nav-item">
-                  <a
-                    href="##"
-                    className="nav-link smoothScroll"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    {user?.username}#{user?.discriminator}
-                  </a>
-                </li>
+
                 <li className="nav-item">
                   <img
                     src={user?.avatar_url}
-                    width="50"
+                    width="42"
                     alt=""
-                    className="rounded-full"
+                    className="rounded-full nav-link"
                   />
                 </li>
-                <li className="nav-item" style={{ marginRight: 2 }}>
-                  <a
-                    href="/logout"
-                    className="nav-link smoothScroll"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Logout
-                  </a>
+                <li className="nav-item">
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      style={{
+                        background: "var(--background)",
+                        border: "none",
+                      }}
+                    >
+                      {user?.username}#{user?.discriminator}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu
+                      variant="dark"
+                      style={{ background: "var(--background)" }}
+                    >
+                      <Dropdown.Item className="nav-link">
+                        <NavLink
+                          to="/guilds"
+                          style={{ color: "var(--text-color)" }}
+                        >
+                          My servers
+                        </NavLink>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <NavLink
+                          to="/logout"
+                          style={{
+                            color: "var(--text-color)",
+                          }}
+                        >
+                          Logout
+                        </NavLink>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </li>
               </ul>
             </div>
@@ -167,7 +188,7 @@ export const ShowGuilds: React.FC = () => {
                         </h1>
                       </div>
                       {guild.in === false ? (
-                        <a
+                        <NavLink
                           className="btn btn-primary smoothScroll shadow-none"
                           onClick={() => {
                             window.open(
@@ -175,9 +196,8 @@ export const ShowGuilds: React.FC = () => {
                               "Invite",
                               "width=450,height=750"
                             );
-                            window.location.reload();
                           }}
-                          href={"#invite-bot"}
+                          to={"#invite-bot"}
                           role="button"
                           style={{
                             margin: 5,
@@ -187,11 +207,11 @@ export const ShowGuilds: React.FC = () => {
                           }}
                         >
                           Invite
-                        </a>
+                        </NavLink>
                       ) : (
-                        <a
+                        <NavLink
                           className="btn btn-primary smoothScroll shadow-none"
-                          href={`/guilds/home/${guild.id}`}
+                          to={`/guilds/${guild.id}`}
                           role="button"
                           style={{
                             margin: 5,
@@ -201,7 +221,7 @@ export const ShowGuilds: React.FC = () => {
                           }}
                         >
                           Dashboard
-                        </a>
+                        </NavLink>
                       )}
                     </div>
                     <br />
