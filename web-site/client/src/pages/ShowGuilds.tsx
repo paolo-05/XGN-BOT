@@ -105,39 +105,41 @@ export const ShowGuilds: React.FC = () => {
                 </li>
                 <li className="nav-item">
                   <Dropdown>
-                    <Dropdown.Toggle
-                      style={{
-                        background: "var(--background)",
-                        border: "none",
-                      }}
-                    >
-                      {user?.username}#{user?.discriminator}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu
-                      variant="dark"
-                      style={{ background: "var(--background)" }}
-                    >
-                      <Dropdown.Item className="nav-link">
-                        <NavLink
-                          to="/guilds"
-                          style={{ color: "var(--text-color)" }}
-                        >
-                          My servers
-                        </NavLink>
-                      </Dropdown.Item>
-                      <Dropdown.Item>
-                        <NavLink
-                          to="/logout"
+                        <Dropdown.Toggle
                           style={{
-                            color: "var(--text-color)",
+                            background: "var(--background)",
+                            border: "none",
                           }}
                         >
-                          Logout
-                        </NavLink>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                          {user?.username}#{user?.discriminator}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu
+                          variant="dark"
+                          style={{ background: "var(--background)" }}
+                        >
+                          <Dropdown.Item className="nav-link">
+                            <NavLink
+                              to="/guilds"
+                                style={{ color: "var(--text-color)" }}
+                                className="nav-link"
+                            >
+                              My servers
+                            </NavLink>
+                          </Dropdown.Item>
+                          <Dropdown.Item>
+                            <NavLink
+                              to="/logout"
+                              style={{
+                                color: "var(--text-color)",
+                                }}
+                                className="nav-link"
+                            >
+                              Logout
+                            </NavLink>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                 </li>
               </ul>
             </div>

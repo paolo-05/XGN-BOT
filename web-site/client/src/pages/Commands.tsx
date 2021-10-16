@@ -7,6 +7,7 @@ import config from "../config.json";
 import { Loading } from "../components/Loading";
 import "./guild/styles.css";
 import { Footer } from "../components/Footer";
+import { Dropdown } from "react-bootstrap";
 
 export const Commands: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,49 +90,52 @@ export const Commands: React.FC = () => {
                     Commands
                   </NavLink>
                 </li>
+
                 <li className="nav-item">
-                  <NavLink
-                    className="nav-link smoothScroll"
-                    onClick={() => {
-                      window.open(
-                        "https://cutt.ly/XGNbot",
-                        "Invite",
-                        "width=450,height=750"
-                      );
-                    }}
-                    style={{ color: "var(--text-color)" }}
-                    to={"/commands"}
-                  >
-                    Invite
-                  </NavLink>
+                  <img
+                    src={user?.avatar_url}
+                    width="42"
+                    alt=""
+                    className="rounded-full nav-link"
+                  />
                 </li>
                 <li className="nav-item">
-                  {!accessToken ? (
-                    <NavLink
-                      className="nav-link smoothScroll"
-                      to="/login"
-                      style={{ color: "var(--text-color)" }}
-                    >
-                      Login
-                    </NavLink>
-                  ) : (
-                    <NavLink
-                      className="nav-link smoothScroll"
-                      to="/guilds"
-                      style={{ color: "var(--text-color)" }}
-                    >
-                      Dashboard
-                    </NavLink>
-                  )}
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link smoothScroll"
-                    href="https://discord.gg/8V62RTS25Q"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Support Guild
-                  </a>
+                  <Dropdown>
+                        <Dropdown.Toggle
+                          style={{
+                            background: "var(--background)",
+                            border: "none",
+                          }}
+                        >
+                          {user?.username}#{user?.discriminator}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu
+                          variant="dark"
+                          style={{ background: "var(--background)" }}
+                        >
+                          <Dropdown.Item className="nav-link">
+                            <NavLink
+                              to="/guilds"
+                                style={{ color: "var(--text-color)" }}
+                                className="nav-link"
+                            >
+                              My servers
+                            </NavLink>
+                          </Dropdown.Item>
+                          <Dropdown.Item>
+                            <NavLink
+                              to="/logout"
+                              style={{
+                                color: "var(--text-color)",
+                                }}
+                                className="nav-link"
+                            >
+                              Logout
+                            </NavLink>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                 </li>
               </ul>
             </div>

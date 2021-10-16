@@ -26,8 +26,8 @@ export const Footer: React.FC = () => {
           className="copyright"
           style={{ color: "var(--text-color)", padding: 0 }}
         >
-          Need help?&nbsp;
-          <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q">
+          Need help?
+          <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q" className="nav-link">
             Support Guild
           </a>
         </p>
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
           <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
           <br />
           Not affiliated with discord.com <br />
-          <NavLink style={{ color: "var(--text-color)" }} to="/privacy">
+          <NavLink style={{ color: "var(--text-color)" }} to="/privacy" className="nav-link">
             Privacy Policy
           </NavLink>
         </p>

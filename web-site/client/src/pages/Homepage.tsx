@@ -143,7 +143,8 @@ export const Homepage: React.FC = () => {
                           <Dropdown.Item className="nav-link">
                             <NavLink
                               to="/guilds"
-                              style={{ color: "var(--text-color)" }}
+                                style={{ color: "var(--text-color)" }}
+                                className="nav-link"
                             >
                               My servers
                             </NavLink>
@@ -153,7 +154,8 @@ export const Homepage: React.FC = () => {
                               to="/logout"
                               style={{
                                 color: "var(--text-color)",
-                              }}
+                                }}
+                                className="nav-link"
                             >
                               Logout
                             </NavLink>
