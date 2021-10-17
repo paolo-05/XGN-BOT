@@ -1,27 +1,15 @@
-import datetime
-import os
-import sys
-import traceback
+import json
 from asyncio import sleep
-import time
 from glob import glob
-from os import getcwd
-from pathlib import Path
 
 import discord
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.cron import CronTrigger
 from discord.ext import commands
-from discord.ext.commands import command, has_permissions, when_mentioned_or
-from discord.flags import Intents
-from discord_slash import *
 from discord_slash import SlashCommand
-from dislash import ActionRow, Button, ButtonStyle, InteractionClient
-from requests import get
+from dislash import InteractionClient
 from tortoise import Tortoise
 
 import constants
-import db
 from models import GuildConfig
 
 COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
@@ -72,9 +60,9 @@ class XGNbot(commands.Bot):
         print("Running setup...")
         self.setup()
 
-        with open("../data/token.txt", "r", encoding="utf8") as tf:
-            token = tf.readline()
-
+        f = open("../data/config.json")
+        data = json.load(f)
+        token = data["TOKEN"]
         print("Running bot...")
         super().run(token, reconnect=True)
 

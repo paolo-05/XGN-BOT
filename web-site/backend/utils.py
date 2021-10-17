@@ -1,6 +1,6 @@
 import requests
+
 import constants
-import json
 
 
 async def get_token(code: str):

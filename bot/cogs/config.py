@@ -2,9 +2,9 @@ import typing
 
 import constants
 import discord
-
 from discord.ext import commands
-from models import GuildConfig, LeaveConfig, LogChannel, WelcomeConfig, LevelUpConfig
+from models import (GuildConfig, LeaveConfig, LevelUpConfig, LogChannel,
+                    WelcomeConfig)
 
 
 class Config(commands.Cog):

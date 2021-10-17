@@ -1,15 +1,10 @@
-import io
-from random import choice, randint
-from typing import Optional
+from random import choice
 
-import aiohttp
-import discord
 from aiohttp import request
 from discord import Embed, Member
 from discord.ext import commands
-from discord.ext.commands import BadArgument, BucketType, Cog, cooldown, MissingRequiredArgument
-
-from discord_slash import *
+from discord.ext.commands import (BadArgument, BucketType, Cog,
+                                  MissingRequiredArgument, cooldown)
 from discord_slash.cog_ext import cog_slash
 
 

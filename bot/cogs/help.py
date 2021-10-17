@@ -1,9 +1,7 @@
 import discord
 from discord.errors import Forbidden
 from discord.ext import commands
-from typing import Optional
-from discord_slash import *
-from discord_slash import cog_ext
+from discord_slash import SlashContext
 from discord_slash.cog_ext import cog_slash
 
 

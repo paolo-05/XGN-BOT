@@ -1,6 +1,5 @@
 import asyncio
 import datetime as dt
-import enum
 import random
 import re
 import typing as t
@@ -10,13 +9,13 @@ import aiohttp
 import discord
 import wavelink
 from discord.ext import commands
-
-from discord_slash import *
+from discord_slash import SlashContext
 from discord_slash.cog_ext import cog_slash
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 LYRICS_URL = "https://some-random-api.ml/lyrics?title="
-HZ_BANDS = (20, 40, 63, 100, 150, 250, 400, 450, 630, 1000, 1600, 2500, 4000, 10000, 16000)
+HZ_BANDS = (20, 40, 63, 100, 150, 250, 400, 450, 630,
+            1000, 1600, 2500, 4000, 10000, 16000)
 TIME_REGEX = r"([0-9]{1,2})[:ms](([0-9]{1,2})s?)?"
 OPTIONS = {
     "1️⃣": 0,
@@ -237,7 +236,8 @@ class Player(wavelink.Player):
             timestamp=dt.datetime.utcnow()
         )
         embed.set_author(name="Query Results")
-        embed.set_footer(text=f"Invoked by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.set_footer(
+            text=f"Invoked by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
 
         msg = await ctx.send(embed=embed)
         for emoji in list(OPTIONS.keys())[:min(len(tracks), len(OPTIONS))]:
@@ -270,6 +270,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
     """
     This commands can be used for the music.
     """
+
     def __init__(self, bot):
         self.bot = bot
         self.wavelink = wavelink.Client(bot=bot)
@@ -323,7 +324,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             return self.wavelink.get_player(obj.guild.id, cls=Player, context=obj)
         elif isinstance(obj, discord.Guild):
             return self.wavelink.get_player(obj.id, cls=Player)
-        
+
     def _get_player(self, obj):
         if isinstance(obj, SlashContext):
             return self.wavelink.get_player(obj.guild.id, cls=Player, context=obj)
@@ -337,7 +338,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await ctx.send(f"Connected to {channel.name}.")
 
     @cog_slash(name="connect", description="Connect to a voice channel")
-    async def _connect_command(self, ctx: SlashContext, channel: discord.VoiceChannel=None):
+    async def _connect_command(self, ctx: SlashContext, channel: discord.VoiceChannel = None):
         if (channel := getattr(ctx.author.voice, "channel", channel)) is None:
             return await ctx.send("No suitable voice channel was provided.")
         player = self._get_player(ctx)
@@ -364,7 +365,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await ctx.send("Disconnected.")
 
     @commands.command(name="play", help="Play a song by a url or a keyword")
-    async def play_command(self, ctx, *, query:str=None):
+    async def play_command(self, ctx, *, query: str = None):
         player = self.get_player(ctx)
 
         if not player.is_connected:
@@ -385,7 +386,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             await player.add_tracks(ctx, await self.wavelink.get_tracks(query))
 
     @cog_slash(name="play", description="Play a song by a url or a keyword")
-    async def _play_command(self, ctx: SlashContext, query:str=None):
+    async def _play_command(self, ctx: SlashContext, query: str = None):
         player = self._get_player(ctx)
 
         if not player.is_connected:
@@ -394,10 +395,9 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         if query is None:
             if player.queue.is_empty:
                 return await ctx.send('The queue is empty')
-            
+
             await player.set_pause(False)
             await ctx.send("Playback resumed.")
-
 
         else:
             query = query.strip("<>")
@@ -444,7 +444,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         player.queue.empty()
         await player.stop()
         await ctx.send("Playback stopped.")
-    
+
     @cog_slash(name="stop", description="Stop playback")
     async def _stop_command(self, ctx: SlashContext):
         player = self._get_player(ctx)
@@ -571,10 +571,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             timestamp=dt.datetime.utcnow()
         )
         embed.set_author(name="Query Results")
-        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.set_footer(
+            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
         embed.add_field(
             name="Currently playing",
-            value=getattr(player.queue.current_track, "title", "No tracks currently playing."),
+            value=getattr(player.queue.current_track, "title",
+                          "No tracks currently playing."),
             inline=False
         )
         if upcoming := player.queue.upcoming:
@@ -587,7 +589,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await ctx.send(embed=embed)
 
     @cog_slash(name="queue", description="Shows the queue")
-    async def _queue_command(self, ctx: SlashContext, show:int = 10):
+    async def _queue_command(self, ctx: SlashContext, show: int = 10):
         player = self._get_player(ctx)
 
         if player.queue.is_empty:
@@ -600,10 +602,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             timestamp=dt.datetime.utcnow()
         )
         embed.set_author(name="Query Results")
-        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.set_footer(
+            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
         embed.add_field(
             name="Currently playing",
-            value=getattr(player.queue.current_track, "title", "No tracks currently playing."),
+            value=getattr(player.queue.current_track, "title",
+                          "No tracks currently playing."),
             inline=False
         )
         if upcoming := player.queue.upcoming:
@@ -673,7 +677,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             await ctx.send("The player is already at min volume.")
 
     @commands.command(name="lyrics", help="Lyrics")
-    async def lyrics_command(self, ctx, name: str=None):
+    async def lyrics_command(self, ctx, name: str = None):
         player = self.get_player(ctx)
         name = name or player.queue.current_track.title
 
@@ -698,11 +702,10 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
                 await ctx.send(embed=embed)
 
     @cog_slash(name="lyrics", description="Lyrics")
-    async def _lyrics_command(self, ctx: SlashContext, name:str=None):
+    async def _lyrics_command(self, ctx: SlashContext, name: str = None):
         player = self._get_player(ctx)
         name = name or player.queue.current_track.title
 
-        
         async with aiohttp.request("GET", LYRICS_URL + name, headers={}) as r:
             if not 200 <= r.status <= 299:
                 return await ctx.send("Lyric not foud")
@@ -721,7 +724,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             embed.set_thumbnail(url=data["thumbnail"]["genius"])
             embed.set_author(name=data["author"])
             await ctx.send(embed=embed)
-
 
     @lyrics_command.error
     async def lyrics_command_error(self, ctx, exc):
@@ -757,7 +759,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         if isinstance(exc, InvalidEQPreset):
             await ctx.send("The EQ preset must be either 'flat', 'boost', 'metal', or 'piano'.")
 
-
     @commands.command(name="playing", aliases=["np"], help="Shows the current playback")
     async def playing_command(self, ctx):
         player = self.get_player(ctx)
@@ -771,9 +772,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             timestamp=dt.datetime.utcnow(),
         )
         embed.set_author(name="Playback Information")
-        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-        embed.add_field(name="Track title", value=player.queue.current_track.title, inline=False)
-        embed.add_field(name="Artist", value=player.queue.current_track.author, inline=False)
+        embed.set_footer(
+            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="Track title",
+                        value=player.queue.current_track.title, inline=False)
+        embed.add_field(
+            name="Artist", value=player.queue.current_track.author, inline=False)
 
         position = divmod(player.position, 60000)
         length = divmod(player.queue.current_track.length, 60000)
@@ -798,9 +802,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             timestamp=dt.datetime.utcnow(),
         )
         embed.set_author(name="Playback Information")
-        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-        embed.add_field(name="Track title", value=player.queue.current_track.title, inline=False)
-        embed.add_field(name="Artist", value=player.queue.current_track.author, inline=False)
+        embed.set_footer(
+            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="Track title",
+                        value=player.queue.current_track.title, inline=False)
+        embed.add_field(
+            name="Artist", value=player.queue.current_track.author, inline=False)
 
         position = divmod(player.position, 60000)
         length = divmod(player.queue.current_track.length, 60000)
@@ -900,7 +907,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.seek(secs * 1000)
         await ctx.send("Seeked.")
 
-    
     @cog_slash(name="seek", description="Seek the queue")
     async def _seek_command(self, ctx: SlashContext, position: str):
         player = self._get_player(ctx)
@@ -918,6 +924,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
 
         await player.seek(secs * 1000)
         await ctx.send("Seeked.")
+
 
 def setup(bot):
     bot.add_cog(Music(bot))

@@ -1,16 +1,18 @@
-from discord.ext import commands
-from requests import get
-import discord
+import json
 import time
-import db
-import requests
 
-from models import GuildConfig, LeaveConfig, LevelUpConfig, WelcomeConfig, LogChannel
+import discord
+import requests
+from discord.ext import commands
+from models import (GuildConfig, LeaveConfig, LevelUpConfig, LogChannel,
+                    WelcomeConfig)
+from requests import get
 
 
 async def get_guild_channels(guild_id: int):
-    with open("../data/token.txt", "r", encoding="utf8") as tf:
-        token = tf.readline()
+    f = open("../data/config.json")
+    data = json.load(f)
+    token = data["TOKEN"]
     resp = requests.get(
         f"https://discord.com/api/v6/guilds/{guild_id}/channels", headers={"Authorization": f"Bot {token}"}
     )

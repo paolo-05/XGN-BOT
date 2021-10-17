@@ -1,23 +1,16 @@
-import json
-import sqlite3
 from datetime import datetime, timedelta
 from platform import python_version
-from time import sleep, time
+from time import time
 
 import db
 import discord
-import requests
-from aiohttp.client import request
-from apscheduler.triggers.cron import CronTrigger
 from discord import Embed
-from discord import __version__ as discord_version
 from discord.ext import commands
 from discord_slash import *
 from discord_slash.cog_ext import cog_slash
-from dislash import ActionRow, Button, ButtonStyle, InteractionClient
+from dislash import ActionRow, Button, ButtonStyle
+from models import GuildConfig
 from psutil import Process, virtual_memory
-
-intents = discord.Intents.default()
 
 __VERSION__ = 'BETA 1.0'
 
@@ -258,7 +251,7 @@ class InfoCog(commands.Cog, name="meta"):
             Button(style=ButtonStyle.link, label="Website",
                    url='https://xgnbot.xyz/'),
             Button(style=ButtonStyle.link, label="Server Dashboard",
-                   url='https://xgnbot.xyz/login'),
+                   url='https://xgnbot.xyz/guilds'),
             Button(style=ButtonStyle.link, label="Top.gg",
                    url='https://top.gg/bot/840300480382894080'),
             Button(style=ButtonStyle.link, label="Prime Bots ",
@@ -279,7 +272,7 @@ class InfoCog(commands.Cog, name="meta"):
                               colour=ctx.author.colour)
         fields = [
             ("WEBSITE",
-             "[homepage](https://xgnbot.xyz/)\n [Server Dashboard](https://xgnbot.xyz/login)", False),
+             "[homepage](https://xgnbot.xyz/)\n [Server Dashboard](https://xgnbot.xyz/guilds)", False),
             ("VOTE", "[Top.gg](https://top.gg/bot/840300480382894080) \n [Prime Bots](https://primebots.it/bots/840300480382894080)", False),
         ]
         for name, value, inline in fields:
@@ -296,11 +289,15 @@ class InfoCog(commands.Cog, name="meta"):
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def show_bot_stats(self, ctx):
-        embed = discord.Embed(title='Bot Servers')
-        for guild in self.bot.guilds:
-            embed.add_field(name=guild.name, value=len(
-                guild.members), inline=False)
+    async def show_bot_stats(self, ctx, guild_id: int = None):
+        if guild_id is None:
+            embed = discord.Embed(title='Bot Servers')
+            for guild in self.bot.guilds:
+                embed.add_field(name=guild.name, value=f"Members: {len(guild.members)}\n"
+                                + f"id: {guild.id}", inline=False)
+        else:
+            config = await GuildConfig.filter(id=guild_id).get_or_none()
+            embed = Embed(title=f'Guild {guild_id} information:', description=f"*Plugins*: welcome={True if config.welcome_enabled == True else False}; leave={True if config.leave_enabled == True else False}; levels={True if config.level_up_enabled == True else False}; logs={True if config.log_enabled == True else False};", )
         await ctx.send(embed=embed)
 
 

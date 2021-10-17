@@ -1,12 +1,10 @@
 import json
+
 import aiohttp_cors
+import db
 import discord
 from aiohttp import web
 from discord.ext import commands
-
-import db
-
-from models import GuildConfig, LeaveConfig, LogChannel, WelcomeConfig, LevelUpConfig
 
 PATH = '../data/warns.json'
 

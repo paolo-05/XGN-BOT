@@ -1,5 +1,4 @@
-import asyncio
-from json import loads
+import time
 
 import aiohttp
 import hikari
@@ -10,9 +9,8 @@ from sanic.response import json
 from sanic_cors import CORS
 
 import constants
-import utils
 import sql
-import time
+import utils
 
 try:
     import uvloop

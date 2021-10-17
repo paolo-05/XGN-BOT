@@ -1,17 +1,14 @@
-import sqlite3
 from datetime import datetime, timedelta
 from random import randint
 
 import db
 import discord
 from discord import Embed
-from discord.activity import CustomActivity
 from discord.ext import commands
-from discord.ext.commands import command, has_permissions
-from discord.ext.menus import ListPageSource, MenuPages
-from discord_slash import *
+from discord.ext.commands import command
+from discord.ext.menus import ListPageSource
 from discord_slash.cog_ext import cog_slash
-from dislash import ActionRow, Button, ButtonStyle, InteractionClient
+from dislash import ActionRow, Button, ButtonStyle
 from models import GuildConfig, LevelUpConfig
 
 intents = discord.Intents.all()

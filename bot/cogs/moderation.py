@@ -1,23 +1,12 @@
-import db
-from models import GuildConfig, LogChannel
-from discord.utils import find
-from discord.ext.commands import (BadArgument, CheckFailure, Cog, Converter,
-                                  Greedy, MissingPermissions,
-                                  MissingRequiredArgument, bot_has_permissions,
-                                  command, has_permissions)
-from discord import Embed, Member, NotFound, Object
-import sqlite3
 import datetime
-import asyncio
 import json
-from asyncio import sleep
-from re import search
-from typing import Optional
 
 import discord
 from discord.ext import commands
-from discord_slash import *
+from discord.ext.commands import has_permissions
+from discord_slash import SlashContext
 from discord_slash.cog_ext import cog_slash
+from models import GuildConfig, LogChannel
 
 intents = discord.Intents.default()
 

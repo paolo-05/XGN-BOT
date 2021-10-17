@@ -1,18 +1,12 @@
 import io
-from os import getcwd
-from random import choice, randint
-from typing import Optional
 
 import aiohttp
 import discord
-from aiohttp import request
-from discord import Embed, Member
 from discord.ext import commands
-from discord.ext.commands import BadArgument, BucketType, Cog, cooldown
-from requests import get
-
+from discord.ext.commands import BucketType, Cog, cooldown
 from discord_slash import *
 from discord_slash.cog_ext import cog_slash
+from requests import get
 
 
 class Fun_ov_Cog(Cog, name="fun_images"):

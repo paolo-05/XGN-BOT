@@ -101,41 +101,41 @@ export const Commands: React.FC = () => {
                 </li>
                 <li className="nav-item">
                   <Dropdown>
-                        <Dropdown.Toggle
-                          style={{
-                            background: "var(--background)",
-                            border: "none",
-                          }}
-                        >
-                          {user?.username}#{user?.discriminator}
-                        </Dropdown.Toggle>
+                    <Dropdown.Toggle
+                      style={{
+                        background: "var(--background)",
+                        border: "none",
+                      }}
+                    >
+                      {user?.username}#{user?.discriminator}
+                    </Dropdown.Toggle>
 
-                        <Dropdown.Menu
-                          variant="dark"
-                          style={{ background: "var(--background)" }}
+                    <Dropdown.Menu
+                      variant="dark"
+                      style={{ background: "var(--background)" }}
+                    >
+                      <Dropdown.Item className="nav-link">
+                        <NavLink
+                          to="/guilds"
+                          style={{ color: "var(--text-color)" }}
+                          className="nav-link"
                         >
-                          <Dropdown.Item className="nav-link">
-                            <NavLink
-                              to="/guilds"
-                                style={{ color: "var(--text-color)" }}
-                                className="nav-link"
-                            >
-                              My servers
-                            </NavLink>
-                          </Dropdown.Item>
-                          <Dropdown.Item>
-                            <NavLink
-                              to="/logout"
-                              style={{
-                                color: "var(--text-color)",
-                                }}
-                                className="nav-link"
-                            >
-                              Logout
-                            </NavLink>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
+                          My servers
+                        </NavLink>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <NavLink
+                          to="/logout"
+                          style={{
+                            color: "#ff0000",
+                          }}
+                          className="nav-link"
+                        >
+                          Logout
+                        </NavLink>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </li>
               </ul>
             </div>

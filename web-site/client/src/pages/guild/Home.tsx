@@ -150,6 +150,13 @@ export const Home: React.FC = () => {
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
+                      Server Boost:
+                      <b style={{ color: "var(--secondary-text-color)" }}>
+                        {" "}
+                        {guildConfig?.boost}
+                      </b>
+                    </p>
+                    <p style={{ color: "var(--text-color)" }}>
                       Bots:
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}

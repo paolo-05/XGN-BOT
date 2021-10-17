@@ -1,16 +1,11 @@
 import asyncio
-import os
 import random
-from asyncio import TimeoutError
-
-import discord
-from discord.ext import commands
-from discord.ext.commands import BadArgument, BucketType, Cog, cooldown
-from discord_slash import cog_ext
-from discord_slash.cog_ext import cog_slash
-from dislash import InteractionClient, ActionRow, Button, ButtonStyle
 
 import db
+import discord
+from discord.ext import commands
+from discord_slash import cog_ext
+from dislash import ActionRow, Button, ButtonStyle
 
 GAME_XP = 250
 

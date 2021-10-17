@@ -1,3 +1,4 @@
+import json
 import discord
 from aiohttp import ClientSession
 from discord.ext import commands
@@ -5,9 +6,6 @@ from requests import get
 
 from discord_slash import *
 from discord_slash.cog_ext import cog_slash
-
-with open('../data/rapidapi_key.txt', 'r', encoding='utf-8') as f:
-    key = f.readline()
 
 
 class Dictionary(commands.Cog, name="dictionary"):
@@ -17,19 +15,19 @@ class Dictionary(commands.Cog, name="dictionary"):
 
     def __init__(self, bot):
         self.bot = bot
+        f = open("../data/config.json")
+        data = json.load(f)
+        self.key = data["RAPID_API_KEY"]
 
     @commands.command(help="Returns an explanation of the term of your choice")
     @commands.is_nsfw()
     async def urban(self, ctx, *, args):
-        badwords = get(
-            f'https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words'
-            f'/master/en').text.split("\n")
         term = ''.join(args)
         url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
         querystring = {"term": term}
 
         headers = {
-            'x-rapidapi-key': f"{key}",
+            'x-rapidapi-key': f"{self.key}",
             'x-rapidapi-host': "mashape-community-urban-dictionary.p.rapidapi.com"
         }
 
@@ -55,15 +53,12 @@ class Dictionary(commands.Cog, name="dictionary"):
     @cog_slash(name="urban", description="Returns an explanation of the term of your choice")
     async def _urban(self, ctx: SlashContext, query: str):
         if ctx.channel.is_nsfw():
-            badwords = get(
-                f'https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words'
-                f'/master/en').text.split("\n")
             term = ''.join(query)
             url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
             querystring = {"term": term}
 
             headers = {
-                'x-rapidapi-key': f"{key}",
+                'x-rapidapi-key': f"{self.key}",
                 'x-rapidapi-host': "mashape-community-urban-dictionary.p.rapidapi.com"
             }
 
