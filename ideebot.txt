@@ -1,7 +1,8 @@
--aggiungere il gioco random;
--fare un component per la nav bar e il footer;
--href di react => import { NavLink } from "react-router-dom";
-                  <NavLink to "#">ciao</NavLink>
-
-controllare il codice del sito;
--pushare il codice modificato;
+bot:
+    -aggiungere il gioco random;
+    -fare il fake youtube comment e la simp card;
+    -giocare con l'api di prbots;
+    -giocare con l'api di sra;
+sito:
+    -controllare il codice del sito;
+    -pushare il codice modificato;

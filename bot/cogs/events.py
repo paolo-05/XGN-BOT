@@ -64,33 +64,6 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        '''for guild in self.bot.guilds:
-            try:
-                config = await GuildConfig(id=guild.id)
-                if config.welcome_enabled:
-                    welcome_conf = await WelcomeConfig(id=guild.id)
-                    welcome_conf.channel_name = get_channel_by_id(
-                        guild.id, f'{welcome_conf.channel_id}')
-                    await welcome_conf.save()
-                if config.leave_enabled:
-                    leave_conf = await LeaveConfig(id=guild.id).get_or_none()
-                    leave_conf.channel_name = get_channel_by_id(
-                        guild.id, f'{leave_conf.channel_id}')
-                    await leave_conf.save()
-                if config.log_enabled:
-                    log_conf = await LogChannel(id=guild.id).get_or_none()
-                    log_conf.channel_name = get_channel_by_id(
-                        guild.id, f'{log_conf.channel_id}')
-                    await log_conf.save()
-                if config.level_up_enabled:
-                    level_conf = await LevelUpConfig(id=guild.id).get_or_none()
-                    level_conf.channel_name = get_channel_by_id(
-                        guild.id, f'{level_conf.channel_id}')
-                    await level_conf.save()
-                await config.save()
-            except:
-                print('All guilds modified')
-        '''
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
         self.message = text

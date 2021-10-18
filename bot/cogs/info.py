@@ -22,15 +22,15 @@ class InfoCog(commands.Cog, name="meta"):
 
     def __init__(self, bot):
         self.bot = bot
+        self.date_format = "%a, %d %b %Y %I:%M %p"
 
     @commands.command(help="Returns all the info available for a user")
     async def info(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
-        date_format = "%a, %d %b %Y %I:%M %p"
         ans = db.record(
             f"SELECT user_id, exp, lvl FROM levels WHERE user_id = '{user.id}' and guild_id ='{user.guild.id}'")
-        created_at = user.created_at.strftime(date_format)
+        created_at = user.created_at.strftime(self.date_format)
         embed = discord.Embed(title="INFO", colour=0xFF00FF)
         embed.add_field(name="NAME", value=user.mention, inline=False)
         if ans is not None:
@@ -61,9 +61,9 @@ class InfoCog(commands.Cog, name="meta"):
 
         embed.add_field(name="Join position", value=str(members.index(user)+1))
         embed.add_field(name="JOINED AT", value=user.joined_at.strftime(
-            date_format), inline=True)
+            self.date_format), inline=True)
         embed.add_field(name="REGISTERED",
-                        value=user.created_at.strftime(date_format))
+                        value=user.created_at.strftime(self.date_format))
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
         await ctx.send(embed=embed)
@@ -72,10 +72,9 @@ class InfoCog(commands.Cog, name="meta"):
     async def _info(self, ctx: SlashContext, user: discord.Member = None):
         if user is None:
             user = ctx.author
-        date_format = "%a, %d %b %Y %I:%M %p"
         ans = db.record(
             f"SELECT user_id, exp, lvl FROM levels WHERE user_id = '{user.id}' and guild_id ='{user.guild.id}'")
-        created_at = user.created_at.strftime(date_format)
+        created_at = user.created_at.strftime(self.date_format)
         embed = discord.Embed(title="INFO", colour=0xFF00FF)
         embed.add_field(name="NAME", value=user.mention, inline=False)
         if ans is not None:
@@ -106,9 +105,9 @@ class InfoCog(commands.Cog, name="meta"):
 
         embed.add_field(name="Join position", value=str(members.index(user)+1))
         embed.add_field(name="JOINED AT", value=user.joined_at.strftime(
-            date_format), inline=True)
+            self.date_format), inline=True)
         embed.add_field(name="REGISTERED",
-                        value=user.created_at.strftime(date_format))
+                        value=user.created_at.strftime(self.date_format))
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(text='ID: ' + str(user.id))
 

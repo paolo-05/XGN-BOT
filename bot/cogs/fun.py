@@ -1,5 +1,9 @@
+import io
 from random import choice
+import aiohttp
+import discord
 
+import requests
 from aiohttp import request
 from discord import Embed, Member
 from discord.ext import commands
@@ -43,6 +47,18 @@ class FunCog(Cog, name="fun"):
         if isinstance(exc, BadArgument):
             await ctx.send("I can't find that member.")
 
+    @commands.command(name="tweet", help="sends a faked tweet with a message")
+    async def tweet(self, ctx, *, message):
+        username = ctx.author.name
+        avatar = ctx.author.avatar_url_as(format="png", size=512)
+
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://some-random-api.ml/canvas/tweet?username={username}&displayname={username}&avatar={avatar}&comment={message}") as gayImg:
+                imageData = io.BytesIO(await gayImg.read())
+                await s.close()
+
+                await ctx.send(file=discord.File(imageData, 'tweet.png'))
+
     @commands.command(name="echo", aliases=["say"], help="Repeat a message")
     @cooldown(1, 15, BucketType.guild)
     async def echo_message(self, ctx, *, message):
@@ -57,43 +73,35 @@ class FunCog(Cog, name="fun"):
     @commands.command(name="meme", help="Sends a random meme")
     @cooldown(3, 60, BucketType.guild)
     async def meme(self, ctx):
-
         image = f"https://some-random-api.ml/meme"
-
         async with request("GET", image, headers={}) as response:
             if response.status == 200:
                 data = await response.json()
                 image_link = data["image"]
-
                 data = await response.json()
-
-                embed = Embed(title=f"there's your meme",
+                embed = Embed(title=data["caption"],
                               colour=ctx.author.colour)
                 if image_link is not None:
                     embed.set_image(url=image_link)
+                    embed.set_footer(text=data["category"])
                 await ctx.send(embed=embed)
-
             else:
                 await ctx.send(f"API returned a {response.status} status.")
 
     @cog_slash(name="meme", description="Sends a random meme")
     async def _meme(self, ctx):
-
         image = f"https://some-random-api.ml/meme"
-
         async with request("GET", image, headers={}) as response:
             if response.status == 200:
                 data = await response.json()
                 image_link = data["image"]
-
                 data = await response.json()
-
-                embed = Embed(title=f"there's your meme",
+                embed = Embed(title=data["caption"],
                               colour=ctx.author.colour)
                 if image_link is not None:
                     embed.set_image(url=image_link)
+                    embed.set_footer(text=data["category"])
                 await ctx.send(embed=embed)
-
             else:
                 await ctx.send(f"API returned a {response.status} status.")
 
