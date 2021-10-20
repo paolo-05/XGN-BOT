@@ -48,6 +48,7 @@ export const Leave: React.FC = (props) => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href="/login";
       }
     };
     makeRequests();
@@ -69,6 +70,7 @@ export const Leave: React.FC = (props) => {
         message: message,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   const Enableleave = () => {
@@ -89,6 +91,7 @@ export const Leave: React.FC = (props) => {
         action: "leave",
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   if (loading) {

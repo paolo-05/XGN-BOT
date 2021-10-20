@@ -49,6 +49,7 @@ export const Logging: React.FC = (props) => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href="/login";
       }
     };
     makeRequests();
@@ -86,6 +87,7 @@ export const Logging: React.FC = (props) => {
         action: "log",
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   if (loading) {

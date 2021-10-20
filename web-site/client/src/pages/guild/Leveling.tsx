@@ -48,6 +48,7 @@ export const Leveling: React.FC = (props) => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href="/login";
       }
     };
     makeRequests();
@@ -69,6 +70,7 @@ export const Leveling: React.FC = (props) => {
         message: message,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   const Enableleveling = () => {
@@ -89,6 +91,7 @@ export const Leveling: React.FC = (props) => {
         action: "leveling",
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
   if (loading) {
     return <Loading />;

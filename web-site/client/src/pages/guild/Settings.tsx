@@ -36,6 +36,7 @@ export const Settings: React.FC = () => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href="/login";
       }
     };
     makeRequests();
@@ -56,6 +57,7 @@ export const Settings: React.FC = () => {
         prefix: newPrefix,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   if (loading) {

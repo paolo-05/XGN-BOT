@@ -30,6 +30,7 @@ export const Welcome: React.FC = (props) => {
         message: message,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
 
   const EnableWelcome = () => {
@@ -40,6 +41,7 @@ export const Welcome: React.FC = (props) => {
         guild_id: guildID,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.");
   };
   const disableWelcome = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -87,6 +89,7 @@ export const Welcome: React.FC = (props) => {
         setUser(userRes.data);
         setLoading(false);
       } else {
+        window.location.href="/login";
       }
     };
     makeRequests();
