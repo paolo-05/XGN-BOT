@@ -59,6 +59,18 @@ class FunCog(Cog, name="fun"):
 
                 await ctx.send(file=discord.File(imageData, 'tweet.png'))
 
+    @cog_slash(name="tweet", description="sends a faked tweet with a message")
+    async def _tweet(self, ctx, *, message):
+        username = ctx.author.name
+        avatar = ctx.author.avatar_url_as(format="png", size=512)
+
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://some-random-api.ml/canvas/tweet?username={username}&displayname={username}&avatar={avatar}&comment={message}") as gayImg:
+                imageData = io.BytesIO(await gayImg.read())
+                await s.close()
+
+                await ctx.send(file=discord.File(imageData, 'tweet.png'))
+
     @commands.command(name="echo", aliases=["say"], help="Repeat a message")
     @cooldown(1, 15, BucketType.guild)
     async def echo_message(self, ctx, *, message):

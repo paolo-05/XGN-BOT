@@ -1,175 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { User, Status } from "../types";
+import { Status } from "../types";
 
 import config from "../config.json";
-import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import "./guild/styles.css";
 import { NavLink } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+import { NavBar } from "../components/NavBar";
 
 export const Homepage: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState<Status | null>(null);
-  const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
     axios.get(`${config.BOT_API_URL}/status`).then((resp) => {
       setStatus(resp.data);
     });
-
-    if (accessToken) {
-      axios
-        .get(`${config.API_URL}/users/me`, {
-          headers: {
-            access_token: accessToken,
-          },
-        })
-        .then((resp) => {
-          const user: User = resp.data;
-          setUser(user);
-          setLoading(false);
-        })
-        .catch((e) => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [accessToken]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
+  }, []);
+  document.title = `XGN BOT`;
   return (
     <div>
-      <style></style>
-      <div id="top" style={{ height: 12, background: "var(--background)" }}>
-        <nav
-          className="navbar navbar-light navbar-expand fixed-top"
-          style={{
-            color: "var(--main-color)",
-            borderTopWidth: 6,
-            borderTopStyle: "solid",
-            background: "var(--background)",
-          }}
-        >
-          <div className="container-fluid">
-            <NavLink
-              className="navbar-brand"
-              to={"/"}
-              style={{
-                color: "var(--main-color)",
-                fontFamily: "Alfa Slab One",
-              }}
-            >
-              XGN BOT
-            </NavLink>
-            <button
-              data-toggle="collapse"
-              className="navbar-toggler"
-              data-target="#navcol-1"
-            >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navcol-1">
-              <ul className="nav navbar-nav">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active smoothScroll"
-                    href="#feature"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    See Features
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link smoothScroll"
-                    to="/commands"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Commands
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link smoothScroll"
-                    to="https://discord.gg/8V62RTS25Q"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Support Guild
-                  </NavLink>
-                </li>
-
-                {!accessToken ? (
-                  <li className="nav-item">
-                    <NavLink
-                      className="nav-link smoothScroll"
-                      to="/login"
-                      style={{ color: "var(--text-color)" }}
-                    >
-                      Login
-                    </NavLink>
-                  </li>
-                ) : (
-                  <>
-                    <li className="nav-item">
-                      <img
-                        src={user?.avatar_url}
-                        width="42"
-                        alt=""
-                        className="rounded-full nav-link"
-                      />
-                    </li>
-                    <li className="nav-item">
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          style={{
-                            background: "var(--background)",
-                            border: "none",
-                          }}
-                        >
-                          {user?.username}#{user?.discriminator}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu
-                          variant="dark"
-                          style={{ background: "var(--background)" }}
-                        >
-                          <Dropdown.Item className="nav-link">
-                            <NavLink
-                              to="/guilds"
-                              style={{ color: "var(--text-color)" }}
-                              className="nav-link"
-                            >
-                              My servers
-                            </NavLink>
-                          </Dropdown.Item>
-                          <Dropdown.Item>
-                            <NavLink
-                              to="/logout"
-                              style={{
-                                color: "#ff0000",
-                              }}
-                              className="nav-link"
-                            >
-                              Logout
-                            </NavLink>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </li>
-                  </>
-                )}
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <NavBar />
       <header
         className="d-xl-flex flex-column justify-content-xl-center align-items-xl-center"
         style={{
@@ -180,11 +30,11 @@ export const Homepage: React.FC = () => {
         }}
       >
         <img
-          className="rounded center"
+          className="center"
           src="https://cdn.discordapp.com/attachments/785971390977277992/894499601590128640/logo.png"
           width="150"
           height="150"
-          style={{ marginTop: 30 }}
+          style={{ marginTop: 30, borderRadius: "50%" }}
           alt=""
         />
         <h1
@@ -252,35 +102,21 @@ export const Homepage: React.FC = () => {
             >
               Support Guild
             </a>
-            {!accessToken ? (
-              <NavLink
-                className="btn btn-primary smoothScroll shadow-none"
-                to="/login"
-                role="button"
-                style={{
-                  margin: 5,
-                  backgroundColor: "var(--main-color)",
-                  borderColor: "var(--main-color)",
-                  borderRadius: 10,
-                }}
-              >
-                Login
-              </NavLink>
-            ) : (
-              <NavLink
-                className="btn btn-primary smoothScroll shadow-none"
-                to="/guilds"
-                role="button"
-                style={{
-                  margin: 5,
-                  backgroundColor: "var(--main-color)",
-                  borderColor: "var(--main-color)",
-                  borderRadius: 10,
-                }}
-              >
-                Dashboard
-              </NavLink>
-            )}
+            <a
+              className="btn btn-primary smoothScroll shadow-none"
+              role="button"
+              style={{
+                margin: 5,
+                backgroundColor: "var(--main-color)",
+                borderColor: "var(--main-color)",
+                borderRadius: 10,
+              }}
+              href="https://stats.uptimerobot.com/8gl1PCXOr7"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Service Status
+            </a>
           </div>
         </div>
       </header>

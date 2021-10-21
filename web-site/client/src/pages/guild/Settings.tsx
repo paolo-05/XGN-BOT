@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { User, GuildConfig } from "../../types";
+import { GuildConfig } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
-import { Loading } from "../../components/Loading";
-import { NavLink } from "react-router-dom";
+import { Side } from "../../components/SideBar";
 
 export const Settings: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   var pathArray = window.location.pathname.split("/");
   const guildID = pathArray[2];
   useEffect(() => {
@@ -27,16 +24,8 @@ export const Settings: React.FC = () => {
           }
         );
         setGuild(guildsRes.data);
-        await new Promise((r) => setTimeout(r, 500));
-        const userRes = await axios.get(`${config.API_URL}/users/me`, {
-          headers: {
-            access_token: accessToken,
-          },
-        });
-        setUser(userRes.data);
-        setLoading(false);
       } else {
-        window.location.href="/login";
+        window.location.href = "/login";
       }
     };
     makeRequests();
@@ -59,86 +48,12 @@ export const Settings: React.FC = () => {
     }).then((response) => response.json());
     alert("All settings are carefully saved.");
   };
-
-  if (loading) {
-    return <Loading />;
-  }
-
+  document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
     <div>
-      <div className="sidebar close">
-        <div className="logo-details">
-          <i className="bx bx-library"></i>
-          <span className="logo_name" style={{ width: "50%", height: "50%" }}>
-            XGN BOT
-          </span>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}`}>
-              <i className="bx bx-home"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/welcome`}>
-              <i className="bx bx-log-in-circle"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/leave`}>
-              <i className="bx bx-log-out-circle"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/leveling`}>
-              <i className="bx bx-stats"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/logging`}>
-              <i className="bx bx-history"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={`/guilds/${guildConfig?.guild_id}/settings`}
-              style={{ background: "#00ddff" }}
-            >
-              <i className="bx bx-cog"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/leaderboard/${guildConfig?.guild_id}`}>
-              <i className="bx bx-align-justify"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/guilds">
-              <i className="bx bx-arrow-back"></i>
-              <span className="link_name">Back to Servers List</span>
-            </NavLink>
-          </li>
-          <li>
-            <div className="profile-details">
-              <div className="profile-content">
-                <img src={user?.avatar_url} alt="" />
-              </div>
-              <div className="name-job">
-                <div className="profile_name">
-                  {user?.username}#{user?.discriminator}
-                </div>
-              </div>
-              <a href="/logout">
-                <i className="bx bx-log-out"></i>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <Side />
       <section className="home-section" style={{ background: "#2c2f33" }}>
         <div className="container">
-          <h1 className="tex-center">{guildConfig?.name}</h1>
-          <br />
           <div className="row">
             <div className="col-sm-6">
               <div

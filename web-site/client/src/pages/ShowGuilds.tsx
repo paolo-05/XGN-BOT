@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Guild, User } from "../types";
+import { Guild } from "../types";
 import axios from "axios";
 
 import "./guild/styles.css";
 
 import config from "../config.json";
-import { Loading } from "../components/Loading";
 import { NavLink } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+import { NavBar } from "../components/NavBar";
 
 export const ShowGuilds: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [guilds, setGuilds] = useState<Array<Guild> | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -25,127 +22,17 @@ export const ShowGuilds: React.FC = () => {
           },
         });
         setGuilds(guildsRes.data.guilds);
-        await new Promise((r) => setTimeout(r, 500));
-        const userRes = await axios.get(`${config.API_URL}/users/me`, {
-          headers: {
-            access_token: accessToken,
-          },
-        });
-        setUser(userRes.data);
-        setLoading(false);
       } else {
         window.location.href = "/login";
       }
     };
     makeRequests();
   }, []);
-  if (loading) {
-    return <Loading />;
-  }
+  document.title = `XGN BOT - Guilds`;
 
   return (
     <div className="features-boxed" style={{ background: "var(--background" }}>
-      <div id="top" style={{ height: 12, background: "var(--background)" }}>
-        <nav
-          className="navbar navbar-light navbar-expand fixed-top"
-          style={{
-            color: "var(--main-color)",
-            borderTopWidth: 6,
-            borderTopStyle: "solid",
-            background: "var(--background)",
-          }}
-        >
-          <div className="container-fluid">
-            <NavLink
-              className="navbar-brand"
-              to={"/"}
-              style={{
-                color: "var(--main-color)",
-                fontFamily: "Alfa Slab One",
-              }}
-            >
-              XGN BOT
-            </NavLink>
-            <button
-              data-toggle="collapse"
-              className="navbar-toggler"
-              data-target="#navcol-1"
-            >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navcol-1">
-              <ul className="nav navbar-nav">
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link active smoothScroll"
-                    to="/#feature"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    See Features
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link smoothScroll"
-                    to="/commands"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Commands
-                  </NavLink>
-                </li>
-
-                <li className="nav-item">
-                  <img
-                    src={user?.avatar_url}
-                    width="42"
-                    alt=""
-                    className="rounded-full nav-link"
-                  />
-                </li>
-                <li className="nav-item">
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      style={{
-                        background: "var(--background)",
-                        border: "none",
-                      }}
-                    >
-                      {user?.username}#{user?.discriminator}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu
-                      variant="dark"
-                      style={{ background: "var(--background)" }}
-                    >
-                      <Dropdown.Item className="nav-link">
-                        <NavLink
-                          to="/guilds"
-                          style={{ color: "var(--text-color)" }}
-                          className="nav-link"
-                        >
-                          My servers
-                        </NavLink>
-                      </Dropdown.Item>
-                      <Dropdown.Item>
-                        <NavLink
-                          to="/logout"
-                          style={{
-                            color: "#ff0000",
-                          }}
-                          className="nav-link"
-                        >
-                          Logout
-                        </NavLink>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <NavBar />
       <div className="container mx-auto h-screen">
         <div className="flex items-center h-full justify-center">
           <div className="h-3/4">

@@ -1,147 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { User } from "../types";
-import { NavLink } from "react-router-dom";
+import React from "react";
 
-import config from "../config.json";
-import { Loading } from "../components/Loading";
 import "./guild/styles.css";
 import { Footer } from "../components/Footer";
-import { Dropdown } from "react-bootstrap";
+import { NavBar } from "../components/NavBar";
 
 export const Commands: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const accessToken = localStorage.getItem("access_token");
 
-  useEffect(() => {
-    if (accessToken) {
-      axios
-        .get(`${config.API_URL}/users/me`, {
-          headers: {
-            access_token: accessToken,
-          },
-        })
-        .then((resp) => {
-          const user: User = resp.data;
-          setUser(user);
-          setLoading(false);
-        })
-        .catch((e) => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [accessToken]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
+  document.title = `XGN BOT - Commands`;
   return (
     <div>
-      <style></style>
-      <div id="top" style={{ height: 12, background: "var(--background)" }}>
-        <nav
-          className="navbar navbar-light navbar-expand fixed-top"
-          style={{
-            color: "var(--main-color)",
-            borderTopWidth: 6,
-            borderTopStyle: "solid",
-            background: "var(--background)",
-          }}
-        >
-          <div className="container-fluid">
-            <NavLink
-              className="navbar-brand"
-              to={"/"}
-              style={{
-                color: "var(--main-color)",
-                fontFamily: "Alfa Slab One",
-              }}
-            >
-              XGN BOT
-            </NavLink>
-            <button
-              data-toggle="collapse"
-              className="navbar-toggler"
-              data-target="#navcol-1"
-            >
-              <span className="sr-only">Toggle navigation</span>
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navcol-1">
-              <ul className="nav navbar-nav">
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link active smoothScroll"
-                    to="/#feature"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    See Features
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link smoothScroll"
-                    to="/commands"
-                    style={{ color: "var(--text-color)" }}
-                  >
-                    Commands
-                  </NavLink>
-                </li>
-
-                <li className="nav-item">
-                  <img
-                    src={user?.avatar_url}
-                    width="42"
-                    alt=""
-                    className="rounded-full nav-link"
-                  />
-                </li>
-                <li className="nav-item">
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      style={{
-                        background: "var(--background)",
-                        border: "none",
-                      }}
-                    >
-                      {user?.username}#{user?.discriminator}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu
-                      variant="dark"
-                      style={{ background: "var(--background)" }}
-                    >
-                      <Dropdown.Item className="nav-link">
-                        <NavLink
-                          to="/guilds"
-                          style={{ color: "var(--text-color)" }}
-                          className="nav-link"
-                        >
-                          My servers
-                        </NavLink>
-                      </Dropdown.Item>
-                      <Dropdown.Item>
-                        <NavLink
-                          to="/logout"
-                          style={{
-                            color: "#ff0000",
-                          }}
-                          className="nav-link"
-                        >
-                          Logout
-                        </NavLink>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <NavBar />
       <div
         className=""
         style={{

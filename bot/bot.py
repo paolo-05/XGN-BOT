@@ -113,7 +113,7 @@ class XGNbot(commands.Bot):
 # launcher.py
 
 bot = XGNbot()
-slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
+#slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
 components = InteractionClient(bot)
 
 

@@ -1,59 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { User, GuildConfig, TextChannel } from "../../types";
+import { GuildConfig, TextChannel, User } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
-import { Loading } from "../../components/Loading";
-import { NavLink } from "react-router-dom";
+import "./side-bar.css";
+import { Side } from "../../components/SideBar";
 
-export const Leave: React.FC = (props) => {
-  const [user, setUser] = useState<User | null>(null);
+export const Leave: React.FC = () => {
   const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
   const [TextChannels, setChannels] = useState<Array<TextChannel> | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
   var pathArray = window.location.pathname.split("/");
   const guildID = pathArray[2];
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-
-    const makeRequests = async () => {
-      if (accessToken) {
-        const guildsRes = await axios.get(
-          `${config.API_URL}/guilds/${guildID}`,
-          {
-            headers: {
-              access_token: accessToken,
-              guild_id: guildID,
-            },
-          }
-        );
-        setGuild(guildsRes.data);
-        await new Promise((r) => setTimeout(r, 500));
-        const channelRes = await axios.get(
-          `${config.API_URL}/channels/${guildID}`,
-          {
-            headers: {
-              access_token: accessToken,
-              guild_id: guildID,
-            },
-          }
-        );
-        setChannels(channelRes.data.channels);
-        const userRes = await axios.get(`${config.API_URL}/users/me`, {
-          headers: {
-            access_token: accessToken,
-          },
-        });
-        setUser(userRes.data);
-        setLoading(false);
-      } else {
-        window.location.href="/login";
-      }
-    };
-    makeRequests();
-  }, [guildID]);
-
   const [message, setMessage] = useState("");
   const [channel, setChannel] = useState("");
   const handleSubmit = async () => {
@@ -93,85 +51,49 @@ export const Leave: React.FC = (props) => {
     }).then((response) => response.json());
     alert("All settings are carefully saved.");
   };
-
-  if (loading) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const makeRequests = async () => {
+      if (accessToken) {
+        const guildsRes = await axios.get(
+          `${config.API_URL}/guilds/${guildID}`,
+          {
+            headers: {
+              access_token: accessToken,
+              guild_id: guildID,
+            },
+          }
+        );
+        setGuild(guildsRes.data);
+        await new Promise((r) => setTimeout(r, 500));
+        const channelRes = await axios.get(
+          `${config.API_URL}/channels/${guildID}`,
+          {
+            headers: {
+              access_token: accessToken,
+              guild_id: guildID,
+            },
+          }
+        );
+        setChannels(channelRes.data.channels);
+        const userRes = await axios.get(`${config.API_URL}/users/me`, {
+          headers: {
+            access_token: accessToken,
+          },
+        });
+        setUser(userRes.data);
+      } else {
+        window.location.href = "/login";
+      }
+    };
+    makeRequests();
+  }, [guildID]);
+  document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
     <div>
-      <div className="sidebar close">
-        <div className="logo-details">
-          <i className="bx bx-library"></i>
-          <span className="logo_name" style={{ width: "50%", height: "50%" }}>
-            XGN BOT
-          </span>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}`}>
-              <i className="bx bx-home"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/welcome`}>
-              <i className="bx bx-log-in-circle"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={`/guilds/${guildConfig?.guild_id}/leave`}
-              style={{ background: "#00ddff" }}
-            >
-              <i className="bx bx-log-out-circle"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/leveling`}>
-              <i className="bx bx-stats"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/logging`}>
-              <i className="bx bx-history"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/guilds/${guildConfig?.guild_id}/settings`}>
-              <i className="bx bx-cog"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`/leaderboard/${guildConfig?.guild_id}`}>
-              <i className="bx bx-align-justify"></i>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/guilds">
-              <i className="bx bx-arrow-back"></i>
-              <span className="link_name">Back to Servers List</span>
-            </NavLink>
-          </li>
-          <li>
-            <div className="profile-details">
-              <div className="profile-content">
-                <img src={user?.avatar_url} alt="" />
-              </div>
-              <div className="name-job">
-                <div className="profile_name">
-                  {user?.username}#{user?.discriminator}
-                </div>
-              </div>
-              <a href="/logout">
-                <i className="bx bx-log-out"></i>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
       <section className="home-section" style={{ background: "#2c2f33" }}>
+        <Side />
         <div className="container">
-          <h1 className="tex-center">{guildConfig?.name}</h1>
-          <br />
           <div className="row">
             <div
               className="card"
