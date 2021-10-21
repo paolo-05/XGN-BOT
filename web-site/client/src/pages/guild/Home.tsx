@@ -49,12 +49,10 @@ export const Home: React.FC = () => {
 
   return (
     <div>
-      <div className="sidebar close">
+      <div className="sidebar">
         <div className="logo-details">
-          <i className="bx bx-library"></i>
-          <span className="logo_name" style={{ width: "50%", height: "50%" }}>
-            XGN BOT
-          </span>
+            <img src={guildConfig?.icon_url} alt="" width="25%" className="rounded-full"/>
+          {guildConfig?.name}
         </div>
         <ul className="nav-links">
           <li>
@@ -63,36 +61,46 @@ export const Home: React.FC = () => {
               to={`/guilds/${guildConfig?.guild_id}`}
             >
               <i className="bx bx-home"></i>
+              <span style={{ color: "white" }}>Home</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/guilds/${guildConfig?.guild_id}/welcome`}>
               <i className="bx bx-log-in-circle"></i>
+              
+              <span style={{ color: "white" }}>Welcome</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/guilds/${guildConfig?.guild_id}/leave`}>
               <i className="bx bx-log-out-circle"></i>
+              
+              <span style={{ color: "white" }}>Leave</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/guilds/${guildConfig?.guild_id}/leveling`}>
               <i className="bx bx-stats"></i>
+              
+              <span style={{ color: "white" }}>Leveling</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/guilds/${guildConfig?.guild_id}/logging`}>
               <i className="bx bx-history"></i>
+              <span style={{ color: "white" }}>Logging</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/guilds/${guildConfig?.guild_id}/settings`}>
               <i className="bx bx-cog"></i>
+              <span style={{ color: "white" }}>Settings</span>
             </NavLink>
           </li>
           <li>
             <NavLink to={`/leaderboard/${guildConfig?.guild_id}`}>
               <i className="bx bx-align-justify"></i>
+              <span style={{ color: "white" }}>Leaderboard</span>
             </NavLink>
           </li>
           <li>
@@ -120,8 +128,6 @@ export const Home: React.FC = () => {
       </div>
       <section className="home-section" style={{ background: "#2c2f33" }}>
         <div className="container">
-          <h1 className="tex-center">{guildConfig?.name}</h1>
-          <br />
           <div className="row">
             <div className="col-sm-6">
               <div className="features-boxed" style={{ background: "#2c2f33" }}>
