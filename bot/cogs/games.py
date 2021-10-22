@@ -4,8 +4,7 @@ import random
 import db
 import discord
 from discord.ext import commands
-from discord_slash import cog_ext
-from dislash import ActionRow, Button, ButtonStyle
+from dislash import ActionRow, Button, ButtonStyle, slash_command, Option, OptionType
 
 GAME_XP = 250
 
@@ -122,9 +121,6 @@ class Games(commands.Cog, name="games"):
         db.execute(
             f'UPDATE levels SET exp = exp + ? WHERE user_id = ? and guild_id = ?', GAME_XP, ctx.author.id, ctx.guild.id
         )
-        db.execute(
-            f'UPDATE levels SET exp = exp + ? WHERE user_id = ? and guild_id = ?', GAME_XP, user.id, ctx.guild.id
-        )
         db.commit()
         await Games(self.bot).run_game(ctx, user)
 
@@ -167,32 +163,54 @@ class Games(commands.Cog, name="games"):
             else:
                 await ctx.send("**I win :robot:**")
 
-    @commands.command(name="guess", help="Play game of guessing number")
-    async def guess(self, ctx, difficulty):
-        diffs = {
-            "easy": 10,
-            "medium": 50,
-            "high": 100,
-            "impossible": 1000
-        }
-        diff = ["easy", "medium", "high", "impossible"]
-        if difficulty not in diff:
-            return await ctx.send(f"Select a difficulty ({diff})")
-        await ctx.send(f'Guess a number between 1 and {diffs[difficulty]}.')
+    @slash_command(name="tictactoe", description="starts a new game of tic-tac-toe", options=[
+        Option("user", "mention the user to play against",
+               OptionType.USER, required=True)
+    ])
+    async def _tictactoe(self, ctx, user: discord.Member = None):
+        db.execute(
+            f'UPDATE levels SET exp = exp + ? WHERE user_id = ? and guild_id = ?', GAME_XP, ctx.author.id, ctx.guild.id
+        )
+        db.commit()
+        await Games(self.bot).run_game(ctx, user)
 
-        def is_correct(m):
-            return m.author == ctx.author and m.content.isdigit()
+    @slash_command(name='rps', description="play Rock, Paper, Scissors game")
+    async def _rps(self, ctx):
+        db.execute(
+            f'UPDATE levels SET exp = exp + ? WHERE user_id = ? AND guild_id = ?', GAME_XP, ctx.author.id, ctx.guild.id
+        )
+        db.commit()
 
-        answer = random.randint(1, diffs[difficulty])
+        def check_win(p, b):
+            if p == '🌑':
+                return False if b == '📄' else True
+            if p == '📄':
+                return False if b == '✂' else True
+            # p=='✂'
+            return False if b == '🌑' else True
+
+        async with ctx.typing():
+            reactions = ['🌑', '📄', '✂']
+            game_message = await ctx.send("**Rock Paper Scissors**\nChoose your shape:", delete_after=15.0)
+            for reaction in reactions:
+                await game_message.add_reaction(reaction)
+            bot_emoji = random.choice(reactions)
+
+        def check(reaction, user):
+            return user != self.bot.user and user == ctx.author and (str(reaction.emoji) == '🌑' or '📄' or '✂')
         try:
-            guess = await self.bot.wait_for('message', check=is_correct, timeout=5.0)
+            reaction, _ = await self.bot.wait_for('reaction_add', timeout=10.0, check=check)
         except asyncio.TimeoutError:
-            return await ctx.send(f'Sorry, you took too long it was {answer}.')
-
-        if int(guess.content) == answer:
-            await ctx.send('You are right!')
+            await ctx.send("Time's Up! :stopwatch:")
         else:
-            await ctx.send(f'Oops. It is actually {answer}.')
+            await ctx.send(f"**:man_in_tuxedo_tone1:\t{reaction.emoji}\n:robot:\t{bot_emoji}**")
+            # if conds
+            if str(reaction.emoji) == bot_emoji:
+                await ctx.send("**It's a Tie :ribbon:**")
+            elif check_win(str(reaction.emoji), bot_emoji):
+                await ctx.send("**You win :sparkles:**")
+            else:
+                await ctx.send("**I win :robot:**")
 
 
 def setup(bot):

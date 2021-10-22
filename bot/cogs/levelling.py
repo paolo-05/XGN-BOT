@@ -8,6 +8,8 @@ from discord.ext.commands import command
 from discord.ext.menus import ListPageSource
 from dislash import ActionRow, Button, ButtonStyle
 from models import GuildConfig, LevelUpConfig
+from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+                     slash_command)
 
 intents = discord.Intents.all()
 
@@ -184,6 +186,56 @@ class LvlCog(commands.Cog, name="levelling"):
 
     @command(name="leaderboard", help="Shows the leaderboard of the server based on the XP")
     async def display_leaderboard(self, ctx):
+        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
+        if not config.level_up_enabled:
+            return await ctx.send('Levelling system plugin not enabled. Please contact a mod.')
+        if config.level_up_enabled:
+            # records = db.records(
+            #    f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.guild.id}' ORDER BY exp DESC")
+
+            # menu = MenuPages(source=HelpMenu(ctx, records),
+            # clear_reactions_after=True,
+            # timeout=60.0)
+            # await menu.start(ctx)
+            row = ActionRow(
+                Button(style=ButtonStyle.link, label=f"{ctx.guild.name} Leaderboard",
+                       url=f"https://xgnbot.xyz/leaderboard/{ctx.guild.id}")
+            )
+            await ctx.send("Ok, you got it.", components=[row])
+
+    @slash_command(name="rank", description="See the level and the rank", options=[
+        Option("user", "mention the user to see his rank", OptionType.USER)
+    ])
+    async def _rank(self, ctx, user: discord.Member = None):
+        config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
+        if not config.level_up_enabled:
+            return await ctx.send('Levelling system plugin not enabled. Please contact a mod.')
+        if config.level_up_enabled:
+            if user is None:
+                user = ctx.author
+            ans = db.record(
+                f"SELECT user_id, exp, lvl FROM levels WHERE user_id = '{user.id}' AND guild_id = '{user.guild.id}'")
+            if ans is None:
+                embed = discord.Embed(
+                    title="You haven't sended messages yet, for the rank you need at least to send one message!!", colour=user.colour)
+                await ctx.channel.send(embed=embed)
+            else:
+                xp = int(ans[1])
+                lvl = int(ans[2])
+                ids = db.column(
+                    f"SELECT user_id FROM levels WHERE guild_id = '{user.guild.id}' ORDER BY exp DESC")
+                rank = (ids.index(user.id)+1)
+                embed = discord.Embed(title="STATS", colour=user.colour)
+                embed.add_field(name="NAME", value=user.mention, inline=False)
+                embed.add_field(name="XP", value=f"{xp}", inline=True)
+                embed.add_field(name="LEVEL", value=f"{lvl}", inline=True)
+                embed.add_field(
+                    name="RANK", value=f"{rank}/{user.guild.member_count}", inline=True)
+                embed.set_thumbnail(url=user.avatar_url)
+                await ctx.channel.send(embed=embed)
+
+    @slash_command(name="leaderboard", description="Shows the leaderboard of the server based on the XP")
+    async def _display_leaderboard(self, ctx):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         if not config.level_up_enabled:
             return await ctx.send('Levelling system plugin not enabled. Please contact a mod.')

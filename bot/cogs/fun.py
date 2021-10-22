@@ -1,13 +1,15 @@
 import io
 from random import choice
+
 import aiohttp
 import discord
-
 from aiohttp import request
 from discord import Embed, Member
 from discord.ext import commands
 from discord.ext.commands import (BadArgument, BucketType, Cog,
                                   MissingRequiredArgument, cooldown)
+from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+                     slash_command)
 
 
 class FunCog(Cog, name="fun"):
@@ -22,33 +24,8 @@ class FunCog(Cog, name="fun"):
     async def say_hello(self, ctx):
         await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
 
-    @commands.command(name="slap", aliases=["hit"], help="Slap an user")
-    async def slap_member(self, ctx, member: Member, *, reason: str):
-        if reason == None:
-            reason = "none"
-        await ctx.send(f"{ctx.author.display_name} slapped {member.mention} {reason}!")
-
-    @slap_member.error
-    async def slap_member_error(self, ctx, exc):
-        if isinstance(exc, MissingRequiredArgument):
-            await ctx.send('Please add all the required args: `!slap <user> <reason>`')
-        if isinstance(exc, BadArgument):
-            await ctx.send("I can't find that member.")
-
     @commands.command(name="tweet", help="sends a faked tweet with a message")
     async def tweet(self, ctx, *, message):
-        username = ctx.author.name
-        avatar = ctx.author.avatar_url_as(format="png", size=512)
-
-        async with aiohttp.ClientSession() as s:
-            async with s.get(f"https://some-random-api.ml/canvas/tweet?username={username}&displayname={username}&avatar={avatar}&comment={message}") as gayImg:
-                imageData = io.BytesIO(await gayImg.read())
-                await s.close()
-
-                await ctx.send(file=discord.File(imageData, 'tweet.png'))
-
-    @cog_slash(name="tweet", description="sends a faked tweet with a message")
-    async def _tweet(self, ctx, *, message):
         username = ctx.author.name
         avatar = ctx.author.avatar_url_as(format="png", size=512)
 
@@ -109,6 +86,89 @@ class FunCog(Cog, name="fun"):
     @commands.command(name="fact", help="Sends a fact about an animal")
     @cooldown(3, 60, BucketType.guild)
     async def animal_fact(self, ctx, animal: str):
+        if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
+            fact_url = f"https://some-random-api.ml/facts/{animal}"
+            image_url = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"
+
+            async with request("GET", image_url, headers={}) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    image_link = data["link"]
+
+                else:
+                    image_link = None
+
+            async with request("GET", fact_url, headers={}) as response:
+                if response.status == 200:
+                    data = await response.json()
+
+                    embed = Embed(title=f"{animal.title()} fact",
+                                  description=data["fact"],
+                                  colour=ctx.author.colour)
+                    if image_link is not None:
+                        embed.set_image(url=image_link)
+                    await ctx.send(embed=embed)
+
+                else:
+                    await ctx.send(f"API returned a {response.status} status.")
+        else:
+            await ctx.send("No facts are available for that animal.")
+
+    @slash_command(name="hello", description="Say hello")
+    async def _say_hello(self, ctx):
+        await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
+
+    @slash_command(name="tweet", description="sends a faked tweet with a message", options=[Option("message", "set the message that will appear as tweet", OptionType.STRING)])
+    async def tweet(self, ctx, *, message):
+        username = ctx.author.name
+        avatar = ctx.author.avatar_url_as(format="png", size=512)
+
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://some-random-api.ml/canvas/tweet?username={username}&displayname={username}&avatar={avatar}&comment={message}") as gayImg:
+                imageData = io.BytesIO(await gayImg.read())
+                await s.close()
+
+                await ctx.send(file=discord.File(imageData, 'tweet.png'))
+
+    @slash_command(name="meme", description="Sends a random meme")
+    async def meme(self, ctx):
+        image = f"https://some-random-api.ml/meme"
+        async with request("GET", image, headers={}) as response:
+            if response.status == 200:
+                data = await response.json()
+                image_link = data["image"]
+                data = await response.json()
+                embed = Embed(title=data["caption"],
+                              colour=ctx.author.colour)
+                if image_link is not None:
+                    embed.set_image(url=image_link)
+                    embed.set_footer(text=data["category"])
+                await ctx.send(embed=embed)
+            else:
+                await ctx.send(f"API returned a {response.status} status.")
+
+    @slash_command(name="token", description="Returns a 100%" + " real discord token")
+    async def _app_token(self, ctx):
+
+        token = f"https://some-random-api.ml/bottoken"
+
+        async with request("GET", token, headers={}) as response:
+            if response.status == 200:
+                data = await response.json()
+                token_link = data["token"]
+
+                embed = Embed(title=f"here you are the 100%" + " real token of this bot", description=token_link,
+                              colour=ctx.author.colour)
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(f"API returned a {response.status} status.")
+
+    @slash_command(name="fact", description="Sends a fact about an animal", options=[
+        Option("animal", "dog/cat/panda/fox/bird/koala",
+               OptionType.STRING, required=True)
+    ])
+    async def _animal_fact(self, ctx, animal: str):
         if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
             fact_url = f"https://some-random-api.ml/facts/{animal}"
             image_url = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"

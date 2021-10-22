@@ -5,8 +5,7 @@ from glob import glob
 import discord
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext import commands
-from discord_slash import SlashCommand
-from dislash import InteractionClient
+from dislash import InteractionClient, ContextMenuInteraction
 from tortoise import Tortoise
 
 import constants
@@ -109,20 +108,29 @@ class XGNbot(commands.Bot):
         if not msg.author.bot:
             await self.process_commands(msg)
 
+        if bot.user.mentioned_in(msg):
+            embed = discord.Embed(title="🤖 XGN BOT 🤖",
+                                  description=f"👋 | Hi \n\n" +
+                                  f"🧷 | my prefix here is `{await get_prefix(bot, msg)}`\n\n"
+                                  + "🆘 | `!help` to see all the commands available")
+            embed.set_thumbnail(url=bot.user.avatar_url)
+            await msg.reply(embed=embed)
+
 
 # launcher.py
 
 bot = XGNbot()
-components = InteractionClient(bot, sync_commands=False)
+components = InteractionClient(
+    bot, sync_commands=True, test_guilds=[872957721589219409])
 
 
-@bot.event()
-async def on_message(message):
-    if bot.user.mentioned_in(message):
-        embed = discord.Embed(title="🤖 XGN BOT 🤖", description=f"Hello there" +
-                              f"\nmy prefix here is {await get_prefix(bot, message)}"
-                              + "However you can change this whenere you want")
-        await message.channel.send(embed=embed)
+@components.user_command(name="Created at")
+async def created_at(inter: ContextMenuInteraction):
+    # User commands always have only this ^ argument
+    await inter.respond(
+        f"{inter.user} was created at {inter.user.created_at}",
+        ephemeral=True  # Make the message visible only to the author
+    )
 
 
 def main():

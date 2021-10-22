@@ -15,7 +15,6 @@ class Config(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        print(f"Loaded {self.__class__.__name__} cog")
 
     @commands.command(name="prefix", help="select the prefix for your server")
     @commands.has_guild_permissions(manage_guild=True)
