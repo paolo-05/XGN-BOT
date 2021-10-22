@@ -4,7 +4,7 @@ import time
 import discord
 import requests
 from discord.ext import commands
-from models import (GuildConfig, LeaveConfig, LevelUpConfig, LogChannel,
+from models import (GuildConfig, LeaveConfig,
                     WelcomeConfig)
 from requests import get
 

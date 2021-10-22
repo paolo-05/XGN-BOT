@@ -50,40 +50,6 @@ class Dictionary(commands.Cog, name="dictionary"):
 
                 await ctx.send(embed=embed)
 
-    @cog_slash(name="urban", description="Returns an explanation of the term of your choice")
-    async def _urban(self, ctx: SlashContext, query: str):
-        if ctx.channel.is_nsfw():
-            term = ''.join(query)
-            url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
-            querystring = {"term": term}
-
-            headers = {
-                'x-rapidapi-key': f"{self.key}",
-                'x-rapidapi-host': "mashape-community-urban-dictionary.p.rapidapi.com"
-            }
-
-            async with ClientSession() as session:
-                async with session.get(url, headers=headers, params=querystring) as response:
-                    r = await response.json()
-                    definition = r['list'][0]['definition']
-                    example = r['list'][0]['example']
-                    thumbs_up = r['list'][0]['thumbs_up']
-                    thumbs_down = r['list'][0]['thumbs_down']
-                    embed = discord.Embed(
-                        title=f"First result for: {term}", colour=ctx.author.color)
-                    embed.add_field(name="DEFINITION",
-                                    value=definition, inline=False)
-                    embed.add_field(name="EXAMPLES",
-                                    value=example, inline=False)
-                    embed.add_field(
-                        name=f":thumbsup: : {thumbs_up}", value="Likes", inline=False)
-                    embed.add_field(
-                        name=f":thumbsdown: {thumbs_down}", value="Dislikes", inline=False)
-
-                    await ctx.send(embed=embed)
-        else:
-            await ctx.send("You need to use this command in a nsfw channel!")
-
 
 def setup(bot):
     bot.add_cog(Dictionary(bot))

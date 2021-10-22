@@ -9,8 +9,6 @@ import aiohttp
 import discord
 import wavelink
 from discord.ext import commands
-from discord_slash import SlashContext
-from discord_slash.cog_ext import cog_slash
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 LYRICS_URL = "https://some-random-api.ml/lyrics?title="
@@ -325,23 +323,9 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         elif isinstance(obj, discord.Guild):
             return self.wavelink.get_player(obj.id, cls=Player)
 
-    def _get_player(self, obj):
-        if isinstance(obj, SlashContext):
-            return self.wavelink.get_player(obj.guild.id, cls=Player, context=obj)
-        elif isinstance(obj, discord.Guild):
-            return self.wavelink.get_player(obj.id, cls=Player)
-
     @commands.command(name="connect", help="Connect to a voice channel")
     async def connect_command(self, ctx, *, channel: t.Optional[discord.VoiceChannel]):
         player = self.get_player(ctx)
-        channel = await player.connect(ctx, channel)
-        await ctx.send(f"Connected to {channel.name}.")
-
-    @cog_slash(name="connect", description="Connect to a voice channel")
-    async def _connect_command(self, ctx: SlashContext, channel: discord.VoiceChannel = None):
-        if (channel := getattr(ctx.author.voice, "channel", channel)) is None:
-            return await ctx.send("No suitable voice channel was provided.")
-        player = self._get_player(ctx)
         channel = await player.connect(ctx, channel)
         await ctx.send(f"Connected to {channel.name}.")
 
@@ -358,12 +342,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.teardown()
         await ctx.send("Disconnected.")
 
-    @cog_slash(name="disconnect", description="Disconnect from a voice channel")
-    async def _disconnect_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-        await player.teardown()
-        await ctx.send("Disconnected.")
-
     @commands.command(name="play", help="Play a song by a url or a keyword")
     async def play_command(self, ctx, *, query: str = None):
         player = self.get_player(ctx)
@@ -374,27 +352,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         if query is None:
             if player.queue.is_empty:
                 raise QueueIsEmpty
-
-            await player.set_pause(False)
-            await ctx.send("Playback resumed.")
-
-        else:
-            query = query.strip("<>")
-            if not re.match(URL_REGEX, query):
-                query = f"ytsearch:{query}"
-
-            await player.add_tracks(ctx, await self.wavelink.get_tracks(query))
-
-    @cog_slash(name="play", description="Play a song by a url or a keyword")
-    async def _play_command(self, ctx: SlashContext, query: str = None):
-        player = self._get_player(ctx)
-
-        if not player.is_connected:
-            await player.connect(ctx)
-
-        if query is None:
-            if player.queue.is_empty:
-                return await ctx.send('The queue is empty')
 
             await player.set_pause(False)
             await ctx.send("Playback resumed.")
@@ -423,16 +380,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.set_pause(True)
         await ctx.send("Playback paused.")
 
-    @cog_slash(name="pause", description="Pause the current song.")
-    async def _pause_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-
-        if player.is_paused:
-            return await ctx.send('Already paused.')
-
-        await player.set_pause(True)
-        await ctx.send("Playback paused.")
-
     @pause_command.error
     async def pause_command_error(self, ctx, exc):
         if isinstance(exc, PlayerIsAlreadyPaused):
@@ -445,29 +392,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.stop()
         await ctx.send("Playback stopped.")
 
-    @cog_slash(name="stop", description="Stop playback")
-    async def _stop_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-        player.queue.empty()
-        await player.stop()
-        await ctx.send("Playback stopped.")
-
     @commands.command(name="next", aliases=["skip"], help="Skip playback")
     async def next_command(self, ctx):
         player = self.get_player(ctx)
 
         if not player.queue.upcoming:
             raise NoMoreTracks
-
-        await player.stop()
-        await ctx.send("Playing next track in queue.")
-
-    @cog_slash(name="next", description="Skip playback")
-    async def _next_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-
-        if not player.queue.upcoming:
-            return await ctx.send("There are no more tracks in the queue.")
 
         await player.stop()
         await ctx.send("Playing next track in queue.")
@@ -490,17 +420,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.stop()
         await ctx.send("Playing previous track in queue.")
 
-    @cog_slash(name="previous", description="Plays the previous track")
-    async def _previous_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-
-        if not player.queue.history:
-            return await ctx.send("There are no previous tracks in the queue.")
-
-        player.queue.position -= 2
-        await player.stop()
-        await ctx.send("Playing previous track in queue.")
-
     @previous_command.error
     async def previous_command_error(self, ctx, exc):
         if isinstance(exc, QueueIsEmpty):
@@ -511,12 +430,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
     @commands.command(name="shuffle", help="Shuffles the queue")
     async def shuffle_command(self, ctx):
         player = self.get_player(ctx)
-        player.queue.shuffle()
-        await ctx.send("Queue shuffled.")
-
-    @cog_slash(name="shuffle", description="Shuffles the queue")
-    async def _shuffle_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
         player.queue.shuffle()
         await ctx.send("Queue shuffled.")
 
@@ -532,13 +445,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
 
         await ctx.send("The queue has been cleared.")
 
-    @cog_slash(name="clear_queue", description="Clear the queue")
-    async def _clear_queue(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-        player.queue.empty()
-
-        await ctx.send("The queue has been cleared.")
-
     @commands.command(name="loop", help="Enables the looping of music")
     async def repeat_command(self, ctx, mode: str):
         if mode not in ("none", "1", "all"):
@@ -548,52 +454,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         player.queue.set_repeat_mode(mode)
         await ctx.send(f"The repeat mode has been set to {mode}.")
 
-    @cog_slash(name="loop", description="Enables the looping of music")
-    async def _repeat_command(self, ctx: SlashContext, mode: str):
-        if mode not in ("none", "1", "all"):
-            return await ctx.send('The loop mod must be **none**, **1** or **all**')
-
-        player = self._get_player(ctx)
-        player.queue.set_repeat_mode(mode)
-        await ctx.send(f"The repeat mode has been set to {mode}.")
-
     @commands.command(name="queue", help="Shows the queue")
     async def queue_command(self, ctx, show: t.Optional[int] = 10):
         player = self.get_player(ctx)
 
         if player.queue.is_empty:
             raise QueueIsEmpty
-
-        embed = discord.Embed(
-            title="Queue",
-            description=f"Showing up to next {show} tracks",
-            colour=ctx.author.colour,
-            timestamp=dt.datetime.utcnow()
-        )
-        embed.set_author(name="Query Results")
-        embed.set_footer(
-            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-        embed.add_field(
-            name="Currently playing",
-            value=getattr(player.queue.current_track, "title",
-                          "No tracks currently playing."),
-            inline=False
-        )
-        if upcoming := player.queue.upcoming:
-            embed.add_field(
-                name="Next up",
-                value="\n".join(t.title for t in upcoming[:show]),
-                inline=False
-            )
-
-        await ctx.send(embed=embed)
-
-    @cog_slash(name="queue", description="Shows the queue")
-    async def _queue_command(self, ctx: SlashContext, show: int = 10):
-        player = self._get_player(ctx)
-
-        if player.queue.is_empty:
-            return await ctx.send('The queue is empty')
 
         embed = discord.Embed(
             title="Queue",
@@ -701,30 +567,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
                 embed.set_author(name=data["author"])
                 await ctx.send(embed=embed)
 
-    @cog_slash(name="lyrics", description="Lyrics")
-    async def _lyrics_command(self, ctx: SlashContext, name: str = None):
-        player = self._get_player(ctx)
-        name = name or player.queue.current_track.title
-
-        async with aiohttp.request("GET", LYRICS_URL + name, headers={}) as r:
-            if not 200 <= r.status <= 299:
-                return await ctx.send("Lyric not foud")
-
-            data = await r.json()
-
-            if len(data["lyrics"]) > 2000:
-                return await ctx.send(f"<{data['links']['genius']}>")
-
-            embed = discord.Embed(
-                title=data["title"],
-                description=data["description"]["lyrics"],
-                colour=ctx.author.colour,
-                timestamp=dt.datetime.utcnow(),
-            )
-            embed.set_thumbnail(url=data["thumbnail"]["genius"])
-            embed.set_author(name=data["author"])
-            await ctx.send(embed=embed)
-
     @lyrics_command.error
     async def lyrics_command_error(self, ctx, exc):
         if isinstance(exc, NoLyricsFound):
@@ -733,19 +575,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
     @commands.command(name="eq", help="Set the type of the equalizer")
     async def eq_command(self, ctx, preset: str):
         player = self.get_player(ctx)
-
-        eq = getattr(wavelink.eqs.Equalizer, preset, None)
-        if not eq:
-            raise InvalidEQPreset
-
-        await player.set_eq(eq())
-        await ctx.send(f"Equaliser adjusted to the {preset} preset.")
-
-    @cog_slash(name="eq", description="Set the type of the equalizer")
-    async def _eq_command(self, ctx: SlashContext, preset: str):
-        if preset not in ['flat', 'boost', 'metal', 'piano']:
-            await ctx.send("The EQ preset must be either 'flat', 'boost', 'metal', or 'piano'.")
-        player = self._get_player(ctx)
 
         eq = getattr(wavelink.eqs.Equalizer, preset, None)
         if not eq:
@@ -789,36 +618,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
 
         await ctx.send(embed=embed)
 
-    @cog_slash(name="playing", description="Shows the current playback")
-    async def _playing_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-
-        if not player.is_playing:
-            return await ctx.send('Currently not playing.')
-
-        embed = discord.Embed(
-            title="Now playing",
-            colour=ctx.author.colour,
-            timestamp=dt.datetime.utcnow(),
-        )
-        embed.set_author(name="Playback Information")
-        embed.set_footer(
-            text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-        embed.add_field(name="Track title",
-                        value=player.queue.current_track.title, inline=False)
-        embed.add_field(
-            name="Artist", value=player.queue.current_track.author, inline=False)
-
-        position = divmod(player.position, 60000)
-        length = divmod(player.queue.current_track.length, 60000)
-        embed.add_field(
-            name="Position",
-            value=f"{int(position[0])}:{round(position[1]/1000):02}/{int(length[0])}:{round(length[1]/1000):02}",
-            inline=False
-        )
-
-        await ctx.send(embed=embed)
-
     @playing_command.error
     async def playing_command_error(self, ctx, exc):
         if isinstance(exc, PlayerIsAlreadyPaused):
@@ -838,20 +637,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
         await player.stop()
         await ctx.send(f"Playing track in position {index}.")
 
-    @cog_slash(name="skipto", description="Go to a specific track in the queue.")
-    async def _skipto_command(self, ctx: SlashContext, index: int):
-        player = self._get_player(ctx)
-
-        if player.queue.is_empty:
-            return await ctx.send('The queue is empty')
-
-        if not 0 <= index <= player.queue.length:
-            return await ctx.send("That index is out of the bounds of the queue.")
-
-        player.queue.position = index - 2
-        await player.stop()
-        await ctx.send(f"Playing track in position {index}.")
-
     @skipto_command.error
     async def skipto_command_error(self, ctx, exc):
         if isinstance(exc, QueueIsEmpty):
@@ -860,7 +645,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
             await ctx.send("That index is out of the bounds of the queue.")
 
     @commands.command(name="restart", help="Restart the song.")
-    async def restart_command(self, ctx: SlashContext):
+    async def restart_command(self, ctx):
         player = self.get_player(ctx)
 
         if player.queue.is_empty:
@@ -873,16 +658,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
     async def restart_command_error(self, ctx, exc):
         if isinstance(exc, QueueIsEmpty):
             await ctx.send("There are no tracks in the queue.")
-
-    @cog_slash(name="restart", description="Restart the song.")
-    async def _restart_command(self, ctx: SlashContext):
-        player = self._get_player(ctx)
-
-        if player.queue.is_empty:
-            return await ctx.send('The queue is empty')
-
-        await player.seek(0)
-        await ctx.send("Track restarted.")
 
     @restart_command.error
     async def restart_command_error(self, ctx, exc):
@@ -898,24 +673,6 @@ class Music(commands.Cog, wavelink.WavelinkMixin, name="music"):
 
         if not (match := re.match(TIME_REGEX, position)):
             raise InvalidTimeString
-
-        if match.group(3):
-            secs = (int(match.group(1)) * 60) + (int(match.group(3)))
-        else:
-            secs = int(match.group(1))
-
-        await player.seek(secs * 1000)
-        await ctx.send("Seeked.")
-
-    @cog_slash(name="seek", description="Seek the queue")
-    async def _seek_command(self, ctx: SlashContext, position: str):
-        player = self._get_player(ctx)
-
-        if player.queue.is_empty:
-            raise QueueIsEmpty
-
-        if not (match := re.match(TIME_REGEX, position)):
-            return await ctx.send('The time position is not correct')
 
         if match.group(3):
             secs = (int(match.group(1)) * 60) + (int(match.group(3)))

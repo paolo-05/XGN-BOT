@@ -76,13 +76,13 @@ export const NavBar: React.FC = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink
+                <a
                   className="nav-link smoothScroll"
-                  to="https://discord.gg/8V62RTS25Q"
+                  href="https://discord.gg/8V62RTS25Q"
                   style={{ color: "var(--text-color)" }}
                 >
                   Support Guild
-                </NavLink>
+                </a>
               </li>
 
               {!accessToken ? (

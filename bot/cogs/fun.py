@@ -3,13 +3,11 @@ from random import choice
 import aiohttp
 import discord
 
-import requests
 from aiohttp import request
 from discord import Embed, Member
 from discord.ext import commands
 from discord.ext.commands import (BadArgument, BucketType, Cog,
                                   MissingRequiredArgument, cooldown)
-from discord_slash.cog_ext import cog_slash
 
 
 class FunCog(Cog, name="fun"):
@@ -24,18 +22,8 @@ class FunCog(Cog, name="fun"):
     async def say_hello(self, ctx):
         await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
 
-    @cog_slash(name="hello", description="Say hello")
-    async def _say_hello(self, ctx):
-        await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
-
     @commands.command(name="slap", aliases=["hit"], help="Slap an user")
     async def slap_member(self, ctx, member: Member, *, reason: str):
-        if reason == None:
-            reason = "none"
-        await ctx.send(f"{ctx.author.display_name} slapped {member.mention} {reason}!")
-
-    @cog_slash(name="slap", description="Slap an user")
-    async def _slap_member(self, ctx, member: Member, *, reason: str):
         if reason == None:
             reason = "none"
         await ctx.send(f"{ctx.author.display_name} slapped {member.mention} {reason}!")
@@ -100,23 +88,6 @@ class FunCog(Cog, name="fun"):
             else:
                 await ctx.send(f"API returned a {response.status} status.")
 
-    @cog_slash(name="meme", description="Sends a random meme")
-    async def _meme(self, ctx):
-        image = f"https://some-random-api.ml/meme"
-        async with request("GET", image, headers={}) as response:
-            if response.status == 200:
-                data = await response.json()
-                image_link = data["image"]
-                data = await response.json()
-                embed = Embed(title=data["caption"],
-                              colour=ctx.author.colour)
-                if image_link is not None:
-                    embed.set_image(url=image_link)
-                    embed.set_footer(text=data["category"])
-                await ctx.send(embed=embed)
-            else:
-                await ctx.send(f"API returned a {response.status} status.")
-
     @commands.command(name="token", help="Returns a 100%" + " real discord token")
     @cooldown(3, 60, BucketType.guild)
     async def app_token(self, ctx):
@@ -135,56 +106,9 @@ class FunCog(Cog, name="fun"):
             else:
                 await ctx.send(f"API returned a {response.status} status.")
 
-    @cog_slash(name="token", description="Returns a 100%" + " real discord token")
-    async def _app_token(self, ctx):
-
-        token = f"https://some-random-api.ml/bottoken"
-
-        async with request("GET", token, headers={}) as response:
-            if response.status == 200:
-                data = await response.json()
-                token_link = data["token"]
-
-                embed = Embed(title=f"here you are the 100%" + " real token of this bot", description=token_link,
-                              colour=ctx.author.colour)
-                await ctx.send(embed=embed)
-
-            else:
-                await ctx.send(f"API returned a {response.status} status.")
-
     @commands.command(name="fact", help="Sends a fact about an animal")
     @cooldown(3, 60, BucketType.guild)
     async def animal_fact(self, ctx, animal: str):
-        if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
-            fact_url = f"https://some-random-api.ml/facts/{animal}"
-            image_url = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"
-
-            async with request("GET", image_url, headers={}) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    image_link = data["link"]
-
-                else:
-                    image_link = None
-
-            async with request("GET", fact_url, headers={}) as response:
-                if response.status == 200:
-                    data = await response.json()
-
-                    embed = Embed(title=f"{animal.title()} fact",
-                                  description=data["fact"],
-                                  colour=ctx.author.colour)
-                    if image_link is not None:
-                        embed.set_image(url=image_link)
-                    await ctx.send(embed=embed)
-
-                else:
-                    await ctx.send(f"API returned a {response.status} status.")
-        else:
-            await ctx.send("No facts are available for that animal.")
-
-    @cog_slash(name="fact", description="Sends a fact about an animal")
-    async def _animal_fact(self, ctx, animal: str):
         if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
             fact_url = f"https://some-random-api.ml/facts/{animal}"
             image_url = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"

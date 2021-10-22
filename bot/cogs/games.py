@@ -167,6 +167,33 @@ class Games(commands.Cog, name="games"):
             else:
                 await ctx.send("**I win :robot:**")
 
+    @commands.command(name="guess", help="Play game of guessing number")
+    async def guess(self, ctx, difficulty):
+        diffs = {
+            "easy": 10,
+            "medium": 50,
+            "high": 100,
+            "impossible": 1000
+        }
+        diff = ["easy", "medium", "high", "impossible"]
+        if difficulty not in diff:
+            return await ctx.send(f"Select a difficulty ({diff})")
+        await ctx.send(f'Guess a number between 1 and {diffs[difficulty]}.')
+
+        def is_correct(m):
+            return m.author == ctx.author and m.content.isdigit()
+
+        answer = random.randint(1, diffs[difficulty])
+        try:
+            guess = await self.bot.wait_for('message', check=is_correct, timeout=5.0)
+        except asyncio.TimeoutError:
+            return await ctx.send(f'Sorry, you took too long it was {answer}.')
+
+        if int(guess.content) == answer:
+            await ctx.send('You are right!')
+        else:
+            await ctx.send(f'Oops. It is actually {answer}.')
+
 
 def setup(bot):
     bot.add_cog(Games(bot))

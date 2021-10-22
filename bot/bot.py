@@ -113,8 +113,16 @@ class XGNbot(commands.Bot):
 # launcher.py
 
 bot = XGNbot()
-#slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
-components = InteractionClient(bot)
+components = InteractionClient(bot, sync_commands=False)
+
+
+@bot.event()
+async def on_message(message):
+    if bot.user.mentioned_in(message):
+        embed = discord.Embed(title="🤖 XGN BOT 🤖", description=f"Hello there" +
+                              f"\nmy prefix here is {await get_prefix(bot, message)}"
+                              + "However you can change this whenere you want")
+        await message.channel.send(embed=embed)
 
 
 def main():
