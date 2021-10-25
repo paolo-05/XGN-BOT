@@ -27,8 +27,11 @@ export const Welcome: React.FC = (props) => {
         channel_id: channel,
         message: message,
       },
-    }).then((response) => response.json());
-    alert("All settings are carefully saved.");
+    }).then((response) => {
+      response.json();
+      alert("All settings are carefully saved.");
+    });
+    
   };
 
   const EnableWelcome = () => {
@@ -38,8 +41,11 @@ export const Welcome: React.FC = (props) => {
       headers: {
         guild_id: guildID,
       },
-    }).then((response) => response.json());
-    alert("All settings are carefully saved.");
+    }).then((response) => {
+      response.json()
+      window.location.reload();
+    });
+    
   };
   const disableWelcome = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -49,7 +55,11 @@ export const Welcome: React.FC = (props) => {
         guild_id: guildID,
         action: "welcome",
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      response.json()
+      window.location.reload();
+    });
+    
   };
 
   useEffect(() => {

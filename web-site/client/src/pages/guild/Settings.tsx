@@ -45,8 +45,11 @@ export const Settings: React.FC = () => {
         guild_id: guildID,
         prefix: newPrefix,
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      response.json()
     alert("All settings are carefully saved.");
+  });
+    
   };
   document.title = `XGN BOT - ${guildConfig?.name}`;
   return (

@@ -20,7 +20,7 @@ export const Commands: React.FC = () => {
         }}
       >
         <div style={{ textAlign: "center" }}>
-          <h1 style={{ color: "var(--main-color)" }}>Commands</h1>
+          <h1 style={{ color: "var(--main-color)" }}><span style={{fontFamily: "Alfa Slab One"}}>XGN BOT</span> Commands</h1>
           <p>
             <b>Note: </b>all the commands are available in all servers, there's
             not and will never be a premium version for the bot.

@@ -27,8 +27,11 @@ export const Leave: React.FC = () => {
         channel_id: channel,
         message: message,
       },
-    }).then((response) => response.json());
-    alert("All settings are carefully saved.");
+    }).then((response) => {
+      response.json();
+      alert("All settings are carefully saved.");
+    });
+    
   };
 
   const Enableleave = () => {
@@ -38,7 +41,10 @@ export const Leave: React.FC = () => {
       headers: {
         guild_id: guildID,
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      response.json()
+      window.location.reload();
+    });
   };
   const disableleave = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -48,8 +54,10 @@ export const Leave: React.FC = () => {
         guild_id: guildID,
         action: "leave",
       },
-    }).then((response) => response.json());
-    alert("All settings are carefully saved.");
+    }).then((response) => {
+      response.json()
+      window.location.reload();
+    });
   };
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");

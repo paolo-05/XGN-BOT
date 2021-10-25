@@ -57,6 +57,7 @@ export const Logging: React.FC = (props) => {
         channel_id: channel,
       },
     }).then((response) => response.json());
+    alert("All settings are carefully saved.")
   };
 
   const Enablelogging = () => {
@@ -67,6 +68,7 @@ export const Logging: React.FC = (props) => {
         guild_id: guildID,
       },
     }).then((response) => response.json());
+    window.location.reload();
   };
   const disablelogging = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -76,9 +78,14 @@ export const Logging: React.FC = (props) => {
         guild_id: guildID,
         action: "log",
       },
-    }).then((response) => response.json());
-    alert("All settings are carefully saved.");
+    }).then((response) => {
+      response.json()
+      window.location.reload();
+    }
+      );
+    
   };
+
   document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
     <div>
