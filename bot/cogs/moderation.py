@@ -63,6 +63,7 @@ class ModCog(commands.Cog, name="moderation"):
             json.dump(report, f)
 
     @commands.command(name="warnings", help="See the number of warnings for an user")
+    @has_permissions(manage_roles=True, kick_members=True)
     async def warnings(self, ctx, user: discord.User):
         for current_user in report['users']:
             if user.id == current_user['name'] and current_user['guild_id'] == ctx.guild.id:
@@ -141,6 +142,7 @@ class ModCog(commands.Cog, name="moderation"):
         Option("user", "mention the user that you want to see the number of warnings",
                OptionType.USER, required=True)
     ])
+    @dislash.has_permissions(manage_roles=True, kick_members=True)
     async def _warnings(self, ctx, user: discord.User):
         for current_user in report['users']:
             if user.id == current_user['name'] and current_user['guild_id'] == ctx.guild.id:

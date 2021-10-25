@@ -131,7 +131,7 @@ class FunCog(Cog, name="fun"):
                 await ctx.send(file=discord.File(imageData, 'tweet.png'))
 
     @slash_command(name="meme", description="Sends a random meme")
-    async def meme(self, ctx):
+    async def _meme(self, ctx):
         image = f"https://some-random-api.ml/meme"
         async with request("GET", image, headers={}) as response:
             if response.status == 200:

@@ -108,7 +108,9 @@ class XGNbot(commands.Bot):
         if not msg.author.bot:
             await self.process_commands(msg)
 
-        if bot.user.mentioned_in(msg):
+        message = msg.content.split()
+
+        if bot.user.mentioned_in(msg) and not ("@everyone" in message or "@here" in message):
             embed = discord.Embed(title="🤖 XGN BOT 🤖",
                                   description=f"👋 | Hi \n\n" +
                                   f"🧷 | my prefix here is `{await get_prefix(bot, msg)}`\n\n"

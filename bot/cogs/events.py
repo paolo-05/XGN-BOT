@@ -2,10 +2,11 @@ import json
 import time
 
 import discord
+import dislash
 import requests
 from discord.ext import commands
 from models import (GuildConfig, LeaveConfig,
-                    WelcomeConfig)
+                    WelcomeConfig, LogChannel, LevelUpConfig)
 from requests import get
 
 
@@ -64,6 +65,17 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        for guild in self.bot.guilds:
+            try:
+                config = await GuildConfig(id=guild.id)
+                config.prefix = '!'
+                config.welcome_enabled = False
+                config.leave_enabled = False
+                config.level_up_enabled = False
+                config.log_enabled = False
+                await config.save()
+            except:
+                print('All guilds modified')
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
         self.message = text
@@ -164,6 +176,10 @@ class Events(commands.Cog):
                 await ctx.send(embed=embed)
         except:
             await ctx.send('command not found')
+
+    @commands.Cog.listener()
+    async def on_slash_command_error(self, ctx, error):
+        await ctx.send("The slash command handler is in beta so it's common that this can happen. Please be patient.")
 
 
 def setup(bot: commands.Bot):
