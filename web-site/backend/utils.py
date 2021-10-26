@@ -63,22 +63,15 @@ async def get_guild_channels(guild_id: int):
     resp = requests.get(
         f"https://discord.com/api/v6/guilds/{guild_id}/channels", headers={"Authorization": f"Bot {token}"}
     )
-    channels = []
-    for i in resp.json():
-        if i['type'] == 0:
-            channels.append({
-                'id': i['id'],
-                'name': i['name'],
-                'guild_id': i['guild_id']
-            })
 
-    return channels
+    return [{
+        'id': i['id'],
+        'name': i['name'],
+        'guild_id': i['guild_id']
+    } for i in resp.json() if i['type'] == 0]
 
 
 async def get_channel_by_id(guild_id: int, channel_id: str):
     channels = await get_guild_channels(guild_id)
-    for channel in channels:
-        if channel['id'] == channel_id:
-            channel_name = channel['name']
 
-    return channel_name
+    return [channel['name'] for channel in channels if channel['id'] == channel_id]

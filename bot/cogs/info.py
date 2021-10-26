@@ -157,7 +157,7 @@ class InfoCog(commands.Cog, name="meta"):
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def show_bot_stats(self, ctx, guild_id: int = None):
+    async def show_bot_stats_(self, ctx, guild_id: int = None):
         if guild_id is None:
             embed = discord.Embed(title='Bot Servers')
             for guild in self.bot.guilds:

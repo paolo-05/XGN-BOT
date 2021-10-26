@@ -123,7 +123,7 @@ class XGNbot(commands.Bot):
 
 bot = XGNbot()
 components = InteractionClient(
-    bot, sync_commands=True, test_guilds=[872957721589219409])
+    bot, test_guilds=[872957721589219409])
 
 
 @components.user_command(name="Created at")

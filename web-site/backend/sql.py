@@ -4,13 +4,12 @@ from tortoise import Tortoise
 from models import GuildConfig, WelcomeConfig, LeaveConfig, LevelUpConfig, LogChannel
 
 
-async def connect_db():  # ensatblize the connectio wih the database
+async def connect_db():
     await Tortoise.init(
         db_url="postgres://xgnbot:12345@207.180.214.184:5432/bot",
         modules={'models': ['models']}
     )
     await Tortoise.generate_schemas()
-    #print("db conection established")
 
 
 async def get_config(guild_id):
@@ -29,8 +28,6 @@ async def get_config(guild_id):
                 welcome_channel = False
             else:
                 welcome_message = welcome_conf.message
-                welcome_channel_id = welcome_conf.channel_id
-
                 welcome_channel = welcome_conf.channel_name
 
         else:
@@ -43,8 +40,6 @@ async def get_config(guild_id):
                 leave_channel = False
             else:
                 leave_message = leave_conf.message
-                leave_channel_id = leave_conf.channel_id
-
                 leave_channel = leave_conf.channel_name
         else:
             leave_message = False
@@ -54,8 +49,6 @@ async def get_config(guild_id):
             if log_conf is None:
                 log_channel = False
             else:
-                log_channel_id = log_conf.channel_id
-
                 log_channel = log_conf.channel_name
         else:
             log_channel = False
@@ -66,8 +59,6 @@ async def get_config(guild_id):
                 level_channel = False
             else:
                 level_message = level_conf.message
-                level_channel_id = level_conf.channel_id
-
                 level_channel = level_conf.channel_name
         else:
             level_message = False
