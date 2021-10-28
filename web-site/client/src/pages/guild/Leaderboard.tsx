@@ -8,10 +8,10 @@ import { NavBar } from "../../components/NavBar";
 export const Leaderboard: React.FC = () => {
   const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
   const [leaderboard, setLeaderboard] = useState<Array<User> | null>(null);
-  const guildID = window.location.pathname.replace("/leaderboard/", "");
 
   useEffect(() => {
     const makeRequests = async () => {
+      const guildID = window.location.pathname.replace("/leaderboard/", "");
       const userRes = await axios.get(
         `${config.API_URL}/leaderboard/${guildID}`
       );
@@ -19,7 +19,7 @@ export const Leaderboard: React.FC = () => {
       setLeaderboard(userRes.data.leaderboard);
     };
     makeRequests();
-  });
+  }, []);
 
   return (
     <div>

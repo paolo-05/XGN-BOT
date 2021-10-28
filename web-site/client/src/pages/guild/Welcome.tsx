@@ -31,7 +31,6 @@ export const Welcome: React.FC = (props) => {
       response.json();
       alert("All settings are carefully saved.");
     });
-    
   };
 
   const EnableWelcome = () => {
@@ -42,10 +41,9 @@ export const Welcome: React.FC = (props) => {
         guild_id: guildID,
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
     });
-    
   };
   const disableWelcome = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -56,10 +54,9 @@ export const Welcome: React.FC = (props) => {
         action: "welcome",
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
     });
-    
   };
 
   useEffect(() => {
@@ -222,10 +219,10 @@ export const Welcome: React.FC = (props) => {
                             }}
                           >
                             {
-                              // eslint-disable-next-line
                               <a
                                 href="https://some-random-api.ml/"
                                 target="_blank"
+                                rel="noreferrer"
                               >
                                 powered by some random api
                               </a>

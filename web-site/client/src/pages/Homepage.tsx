@@ -21,126 +21,91 @@ export const Homepage: React.FC = () => {
     <div>
       <NavBar />
       <header
-        className="d-xl-flex flex-column justify-content-xl-center align-items-xl-center"
+        className="container"
         style={{
           height: 418,
-          textAlign: "center",
+          textAlign: "left",
           margin: 55,
-          alignItems: "center",
+          alignItems: "left",
         }}
       >
-        <img
-          className="center"
-          src="https://cdn.discordapp.com/attachments/785971390977277992/894499601590128640/logo.png"
-          width="150"
-          height="150"
-          style={{ marginTop: 30, borderRadius: "50%" }}
-          alt=""
-        />
-        <h1
-          className="d-xl-flex justify-content-xl-start"
-          style={{ color: "var(--text-color)" }}
-        >
-          XGN BOT
-        </h1>
-        <p style={{ color: "var(--secondary-text-color)" }}>
-          a bot full of features,
-          <br /> a complete web-dashboard, it has a levelling system,
-          <br />
-          some fun commands and a pretty good moderation
-        </p>
-        <div className="tada animated">
-          <div role="group" className="btn-group">
-            <NavLink
-              onClick={() => {
-                window.open(
-                  "https://cutt.ly/XGNbot",
-                  "Invite",
-                  "width=450,height=750"
-                );
-              }}
-              className="btn btn-primary shadow-none"
-              type="button"
+        <div className="row">
+          <div className="col-sm-6 col-md-5 col-lg-4 item">
+            <h1
+              className=""
               style={{
-                margin: 5,
-                backgroundColor: "var(--main-color)",
-                borderColor: "var(--main-color)",
-                borderRadius: 10,
+                color: "var(--text-color)",
+                textAlign: "left",
               }}
-              to={"/"}
             >
-              Invite Me
-            </NavLink>
+              Build the best Discord Server!
+            </h1>
+            <p
+              style={{
+                color: "var(--secondary-text-color)",
+              }}
+            >
+              Configure welcome, levelling, logging and more with the most easy
+              to use dashboard
+            </p>
+            <div style={{ alignItems: "center" }}>
+              <div role="group" className="btn-group">
+                <NavLink
+                  className="btn btn-primary shadow-none"
+                  type="button"
+                  style={{
+                    margin: 5,
+                    backgroundColor: "var(--main-color)",
+                    borderColor: "var(--main-color)",
+                    borderRadius: 10,
+                  }}
+                  to="/guilds"
+                >
+                  Invite Me
+                </NavLink>
 
-            <a
-              className="btn btn-primary smoothScroll shadow-none"
-              role="button"
-              style={{
-                margin: 5,
-                backgroundColor: "var(--main-color)",
-                borderColor: "var(--main-color)",
-                borderRadius: 10,
-              }}
-              href="#feature"
-            >
-              See Features
-            </a>
+                <a
+                  className="btn btn-primary smoothScroll shadow-none"
+                  role="button"
+                  style={{
+                    margin: 5,
+                    backgroundColor: "grey",
+                    borderColor: "grey",
+                    borderRadius: 10,
+                  }}
+                  href="#feature"
+                >
+                  See Features
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="tada animated">
-          <div role="group" className="btn-group">
-            <a
-              className="btn btn-primary smoothScroll shadow-none"
-              role="button"
-              style={{
-                margin: 5,
-                backgroundColor: "var(--main-color)",
-                borderColor: "var(--main-color)",
-                borderRadius: 10,
-              }}
-              href="https://discord.gg/8V62RTS25Q"
+          <div className="col-sm-6 col-md-5 col-lg-4 item center">
+            <h3>Bot Stats</h3>
+            Status:{" "}
+            <h6
+              className={`bg-${
+                status ? "green" : "red"
+              }-500 text-white font-bold py-2 px-4 rounded`}
+              style={{ width: 100 }}
             >
-              Support Guild
-            </a>
-            <a
-              className="btn btn-primary smoothScroll shadow-none"
-              role="button"
-              style={{
-                margin: 5,
-                backgroundColor: "var(--main-color)",
-                borderColor: "var(--main-color)",
-                borderRadius: 10,
-              }}
-              href="https://stats.uptimerobot.com/8gl1PCXOr7"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Service Status
-            </a>
+              {status ? "Online" : "Offline"}
+            </h6>
+            Servers: {status ? status.guilds : "N/A"}
+            <br />
+            Ping: {status ? status.ping : "N/A"}
           </div>
         </div>
       </header>
-      <div id="feature" style={{ height: 90, background: "var(--secondary)" }}>
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path
-              fill="var(--background)"
-              fillOpacity="1"
-              d="M0,96L40,112C80,128,160,160,240,144C320,128,400,64,480,48C560,32,640,64,720,69.3C800,75,880,53,960,58.7C1040,64,1120,96,1200,96C1280,96,1360,64,1400,48L1440,32L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"
-            ></path>
-          </svg>
-        </div>
-      </div>
+      <div
+        id="feature"
+        style={{ height: 90, background: "var(--secondary)" }}
+      ></div>
       <div
         className="features-boxed"
         style={{ background: "var(--secondary)" }}
       >
         <div className="container" style={{ color: "var(--main-color)" }}>
-          <div className="intro">
-            <h2 className="text-center" style={{ color: "var(--text-color)" }}>
-              XGN BOT Features
-            </h2>
-          </div>
           <div className="row justify-content-center features">
             <div className="col-sm-6 col-md-5 col-lg-4 item">
               <div id="features" className="box" style={{ borderRadius: 34 }}>
@@ -274,7 +239,7 @@ export const Homepage: React.FC = () => {
                   className="bx bxs-time-five"
                   style={{ fontSize: 64, margin: 10 }}
                 ></i>
-                <h3 className="name">Fastest And Human Support</h3>
+                <h3 className="name">Fast And Human Support</h3>
                 <p
                   className="description"
                   style={{ color: "var(--secondary-text-color)" }}
@@ -291,21 +256,7 @@ export const Homepage: React.FC = () => {
         </div>
         <div></div>
       </div>
-      <div style={{ background: "var(--background)" }}>
-        <div style={{ height: 150, overflow: "hidden" }}>
-          <svg
-            viewBox="0 0 500 150"
-            preserveAspectRatio="none"
-            style={{ height: "100%", width: "100%" }}
-          >
-            <path
-              d="M-41.53,-9.56 C167.83,173.98 302.14,-60.89 534.09,89.10 L500.00,0.00 L0.00,0.00 Z"
-              style={{ stroke: "none", fill: "var(--secondary)" }}
-            ></path>
-          </svg>
-        </div>
-      </div>
-      <div id="commands">
+      <div>
         <section>
           <div className="container-fluid text-white">
             <div
@@ -313,100 +264,46 @@ export const Homepage: React.FC = () => {
               style={{ color: "var(--secondary-text-color)" }}
             >
               <div className="col-auto col-md-6 col-lg-4 text-center pb-5 pt-5 number-item love_counter">
-                <h1 className="love_count" style={{ fontSize: 70 }}>
-                  <strong>{status?.guilds}</strong>
-                </h1>
-                <h4 style={{ color: "var(--main-color)", marginTop: -6 }}>
-                  Total Servers
-                </h4>
-              </div>
-              <div className="col-auto col-lg-4 text-center align-self-center pb-5 pt-5 love_counter">
-                <h1 className="love_count" style={{ fontSize: 70 }}>
-                  <strong>{status?.users}</strong>
-                </h1>
-                <h4 style={{ color: "var(--main-color)", marginTop: -6 }}>
-                  Total Users
-                </h4>
-              </div>
-              <div className="col-auto col-lg-4 text-center align-self-center pb-5 pt-5 love_counter">
-                <h1 style={{ fontSize: 70 }}>
-                  <strong>{status?.ping} ms</strong>
-                </h1>
-                <h4 style={{ color: "var(--main-color)", marginTop: -6 }}>
-                  Latency
-                </h4>
+                <h3>Trusted by over {status?.guilds} servers.</h3>
               </div>
             </div>
           </div>
         </section>
       </div>
-
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path
-          fill="var(--secondary)"
-          fillOpacity="1"
-          d="M0,160L48,154.7C96,149,192,139,288,154.7C384,171,480,213,576,218.7C672,224,768,192,864,181.3C960,171,1056,181,1152,192C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-      </svg>
-      <div
-        className="footer-dark"
-        style={{
-          background: "var(--secondary)",
-          paddingTop: 0,
-          paddingBottom: 0,
-        }}
-      >
+      <div className="container">
         <div
-          className="container"
           style={{
-            background: "#2c2f33",
-            borderRadius: 34,
-            textAlign: "center",
+            background: `url(/assets/leaves.png)`,
+            height: 366,
           }}
+          className="img-container d-xl-flex flex-column justify-content-xl-center align-items-xl-center"
         >
-          <h1>Ready to start?</h1>
-          <div role="group" className="btn-group">
-            <div className="tada animated">
-              <div role="group" className="btn-group">
-                <NavLink
-                  to="/guilds"
-                  className="btn btn-primary shadow-none"
-                  type="button"
-                  style={{
-                    margin: 5,
-                    backgroundColor: "#7289da",
-                    borderColor: "#7289da",
-                    borderRadius: 10,
-                  }}
-                >
-                  Invite Me
-                </NavLink>
-              </div>
-            </div>
-          </div>
-          <h3>Or</h3>
-          <div role="group" className="btn-group">
-            <div className="tada animated">
-              <div role="group" className="btn-group">
-                <a
-                  href="https://discord.gg/8V62RTS25Q"
-                  className="btn btn-primary shadow-none"
-                  type="button"
-                  style={{
-                    margin: 5,
-                    backgroundColor: "#7289da",
-                    borderColor: "#7289da",
-                    borderRadius: 10,
-                  }}
-                >
-                  Join Support Guild
-                </a>
-              </div>
-            </div>
-          </div>
+          <br />
+          <h1 className="text-center">
+            Personalize your own Discord server <br />
+            today for free
+          </h1>
+          <br />
+          <p style={{}}>
+            <NavLink
+              className="btn btn-primary shadow-none"
+              type="button"
+              style={{
+                margin: 25,
+                backgroundColor: "var(--main-color)",
+                borderColor: "var(--main-color)",
+                borderRadius: 10,
+                alignItems: "center",
+              }}
+              to="/guilds"
+            >
+              Add to Discord
+            </NavLink>
+          </p>
         </div>
-        <Footer />
       </div>
+
+      <Footer />
     </div>
   );
 };

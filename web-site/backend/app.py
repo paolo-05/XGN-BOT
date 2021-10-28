@@ -144,27 +144,18 @@ async def guild(request, guild_id):
 
 @app.route('/leaderboard/<guild_id>')
 async def leaderboard(request, guild_id: int):
-    start = time.time()
     guild_info = await utils.get_guild_data(guild_id)
     if not guild_info:
         return json({"error": "Invalid guilds"}, status=400)
     data = {
         'guild_id': guild_id,
     }
-    leaderboard_users = []
     r = requests.post(f'{constants.BOT_API_URL}/leaderboard', json=data)
-    counter = 0
-    for i in r.json()['leaderboard']:
-        user = await utils.get_user_info_by_id(i['user'])
-        xp = i['exp']
-        lvl = i['lvl']
-        counter += 1
-        leaderboard_users.append(
-            {'username': user, 'xp': xp, 'lvl': lvl, 'counter': counter})
+
     return json({
         "name": guild_info['name'],
         'guild_id': guild_id,
-        'leaderboard': leaderboard_users,
+        'leaderboard': [{'username': await utils.get_user_info_by_id(i['user']), 'xp': i['exp'], 'lvl': i['lvl'], 'counter': i['counter']} for i in r.json()['leaderboard']],
     })
 
 

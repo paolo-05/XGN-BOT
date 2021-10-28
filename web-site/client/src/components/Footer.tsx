@@ -13,36 +13,102 @@ export const Footer: React.FC = () => {
     >
       <div className="container">
         <div className="row">
-          <div className="col item social">
-            <a className="smoothScroll" href="#top">
-              <i className="icon ion-android-arrow-up"></i>
-            </a>
+          <div className="col-sm-6">
+            <div
+              className="card"
+              style={{
+                background: "var(--main-color)",
+                borderColor: "var(--main-color)",
+              }}
+            >
+              <div className="card-body">
+                <h2 style={{ fontFamily: "Alfa Slab One" }}>XGN BOT</h2>
+                <p>
+                  designed by paolo#5731 with{" "}
+                  <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-6">
+            <div
+              className="card"
+              style={{
+                background: "var(--main-color)",
+                borderColor: "var(--main-color)",
+              }}
+            >
+              <div className="card-body">
+                <h4>Links:</h4>
+                <p>
+                  <ul>
+                    <li>
+                      <a
+                        href="https://discord.gg/8V62RTS25Q"
+                        rel="noreferrer"
+                        target="_blank"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Support Guild
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://discord.gg/kzDM85gXKB"
+                        rel="noreferrer"
+                        target="_blank"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Community Server
+                      </a>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/privacy"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Privacy Policy
+                      </NavLink>
+                    </li>
+                    <li>
+                      <a
+                        href="https://stats.uptimerobot.com/8gl1PCXOr7"
+                        rel="noreferrer"
+                        target="_blank"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Service Status
+                      </a>
+                    </li>
+                  </ul>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <p className="copyright" style={{ color: "var(--text-color)" }}>
-          XGN BOT © 2021
-        </p>
-        <p
-          className="copyright"
-          style={{ color: "var(--text-color)", padding: 0 }}
-        >
-          Need help?
-          <a style={{ color: "#bbb" }} href="https://discord.gg/8V62RTS25Q" className="nav-link">
-            Support Guild
+        <br />
+        <h6 style={{ textAlign: "center" }}>XGN BOT © 2021</h6>
+        <h6 style={{ textAlign: "center" }}>
+          not affiliated with{" "}
+          <a
+            href="https://discord.com"
+            style={{ textDecoration: "none", color: "var(--secondary-color)" }}
+          >
+            discord.com
           </a>
-        </p>
-        <p
-          className="copyright"
-          style={{ color: "var(--text-color)", padding: 0 }}
-        >
-          Made by paolo#5731 with{" "}
-          <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
-          <br />
-          Not affiliated with discord.com <br />
-          <NavLink style={{ color: "var(--text-color)" }} to="/privacy" className="nav-link">
-            Privacy Policy
-          </NavLink>
-        </p>
+        </h6>
       </div>
     </div>
   );

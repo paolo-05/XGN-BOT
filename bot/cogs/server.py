@@ -81,13 +81,15 @@ class Server(commands.Cog):
             f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{guild_id}' ORDER BY exp DESC")
 
         leaderboard = []
-
+        j = 1
         for record in records:
             leaderboard.append({
+                'rank': j,
                 'user': record[0],
                 'exp': record[1],
                 'lvl': record[2]
             })
+            j += 1
 
         return web.json_response({"leaderboard": leaderboard}, status=200)
 

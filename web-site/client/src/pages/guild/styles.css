@@ -6,7 +6,6 @@
   --text-color: #fff;
   --secondary-text-color: #dcdcdc;
 }
-
 p {
   color: var(--text-color);
 }

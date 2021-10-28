@@ -76,7 +76,6 @@ class FunOverlaysCog(Cog, name="fun_images"):
     @slash_command(name="gay", description="Creates an image with the LGBTQI+XSXWWSD overlay", options=[
         Option("user", "mention the user that you want to see infos", OptionType.USER)
     ])
-    @dislash.cooldown(3, 60, BucketType.guild)
     async def _gay(self, ctx, user: discord.Member = None):
         if not user:
             user = ctx.author
@@ -92,8 +91,7 @@ class FunOverlaysCog(Cog, name="fun_images"):
     @slash_command(help="Creates an image with the GTA wasted overlay", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
-    @dislash.cooldown(3, 60, BucketType.guild)
-    async def wasted(self, ctx, user: discord.Member = None):
+    async def _wasted(self, ctx, user: discord.Member = None):
         if not user:
             user = ctx.author
 
@@ -108,7 +106,6 @@ class FunOverlaysCog(Cog, name="fun_images"):
     @slash_command(name="capture", description="Creates an image with a jail", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
-    @dislash.cooldown(3, 60, BucketType.guild)
     async def _capture(self, ctx, user: discord.Member = None):
         if not user:
             user = ctx.author
@@ -124,7 +121,6 @@ class FunOverlaysCog(Cog, name="fun_images"):
     @slash_command(name="triggered", description="Creates a gif with the triggered overlay", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
-    @dislash.cooldown(3, 60, BucketType.guild)
     async def _triggered(self, ctx, user: discord.Member = None):
         if not user:
             user = ctx.author

@@ -28,11 +28,12 @@ export const NavBar: React.FC = () => {
   return (
     <div id="top" style={{ height: 12, background: "var(--background)" }}>
       <nav
-        className="navbar navbar-light navbar-expand fixed-top"
+        className="navbar navbar-dark navbar-expand fixed-top"
         style={{
           color: "var(--main-color)",
           borderTopWidth: 6,
           borderTopStyle: "solid",
+          borderColor: "var(--main-color)",
           background: "var(--background)",
         }}
       >
@@ -45,6 +46,14 @@ export const NavBar: React.FC = () => {
               fontFamily: "Alfa Slab One",
             }}
           >
+            <img
+              className="d-inline-block align-text-top"
+              src="logo.svg"
+              width="30"
+              height="30"
+              style={{ borderRadius: "50%" }}
+              alt=""
+            />{" "}
             XGN BOT
           </NavLink>
           <button
