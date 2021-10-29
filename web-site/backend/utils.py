@@ -64,5 +64,6 @@ async def get_guild_channels(guild_id: int):
 
 async def get_channel_by_id(guild_id: int, channel_id: str):
     channels = await get_guild_channels(guild_id)
-
-    return [channel['name'] for channel in channels if channel['id'] == channel_id]
+    channel_name = [channel['name']
+                    for channel in channels if channel['id'] == channel_id]
+    return channel_name[0]

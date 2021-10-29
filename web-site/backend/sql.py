@@ -6,7 +6,7 @@ from models import GuildConfig, WelcomeConfig, LeaveConfig, LevelUpConfig, LogCh
 
 async def connect_db():
     await Tortoise.init(
-        db_url="postgres://xgnbot:12345@207.180.214.184:5432/bot",
+        db_url="postgres://xgnbot:12345@localhost:5432/bot",
         modules={'models': ['models']}
     )
     await Tortoise.generate_schemas()
@@ -159,7 +159,7 @@ async def level_system(guild_id, message, channel_id, channel_name):
 
 async def log_system(guild_id, channel_id, channel_name):
     await connect_db()
-
+    print(channel_name)
     config = await GuildConfig.filter(id=guild_id).get_or_none()
     log_conf = await LogChannel.filter(guild_id=guild_id).get_or_none()
     if config.log_enabled == False:
@@ -168,6 +168,7 @@ async def log_system(guild_id, channel_id, channel_name):
     else:
         if log_conf is not None:
             log_conf.channel_id = channel_id
+            log_conf.channel_name = channel_name
             await log_conf.save()
         else:
             new_config = LogChannel(
