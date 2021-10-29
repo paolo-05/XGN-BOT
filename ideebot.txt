@@ -1,8 +1,5 @@
 bot:
-    -aggiungere il gioco random;
+    -fixare gli slash commands nel fun_images cog;
     -fare il fake youtube comment e la simp card;
-    -giocare con l'api di prbots;
-    -giocare con l'api di sra;
 sito:
-    -controllare il codice del sito;
-    -pushare il codice modificato;
+    //
