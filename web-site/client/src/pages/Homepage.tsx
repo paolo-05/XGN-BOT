@@ -25,7 +25,7 @@ export const Homepage: React.FC = () => {
         style={{
           height: 418,
           textAlign: "left",
-          margin: 55,
+          marginTop: 55,
           alignItems: "left",
         }}
       >
@@ -98,16 +98,14 @@ export const Homepage: React.FC = () => {
         </div>
       </header>
       <div
-        id="feature"
-        style={{ height: 90, background: "var(--secondary)" }}
-      ></div>
-      <div
         className="features-boxed"
-        style={{ background: "var(--secondary)" }}
+        style={{ background: "#2c2f33", borderRadius: "0" }}
+        id="features"
       >
         <div className="container" style={{ color: "var(--main-color)" }}>
+          <h1 className="center">Why XGN BOT?</h1>
           <div className="row justify-content-center features">
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
+            <div className="col-sm-6 item">
               <div id="features" className="box" style={{ borderRadius: 34 }}>
                 <i
                   className="bx bx-log-in-circle"
@@ -122,11 +120,26 @@ export const Homepage: React.FC = () => {
                   about your server rules, topic, or ongoing events.
                   <br />
                   The bot has a custom image for welcoming the users.
-                  <br />
                 </p>
               </div>
             </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
+            <div className="col-sm-6 item">
+              <img
+                className="img-container img-res"
+                src="/assets/welcome.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="row justify-content-center features">
+            <div className="col-sm-6 item">
+              <img
+                className="img-container img-res"
+                src="/assets/levels.png"
+                alt=""
+              />
+            </div>
+            <div className="col-sm-6 item">
               <div id="features" className="box">
                 <i
                   className="bx bx-stats"
@@ -150,7 +163,9 @@ export const Homepage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
+          </div>
+          <div className="row justify-content-center features">
+            <div className="col-sm-6 item">
               <div id="features" className="box">
                 <i
                   className="bx bx-music"
@@ -167,7 +182,23 @@ export const Homepage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
+            <div className="col-sm-6 item">
+              <img
+                src="/assets/music.png"
+                className="img-container img-res"
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="row justify-content-center features">
+            <div className="col-sm-6 item">
+              <img
+                src="/assets/tris.png"
+                alt=""
+                className="img-container  img-res"
+              />
+            </div>
+            <div className="col-sm-6 item">
               <div id="features" className="box">
                 <i
                   className="bx bx-happy-alt"
@@ -185,24 +216,9 @@ export const Homepage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
-              <div id="features" className="box">
-                <i
-                  className="bx bx-code-alt"
-                  style={{ fontSize: 64, margin: 10 }}
-                ></i>
-                <h3 className="name">Slash Commands</h3>
-                <p
-                  className="description"
-                  style={{ color: "var(--secondary-text-color)" }}
-                >
-                  For all the times you missed the prefix of a bot and the
-                  entire server has bullied you.
-                  <br />
-                </p>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
+          </div>
+          <div className="row justify-content-center features">
+            <div className="col-sm-6 item">
               <div id="features" className="box">
                 <i
                   className="bx bxs-graduation"
@@ -216,52 +232,26 @@ export const Homepage: React.FC = () => {
                   Easly moderate your server with the bot's moderation plugin.
                 </p>
               </div>
-            </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
-              <div id="features" className="box">
-                <i
-                  className="bx bx-list-ul"
-                  style={{ fontSize: 64, margin: 10 }}
-                ></i>
-                <h3 className="name">Web Dashboard</h3>
-                <p
-                  className="description"
-                  style={{ color: "var(--secondary-text-color)" }}
-                >
-                  Tired of setting up all the bot features via commands, thanks
-                  to the XGN BOT Web Dashboard you won't have to do it again.
-                </p>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-5 col-lg-4 item">
-              <div id="features" className="box">
-                <i
-                  className="bx bxs-time-five"
-                  style={{ fontSize: 64, margin: 10 }}
-                ></i>
-                <h3 className="name">Fast And Human Support</h3>
-                <p
-                  className="description"
-                  style={{ color: "var(--secondary-text-color)" }}
-                >
-                  The bot staffers are there to help you when ever you need,
-                  make sure to join the support guild or dm to{" "}
-                  <em style={{ color: "var(--main-color)" }}>paolo#5731</em> for
-                  very fast response.
-                  <br />
-                </p>
+              <div className="col-sm-6 item">
+                <img
+                  src="/assets/mod.png"
+                  alt=""
+                  className="img-container img-res"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div></div>
       </div>
       <div>
         <section>
           <div className="container-fluid text-white">
             <div
               className="row row-cols-3 justify-content-center"
-              style={{ color: "var(--secondary-text-color)" }}
+              style={{
+                color: "var(--secondary-text-color)",
+                background: "#808080",
+              }}
             >
               <div className="col-auto col-md-6 col-lg-4 text-center pb-5 pt-5 number-item love_counter">
                 <h3>Trusted by over {status?.guilds} servers.</h3>
@@ -284,7 +274,7 @@ export const Homepage: React.FC = () => {
             today for free
           </h1>
           <br />
-          <p style={{}}>
+          <p>
             <NavLink
               className="btn btn-primary shadow-none"
               type="button"

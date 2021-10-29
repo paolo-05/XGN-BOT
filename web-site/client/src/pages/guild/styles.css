@@ -6,6 +6,9 @@
   --text-color: #fff;
   --secondary-text-color: #dcdcdc;
 }
+.img-res {
+  border-radius: 30px;
+}
 p {
   color: var(--text-color);
 }

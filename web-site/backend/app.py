@@ -180,8 +180,8 @@ async def change_welcome(request):
 
     message = request.headers.get('message')
 
-    channel_id = request.headers.get('channel_id')
-    channel_name = utils.get_channel_by_id(guild_id, channel_id)
+    channel_id = str(request.headers.get('channel_id'))
+    channel_name = await utils.get_channel_by_id(guild_id, channel_id)
     await sql.welcome_event(
         guild_id, message, int(channel_id), str(channel_name))
 
@@ -205,8 +205,8 @@ async def enable_leave(request):
 async def change_leave(request):
     guild_id = request.headers.get('guild_id')
     message = request.headers.get('message')
-    channel_id = request.headers.get('channel_id')
-    channel_name = utils.get_channel_by_id(guild_id, channel_id)
+    channel_id = str(request.headers.get('channel_id'))
+    channel_name = await utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.leave_event(
         guild_id, message, int(channel_id), str(channel_name))
@@ -231,8 +231,8 @@ async def enable_leveling(request):
 async def change_leveling(request):
     guild_id = request.headers.get('guild_id')
     message = request.headers.get('message')
-    channel_id = request.headers.get('channel_id')
-    channel_name = utils.get_channel_by_id(guild_id, channel_id)
+    channel_id = str(request.headers.get('channel_id'))
+    channel_name = await utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.level_system(
         guild_id, message, int(channel_id), str(channel_name))
@@ -266,8 +266,8 @@ async def enable_log(request):
 @app.route('/api/changelog', methods=["POST"])
 async def change_log(request):
     guild_id = request.headers.get('guild_id')
-    channel_id = request.headers.get('channel_id')
-    channel_name = utils.get_channel_by_id(guild_id, channel_id)
+    channel_id = str(request.headers.get('channel_id'))
+    channel_name = await utils.get_channel_by_id(guild_id, channel_id)
 
     await sql.log_system(
         guild_id, int(channel_id), channel_name)
