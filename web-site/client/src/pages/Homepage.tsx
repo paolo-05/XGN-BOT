@@ -232,13 +232,13 @@ export const Homepage: React.FC = () => {
                   Easly moderate your server with the bot's moderation plugin.
                 </p>
               </div>
-              <div className="col-sm-6 item">
-                <img
-                  src="/assets/mod.png"
-                  alt=""
-                  className="img-container img-res"
-                />
-              </div>
+            </div>
+            <div className="col-sm-6 item">
+              <img
+                src="/assets/mod.png"
+                alt=""
+                className="img-container img-res"
+              />
             </div>
           </div>
         </div>
