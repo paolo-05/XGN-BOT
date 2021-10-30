@@ -1,5 +1,5 @@
 import io
-
+from requests import get
 import aiohttp
 import discord
 import dislash
@@ -80,15 +80,14 @@ class FunOverlaysCog(Cog, name="fun_images"):
         if not user:
             user = ctx.author
 
-        async with aiohttp.ClientSession() as gaySession:
-            async with gaySession.get(f'https://some-random-api.ml/canvas/gay?avatar={user.avatar_url_as(static_format="png", size=1024)}') as gayImg:
-                imageData = io.BytesIO(await gayImg.read())
+        url = f'https://some-random-api.ml/canvas/gay?avatar={user.avatar_url_as(static_format="png", size=1024)}'
+        resp = get(url)
+        if resp.status_code == 200:
+            open("../data/gay.png", "wb").write(resp.content)
+            with open("../data/gay.png") as f:
+                await ctx.send(file=discord.File(f))
 
-                await gaySession.close()
-
-                await ctx.send(file=discord.File(imageData, 'gay.gif'))
-
-    @slash_command(help="Creates an image with the GTA wasted overlay", options=[
+    @ slash_command(name="wasted", description="Creates an image with the GTA wasted overlay", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
     async def _wasted(self, ctx, user: discord.Member = None):
@@ -103,7 +102,7 @@ class FunOverlaysCog(Cog, name="fun_images"):
 
                 await ctx.send(file=discord.File(imageData, 'wasted.gif'))
 
-    @slash_command(name="capture", description="Creates an image with a jail", options=[
+    @ slash_command(name="capture", description="Creates an image with a jail", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
     async def _capture(self, ctx, user: discord.Member = None):
@@ -118,7 +117,7 @@ class FunOverlaysCog(Cog, name="fun_images"):
 
                 await ctx.send(file=discord.File(imageData, 'jail.gif'))
 
-    @slash_command(name="triggered", description="Creates a gif with the triggered overlay", options=[
+    @ slash_command(name="triggered", description="Creates a gif with the triggered overlay", options=[
         Option("user", "mention the user for the image", OptionType.USER)
     ])
     async def _triggered(self, ctx, user: discord.Member = None):

@@ -179,7 +179,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_slash_command_error(self, ctx, error):
-        await ctx.send("The slash command handler is in beta so it's common that this can happen. Please be patient.")
+        print(error)
 
 
 def setup(bot: commands.Bot):
