@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
 export const Footer: React.FC = () => {
   return (
@@ -22,8 +21,17 @@ export const Footer: React.FC = () => {
               }}
             >
               <div className="card-body">
-                <h2 style={{ fontFamily: "Alfa Slab One" }}>XGN BOT</h2>
-                <p>
+                <a href="#top">
+                  <h2
+                    style={{
+                      fontFamily: "Alfa Slab One",
+                      color: "var(--secondary-text-color)",
+                    }}
+                  >
+                    XGN BOT
+                  </h2>
+                </a>
+                <p style={{ color: "var(--text-color)" }}>
                   designed by paolo#5731 with{" "}
                   <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
                 </p>
@@ -52,7 +60,7 @@ export const Footer: React.FC = () => {
                           textDecoration: "none",
                         }}
                       >
-                        Support Guild
+                        🆘 | Support Guild
                       </a>
                     </li>
                     <li>
@@ -65,19 +73,19 @@ export const Footer: React.FC = () => {
                           textDecoration: "none",
                         }}
                       >
-                        Community Server
+                        🦸‍♂️ | Community Server
                       </a>
                     </li>
                     <li>
-                      <NavLink
-                        to="/privacy"
+                      <a
+                        href="/privacy#top"
                         style={{
                           color: "var(--text-color)",
                           textDecoration: "none",
                         }}
                       >
-                        Privacy Policy
-                      </NavLink>
+                        🔏| Privacy Policy
+                      </a>
                     </li>
                     <li>
                       <a
@@ -89,7 +97,34 @@ export const Footer: React.FC = () => {
                           textDecoration: "none",
                         }}
                       >
+                        <img
+                          className="d-inline-block align-text-top"
+                          alt=""
+                          src="assets/uptimerobot-logo.svg"
+                          width="20"
+                        />
+                        {" | "}
                         Service Status
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="https://primebots.it/bots/840300480382894080/vote"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          className="d-inline-block align-text-top"
+                          alt=""
+                          src="assets/prime_bots.svg"
+                          width="20"
+                        />
+                        {" | "}
+                        Vote
                       </a>
                     </li>
                   </ul>

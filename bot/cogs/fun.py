@@ -119,7 +119,7 @@ class FunCog(Cog, name="fun"):
         await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
 
     @slash_command(name="tweet", description="sends a faked tweet with a message", options=[Option("message", "set the message that will appear as tweet", OptionType.STRING)])
-    async def tweet(self, ctx, *, message):
+    async def _tweet(self, ctx, *, message):
         username = ctx.author.name
         avatar = ctx.author.avatar_url_as(format="png", size=512)
 

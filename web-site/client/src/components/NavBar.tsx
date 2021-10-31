@@ -69,7 +69,7 @@ export const NavBar: React.FC = () => {
               <li className="nav-item">
                 <a
                   className="nav-link active smoothScroll"
-                  href="#feature"
+                  href="/#feature"
                   style={{ color: "var(--text-color)" }}
                 >
                   See Features

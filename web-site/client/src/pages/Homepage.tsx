@@ -73,7 +73,7 @@ export const Homepage: React.FC = () => {
                     borderColor: "grey",
                     borderRadius: 10,
                   }}
-                  href="#feature"
+                  href="/#feature"
                 >
                   See Features
                 </a>
@@ -103,7 +103,9 @@ export const Homepage: React.FC = () => {
         id="features"
       >
         <div className="container" style={{ color: "var(--main-color)" }}>
-          <h1 className="center">Why XGN BOT?</h1>
+          <div id="feature">
+            <h1 className="center">Why XGN BOT?</h1>
+          </div>
           <div className="row justify-content-center features">
             <div className="col-sm-6 item">
               <div id="features" className="box" style={{ borderRadius: 34 }}>
@@ -211,7 +213,8 @@ export const Homepage: React.FC = () => {
                 >
                   Borded? The bot has a lot fun commands, for memes, random
                   facts, also it has a nice Tic Tac Toe command that lets you
-                  play the n°1 game to avoid boredom.
+                  play the n°1 game to avoid boredom. Playing miningames will
+                  increase your xp too.
                   <br />
                 </p>
               </div>
