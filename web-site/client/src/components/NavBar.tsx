@@ -48,7 +48,7 @@ export const NavBar: React.FC = () => {
           >
             <img
               className="d-inline-block align-text-top"
-              src="logo.svg"
+              src="/logo.svg"
               width="30"
               height="30"
               style={{ borderRadius: "50%" }}

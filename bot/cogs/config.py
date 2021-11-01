@@ -1,3 +1,4 @@
+import asyncio
 import typing
 
 import constants
@@ -30,7 +31,7 @@ class Config(commands.Cog):
             components=[row]
         )
 
-    @commands.command()
+    @commands.command(name="welcome", help="Shows the current configurantion for the welcome event.")
     async def welcome_event(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         welcome_config = await WelcomeConfig.filter(guild_id=ctx.guild.id).get_or_none()
@@ -46,7 +47,7 @@ class Config(commands.Cog):
         else:
             return await ctx.send("Welcome messages are not enabled for this guild", components=[row])
 
-    @commands.command()
+    @commands.command(name="leave_config", help="Shows the current configurantion for the leave event.")
     async def leave_event(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         leave_config = await LeaveConfig.filter(guild_id=ctx.guild.id).get_or_none()
@@ -62,7 +63,7 @@ class Config(commands.Cog):
         else:
             return await ctx.send("Leave messages are not enabled for this guild", components=[row])
 
-    @commands.command()
+    @commands.command(name="log", help="Shows the current configurantion for the logging system.")
     async def log(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         log_config = await LogChannel.filter(guild_id=ctx.guild.id).get_or_none()
@@ -78,7 +79,7 @@ class Config(commands.Cog):
         else:
             return await ctx.send("Log messages are not enabled for this guild", components=[row])
 
-    @commands.command()
+    @commands.command(name="leveling", help="Shows the current configurantion for the leveling system.")
     @commands.has_guild_permissions(manage_guild=True)
     async def levelling(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
@@ -94,6 +95,50 @@ class Config(commands.Cog):
             )
         else:
             return await ctx.send("The levelling system is not enabled", components=[row])
+
+    @commands.command(name="server_stats", help="creates a server stats category and insert into it 4 four channels.")
+    @commands.has_guild_permissions(manage_guild=True)
+    async def server_stats(self, ctx: commands.Context):
+        cat = discord.utils.get(
+            ctx.guild.categories,
+            name="📶 SERVER STATS")
+        if cat is None:
+            await ctx.guild.create_category_channel("📶 SERVER STATS")
+            await asyncio.sleep(1)
+            await ctx.guild.create_voice_channel(
+                f'👥 Total members: {ctx.guild.member_count}',
+                category=discord.utils.get(
+                    ctx.guild.categories,
+                    name="📶 SERVER STATS"))
+            await ctx.guild.create_voice_channel(
+                f'👨 People: {len([m for m in ctx.guild.members if not m.bot])}',
+                category=discord.utils.get(
+                    ctx.guild.categories,
+                    name="📶 SERVER STATS"))
+            await ctx.guild.create_voice_channel(
+                f'🤖 Bot: {len([m for m in ctx.guild.members if m.bot])}',
+                category=discord.utils.get(
+                    ctx.guild.categories,
+                    name="📶 SERVER STATS"))
+            await ctx.guild.create_voice_channel(
+                f'📑 Channels: {len(ctx.guild.channels)+1}',
+                category=discord.utils.get(
+                    ctx.guild.categories,
+                    name="📶 SERVER STATS"))
+            await asyncio.sleep(1)
+            c = discord.utils.get(
+                ctx.guild.categories,
+                name="📶 SERVER STATS")
+            await c.set_permissions(
+                ctx.guild.default_role,
+                connect=False)
+            await c.move(beginning=True)
+            await ctx.reply(
+                "Done, you now have a category with the server stats updated continuously,\n" +
+                "you don't have to warry about changing anything in the channels.")
+        else:
+            await ctx.reply(
+                "There is already a server stats category in this server")
 
 
 def setup(bot: commands.Bot):

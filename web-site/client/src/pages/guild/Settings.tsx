@@ -46,10 +46,34 @@ export const Settings: React.FC = () => {
         prefix: newPrefix,
       },
     }).then((response) => {
-      response.json()
-    alert("All settings are carefully saved.");
-  });
-    
+      response.json();
+      alert("All settings are carefully saved.");
+    });
+  };
+  const EnableStats = () => {
+    const url = `${config.API_URL}/api/enablewelcome`; //change this
+    fetch(url, {
+      method: "POST",
+      headers: {
+        guild_id: guildID,
+      },
+    }).then((response) => {
+      response.json();
+      window.location.reload();
+    });
+  };
+  const disableStats = () => {
+    const url = `${config.API_URL}/api/disable`; //change this also
+    fetch(url, {
+      method: "POST",
+      headers: {
+        guild_id: guildID,
+        action: "welcome",
+      },
+    }).then((response) => {
+      response.json();
+      window.location.reload();
+    });
   };
   document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
@@ -78,7 +102,6 @@ export const Settings: React.FC = () => {
                       className="form-control"
                       onChange={(e) => setPrefix(e.target.value)}
                       style={{
-                        width: 200,
                         color: "var(--text-color)",
                         background: "#2c2f33",
                       }}
@@ -92,6 +115,51 @@ export const Settings: React.FC = () => {
                     >
                       Save
                     </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <div
+                className="card"
+                style={{ background: "var(--background)", borderRadius: 30 }}
+              >
+                <div className="card-body">
+                  <div>
+                    <h2>Server Stats</h2>
+                    <p
+                      style={{
+                        fontSize: 13,
+                        color: "var(--secondary-text-color)",
+                      }}
+                    >
+                      Keep tracking of the number of members in your server by
+                      activating this, it will create some voice channels that
+                      content all the info of the server.
+                    </p>
+                    <br />
+                    {!1 /*replace this with the real condition*/ ? (
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-outline-light"
+                          style={{ background: "var(--secondary)" }}
+                          onClick={EnableStats}
+                        >
+                          Enable
+                        </button>
+                        <br />
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-outline-light"
+                        style={{ background: "red" }}
+                        onClick={disableStats}
+                      >
+                        Disable
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

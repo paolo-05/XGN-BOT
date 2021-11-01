@@ -65,17 +65,20 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        for guild in self.bot.guilds:
-            try:
-                config = await GuildConfig(id=guild.id)
-                config.prefix = '!'
-                config.welcome_enabled = False
-                config.leave_enabled = False
-                config.level_up_enabled = False
-                config.log_enabled = False
-                await config.save()
-            except:
-                print('All guilds modified')
+        cat = discord.utils.get(
+            message.guild.categories,
+            name="📶 SERVER STATS")
+        if cat is None:
+            pass
+        else:
+            cs = [i for i in cat.channels]
+            await cs[0].edit(name=f"👥 Total members: {message.guild.member_count}")
+            await cs[1].edit(
+                name=f"👨 People: {len([m for m in message.guild.members if not m.bot])}")
+            await cs[2].edit(
+                name=f"🤖 Bot: {len([m for m in message.guild.members if not m.bot])}")
+            await cs[3].edit(name=f"📑 Channels: {len(message.guild.channels)}")
+
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
             users=len(self.bot.users), guilds=len(self.bot.guilds))
         self.message = text

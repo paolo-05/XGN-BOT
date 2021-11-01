@@ -98,7 +98,7 @@ class Log(commands.Cog):
             embed = discord.Embed(
                 title=f"a channel has been deleted", timestamp=date)
             embed.set_author(name=self.bot.user,
-                             icon_url=self.bot.user.avatar_url, colour=0x00aaff)
+                             icon_url=self.bot.user.avatar_url)
             embed.add_field(name="channel", value=str(
                 channel), inline=False)
             embed.add_field(name="date", value=f"{date}", inline=False)
@@ -157,6 +157,9 @@ class Log(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before: discord.abc.GuildChannel, after: discord.abc.GuildChannel):
+        async for author in before.guild.audit_logs(limit=1, oldest_first=False, action=discord.AuditLogAction.channel_update):
+            if author.user.id == self.bot.user.id:
+                return
         config = await GuildConfig.filter(id=before.guild.id).get_or_none()
         if not config:
             return
