@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { GuildConfig, TextChannel } from "../../types";
+import { Server, TextChannel } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
 import { Side } from "../../components/SideBar";
 
 export const Leveling: React.FC = (props) => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
   const [TextChannels, setChannels] = useState<Array<TextChannel> | null>(null);
   var pathArray = window.location.pathname.split("/");
   const guildID = pathArray[2];
@@ -90,7 +90,7 @@ export const Leveling: React.FC = (props) => {
     };
     makeRequests();
   }, [guildID]);
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
   return (
     <div>
       <Side />
@@ -118,7 +118,7 @@ export const Leveling: React.FC = (props) => {
                     Power up your server with the leveling system
                   </p>
                   <hr />
-                  {!guildConfig?.level_up_enabled ? (
+                  {!Server?.level_up_enabled ? (
                     <div>
                       <button
                         type="button"
@@ -147,7 +147,7 @@ export const Leveling: React.FC = (props) => {
                           width: 200,
                         }}
                       >
-                        <option selected>{guildConfig?.level_channel}</option>
+                        <option selected>{Server?.level_channel}</option>
                         {TextChannels?.map((channel: TextChannel) => {
                           return (
                             <option key={channel.id} value={channel.id}>
@@ -163,7 +163,7 @@ export const Leveling: React.FC = (props) => {
                             Select the message for the leveling event
                           </label>
                           <textarea
-                            placeholder={guildConfig?.level_message}
+                            placeholder={Server?.level_message}
                             onChange={(e) => setMessage(e.target.value)}
                             style={{
                               color: "var(--text-color)",

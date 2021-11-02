@@ -1,19 +1,10 @@
-import json
+import asyncio
 
 import aiohttp_cors
 import db
 import discord
 from aiohttp import web
 from discord.ext import commands
-
-PATH = '../data/warns.json'
-
-with open(PATH, encoding='utf-8') as f:
-    try:
-        report = json.load(f)
-    except ValueError:
-        report = {}
-        report['users'] = []
 
 
 class Server(commands.Cog):
@@ -27,25 +18,6 @@ class Server(commands.Cog):
 
     async def get_status(self, request):
         return web.json_response({"guilds": len(self.bot.guilds), "ping": round(self.bot.latency * 1000), "users": len(self.bot.users)})
-
-    async def get_mutual_guilds(self, request):
-        json_data = await request.json()
-        guild_ids = json_data.get("guilds")
-        if not guild_ids:
-            return web.json_response({"error": "Invalid guilds"}, status=400)
-
-        guilds = []
-        for i in guild_ids:
-            guild: discord.Guild = self.bot.get_guild(int(i))
-            if not guild:
-                continue
-            if guild.get_member(self.bot.user.id):
-                guilds.append({
-                    "id": str(guild.id),
-                    "name": guild.name,
-                    "icon_url": str(guild.icon_url_as(format="png", size=512))
-                })
-        return web.json_response({"guilds": guilds})
 
     async def get_guild_data(self, request):
         json_data = await request.json()
@@ -92,6 +64,64 @@ class Server(commands.Cog):
             j += 1
 
         return web.json_response({"leaderboard": leaderboard}, status=200)
+    
+    async def get_stats_conf(self, request):
+        guild_id = int(request.headers.get('guild_id'))
+        guild: discord.Guild = self.bot.get_guild(guild_id)
+        cat = discord.utils.get(
+            guild.categories,
+            name="📶 SERVER STATS")
+        if cat is None:
+            return web.json_response({"enabled":False})
+        else:
+            return web.json_response({"enabled":True})
+
+    async def get_stats(self, request):
+        guild_id = int(request.headers.get('guild_id'))
+        guild: discord.Guild = self.bot.get_guild(guild_id)
+        cat = discord.utils.get(
+            guild.categories,
+            name="📶 SERVER STATS")
+        if cat is None:
+            await guild.create_category_channel("📶 SERVER STATS")
+            await asyncio.sleep(1)
+            await guild.create_voice_channel(
+                f'👥 Total members: {guild.member_count}',
+                category=discord.utils.get(
+                    guild.categories,
+                    name="📶 SERVER STATS"))
+            await guild.create_voice_channel(
+                f'👨 People: {len([m for m in guild.members if not m.bot])}',
+                category=discord.utils.get(
+                    guild.categories,
+                    name="📶 SERVER STATS"))
+            await guild.create_voice_channel(
+                f'🤖 Bot: {len([m for m in guild.members if m.bot])}',
+                category=discord.utils.get(
+                    guild.categories,
+                    name="📶 SERVER STATS"))
+            await guild.create_voice_channel(
+                f'📑 Channels: {len(guild.channels)+1}',
+                category=discord.utils.get(
+                    guild.categories,
+                    name="📶 SERVER STATS"))
+            await asyncio.sleep(1)
+            c = discord.utils.get(
+                guild.categories,
+                name="📶 SERVER STATS")
+            await c.set_permissions(
+                guild.default_role,
+                connect=False)
+            await c.move(beginning=True)
+            return web.json_response({"status": 200})
+        else:
+            cs = [i for i in cat.channels]
+            await cs[0].delete()
+            await cs[1].delete()
+            await cs[2].delete()
+            await cs[3].delete()
+            await cat.delete()
+            return web.json_response({"status": 200})
 
     async def start_server(self):
         app = web.Application()
@@ -130,6 +160,24 @@ class Server(commands.Cog):
                     allow_headers="*"
                 )
             })
+        cors.add(
+            cors.add(app.router.add_resource("/stats")).add_route("POST", self.get_stats), {
+                "*": aiohttp_cors.ResourceOptions(
+                    allow_credentials=True,
+                    expose_headers="*",
+                    allow_headers="*"
+                )
+            }
+        )
+        cors.add(
+            cors.add(app.router.add_resource("/statsconf")).add_route("GET", self.get_stats_conf), {
+                "*": aiohttp_cors.ResourceOptions(
+                    allow_credentials=True,
+                    expose_headers="*",
+                    allow_headers="*"
+                )
+            }
+        )
 
         runner = web.AppRunner(app)
         await runner.setup()

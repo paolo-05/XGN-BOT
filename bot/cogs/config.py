@@ -51,7 +51,7 @@ class Config(commands.Cog):
     async def leave_event(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         leave_config = await LeaveConfig.filter(guild_id=ctx.guild.id).get_or_none()
-        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the welcome event",
+        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the leave event",
                         url=f"https://xgnbot.xyz/guilds/{ctx.guild.id}/leave"))
         if config.leave_enabled:
             leave_channel = discord.utils.get(
@@ -67,7 +67,7 @@ class Config(commands.Cog):
     async def log(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         log_config = await LogChannel.filter(guild_id=ctx.guild.id).get_or_none()
-        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the welcome event",
+        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the log system",
                         url=f"https://xgnbot.xyz/guilds/{ctx.guild.id}/logging"))
         if config.log_enabled:
             log_channel = discord.utils.get(
@@ -84,7 +84,7 @@ class Config(commands.Cog):
     async def levelling(self, ctx: commands.Context):
         config = await GuildConfig.filter(id=ctx.guild.id).get_or_none()
         levelling_config = await LevelUpConfig.filter(guild_id=ctx.guild.id).get_or_none()
-        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the welcome event",
+        row = ActionRow(Button(style=ButtonStyle.link, label=f"Modify the levelling system",
                         url=f"https://xgnbot.xyz/guilds/{ctx.guild.id}/leveling"))
         if config.level_up_enabled:
             log_channel = discord.utils.get(
@@ -99,46 +99,9 @@ class Config(commands.Cog):
     @commands.command(name="server_stats", help="creates a server stats category and insert into it 4 four channels.")
     @commands.has_guild_permissions(manage_guild=True)
     async def server_stats(self, ctx: commands.Context):
-        cat = discord.utils.get(
-            ctx.guild.categories,
-            name="📶 SERVER STATS")
-        if cat is None:
-            await ctx.guild.create_category_channel("📶 SERVER STATS")
-            await asyncio.sleep(1)
-            await ctx.guild.create_voice_channel(
-                f'👥 Total members: {ctx.guild.member_count}',
-                category=discord.utils.get(
-                    ctx.guild.categories,
-                    name="📶 SERVER STATS"))
-            await ctx.guild.create_voice_channel(
-                f'👨 People: {len([m for m in ctx.guild.members if not m.bot])}',
-                category=discord.utils.get(
-                    ctx.guild.categories,
-                    name="📶 SERVER STATS"))
-            await ctx.guild.create_voice_channel(
-                f'🤖 Bot: {len([m for m in ctx.guild.members if m.bot])}',
-                category=discord.utils.get(
-                    ctx.guild.categories,
-                    name="📶 SERVER STATS"))
-            await ctx.guild.create_voice_channel(
-                f'📑 Channels: {len(ctx.guild.channels)+1}',
-                category=discord.utils.get(
-                    ctx.guild.categories,
-                    name="📶 SERVER STATS"))
-            await asyncio.sleep(1)
-            c = discord.utils.get(
-                ctx.guild.categories,
-                name="📶 SERVER STATS")
-            await c.set_permissions(
-                ctx.guild.default_role,
-                connect=False)
-            await c.move(beginning=True)
-            await ctx.reply(
-                "Done, you now have a category with the server stats updated continuously,\n" +
-                "you don't have to warry about changing anything in the channels.")
-        else:
-            await ctx.reply(
-                "There is already a server stats category in this server")
+        row = ActionRow(Button(style=ButtonStyle.link, label=f"Setup Server Stats 📶",
+                        url=f"https://xgnbot.xyz/guilds/{ctx.guild.id}/settings"))
+        await ctx.reply("Setup", components=[row])
 
 
 def setup(bot: commands.Bot):

@@ -11,16 +11,16 @@ from tortoise import Tortoise
 import constants
 from models import GuildConfig
 
-COGS = [path.split("/")[-1][:-3] for path in glob("./cogs/*.py")]
+COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
 
 
 async def connect_db():
     await Tortoise.init(
-        db_url=f"postgres://xgnbot:12345@localhost:5432/bot",
+        db_url=f"postgres://xgnbot:12345@207.180.214.180:5432/bot",
         modules={"models": ["models"]},
     )
     await Tortoise.generate_schemas()
-    print("db connected")
+    print(" db connected")
 
 
 async def get_prefix(bot: commands.Bot, message: discord.Message):
@@ -52,11 +52,11 @@ class XGNbot(commands.Bot):
     def setup(self):
         for cog in COGS:
             self.load_extension(f"cogs.{cog}")
-            print(f"{cog} loaded")
-        print("Setup completed")
+            print(f"  {cog} loaded")
+        print(" Setup completed")
 
     def run(self):
-        print("Running setup...")
+        print(" Running setup...")
         self.setup()
 
         f = open("../data/config.json")
@@ -76,8 +76,8 @@ class XGNbot(commands.Bot):
         await self.shutdown()
 
     async def on_connect(self):
-        await connect_db()
         print(f" Connected to Discord (latency: {self.latency*1000:,.0f} ms).")
+        await connect_db()
 
     async def on_resumed(self):
         print("Bot resumed.")

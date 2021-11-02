@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { User, GuildConfig } from "../../types";
+import { User, Server } from "../../types";
 import axios from "axios";
 import config from "../../config.json";
 import "./side-bar.css";
 import { NavBar } from "../../components/NavBar";
 
 export const Leaderboard: React.FC = () => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
   const [leaderboard, setLeaderboard] = useState<Array<User> | null>(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const Leaderboard: React.FC = () => {
       <div className="container mx-auto h-screen">
         <div className="flex items-center h-full justify-center">
           <div className="h-3/4">
-            <h1 style={{ color: "var(--main-color)" }}>{guildConfig?.name}</h1>
+            <h1 style={{ color: "var(--main-color)" }}>{Server?.name}</h1>
             <p>Leaderboard</p>
             <hr />
             <div className="pt-10 pb-14 h-64">

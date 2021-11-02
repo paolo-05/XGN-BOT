@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, GuildConfig, TextChannel } from "../../types";
+import { User, Server, TextChannel } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
@@ -7,7 +7,7 @@ import { Side } from "../../components/SideBar";
 
 export const Welcome: React.FC = (props) => {
   const [user, setUser] = useState<User | null>(null);
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
   const [TextChannels, setChannels] = useState<Array<TextChannel> | null>(null);
 
   const [message, setMessage] = useState("");
@@ -98,7 +98,7 @@ export const Welcome: React.FC = (props) => {
     };
     makeRequests();
   }, [guildID]);
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
   return (
     <div>
       <Side />
@@ -126,7 +126,7 @@ export const Welcome: React.FC = (props) => {
                     Give new users a warm welcome!
                   </p>
                   <hr />
-                  {!guildConfig?.welcome_enabled ? (
+                  {!Server?.welcome_enabled ? (
                     <div>
                       <button
                         type="button"
@@ -155,8 +155,8 @@ export const Welcome: React.FC = (props) => {
                           width: 200,
                         }}
                       >
-                        <option selected value={guildConfig?.guild_id}>
-                          {guildConfig?.welcome_channel}
+                        <option selected value={Server?.guild_id}>
+                          {Server?.welcome_channel}
                         </option>
                         {TextChannels?.map((channel: TextChannel) => {
                           return (
@@ -173,7 +173,7 @@ export const Welcome: React.FC = (props) => {
                             Select the message for the welcome event
                           </label>
                           <textarea
-                            placeholder={guildConfig?.welcome_message}
+                            placeholder={Server?.welcome_message}
                             onChange={(e) => setMessage(e.target.value)}
                             style={{
                               color: "var(--text-color)",
@@ -236,7 +236,7 @@ export const Welcome: React.FC = (props) => {
                         <div className="col-sm-6">
                           <img
                             className="img-container"
-                            src={`https://some-random-api.ml/welcome/img/7/stars?type=join&username=${user?.username}&discriminator=${user?.discriminator}&guildName=${guildConfig?.name}&memberCount=${guildConfig?.members}&avatar=${user?.avatar_url}&textcolor=white&key=CEvvlVQ5nEPMsKx7xjZBEbJxc`}
+                            src={`https://some-random-api.ml/welcome/img/7/stars?type=join&username=${user?.username}&discriminator=${user?.discriminator}&guildName=${Server?.name}&memberCount=${Server?.members}&avatar=${user?.avatar_url}&textcolor=white&key=CEvvlVQ5nEPMsKx7xjZBEbJxc`}
                             alt=""
                           />
                         </div>

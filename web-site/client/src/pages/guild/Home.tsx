@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GuildConfig } from "../../types";
+import { Server } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
@@ -7,7 +7,7 @@ import "./side-bar.css";
 import { Side } from "../../components/SideBar";
 
 export const Home: React.FC = () => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -32,7 +32,7 @@ export const Home: React.FC = () => {
     makeRequests();
   }, []);
 
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
 
   return (
     <div>
@@ -70,42 +70,42 @@ export const Home: React.FC = () => {
                       Members:{" "}
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.members}
+                        {Server?.members}
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
                       Real people:
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.people}
+                        {Server?.people}
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
                       Server Boost:
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.boost}
+                        {Server?.boost}
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
                       Bots:
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.bot_count}
+                        {Server?.bot_count}
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
                       Text Chanels:{" "}
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.text_channels}
+                        {Server?.text_channels}
                       </b>
                     </p>
                     <p style={{ color: "var(--text-color)" }}>
                       Voice Channels:{" "}
                       <b style={{ color: "var(--secondary-text-color)" }}>
                         {" "}
-                        {guildConfig?.voice_channels}
+                        {Server?.voice_channels}
                       </b>
                     </p>
                   </div>
@@ -130,7 +130,7 @@ export const Home: React.FC = () => {
                   <br />
                   <p style={{ color: "var(--text-color)" }}>
                     welcome:{" "}
-                    {!guildConfig?.welcome_enabled ? (
+                    {!Server?.welcome_enabled ? (
                       <button
                         style={{ background: "#ff0000" }}
                         type="button"
@@ -150,7 +150,7 @@ export const Home: React.FC = () => {
                   </p>
                   <p style={{ color: "var(--text-color)" }}>
                     Leave:{" "}
-                    {!guildConfig?.leave_enabled ? (
+                    {!Server?.leave_enabled ? (
                       <button
                         style={{ background: "#ff0000" }}
                         type="button"
@@ -170,7 +170,7 @@ export const Home: React.FC = () => {
                   </p>
                   <p style={{ color: "var(--text-color)" }}>
                     Level system:{" "}
-                    {!guildConfig?.level_up_enabled ? (
+                    {!Server?.level_up_enabled ? (
                       <button
                         style={{ background: "#ff0000" }}
                         type="button"
@@ -190,7 +190,7 @@ export const Home: React.FC = () => {
                   </p>
                   <p style={{ color: "var(--text-color)" }}>
                     Logging:{" "}
-                    {!guildConfig?.log_enabled ? (
+                    {!Server?.log_enabled ? (
                       <button
                         style={{ background: "#ff0000" }}
                         type="button"

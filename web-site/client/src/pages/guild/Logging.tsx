@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { GuildConfig, TextChannel } from "../../types";
+import { Server, TextChannel } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
 import { Side } from "../../components/SideBar";
 
 export const Logging: React.FC = (props) => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
   const [TextChannels, setChannels] = useState<Array<TextChannel> | null>(null);
   var pathArray = window.location.pathname.split("/");
   const guildID = pathArray[2];
@@ -84,7 +84,7 @@ export const Logging: React.FC = (props) => {
     });
   };
 
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
   return (
     <div>
       <Side />
@@ -111,7 +111,7 @@ export const Logging: React.FC = (props) => {
                   >
                     keep track of all events on your server
                   </p>
-                  {!guildConfig?.log_enabled ? (
+                  {!Server?.log_enabled ? (
                     <div>
                       <button
                         type="button"
@@ -140,7 +140,7 @@ export const Logging: React.FC = (props) => {
                           width: 200,
                         }}
                       >
-                        <option selected>{guildConfig?.log_channel}</option>
+                        <option selected>{Server?.log_channel}</option>
                         {TextChannels?.map((channel: TextChannel) => {
                           return (
                             <option key={channel.id} value={channel.id}>

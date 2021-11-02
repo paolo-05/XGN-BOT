@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { User, GuildConfig } from "../types";
+import { User, Server } from "../types";
 import { NavLink } from "react-router-dom";
 
 import config from "../config.json";
 
 export const Side: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -36,55 +36,55 @@ export const Side: React.FC = () => {
       <br />
       <div className="logo-details">
         <img
-          src={guildConfig?.icon_url}
+          src={Server?.icon_url}
           alt=""
           width="25%"
           className="rounded-full"
         />
-        <span style={{ color: "var(--text-color)" }}>{guildConfig?.name}</span>
+        <span style={{ color: "var(--text-color)" }}>{Server?.name}</span>
       </div>
       <ul className="nav-links">
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}`}>
+          <NavLink to={`/guilds/${Server?.guild_id}`}>
             <i className="bx bx-home"></i>
             <span style={{ color: "white" }}>Home</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}/welcome`}>
+          <NavLink to={`/guilds/${Server?.guild_id}/welcome`}>
             <i className="bx bx-log-in-circle"></i>
 
             <span style={{ color: "white" }}>Welcome</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}/leave`}>
+          <NavLink to={`/guilds/${Server?.guild_id}/leave`}>
             <i className="bx bx-log-out-circle"></i>
 
             <span style={{ color: "white" }}>Leave</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}/leveling`}>
+          <NavLink to={`/guilds/${Server?.guild_id}/leveling`}>
             <i className="bx bx-stats"></i>
 
             <span style={{ color: "white" }}>Leveling</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}/logging`}>
+          <NavLink to={`/guilds/${Server?.guild_id}/logging`}>
             <i className="bx bx-history"></i>
             <span style={{ color: "white" }}>Logging</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/guilds/${guildConfig?.guild_id}/settings`}>
+          <NavLink to={`/guilds/${Server?.guild_id}/settings`}>
             <i className="bx bx-cog"></i>
             <span style={{ color: "white" }}>Settings</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/leaderboard/${guildConfig?.guild_id}`}>
+          <NavLink to={`/leaderboard/${Server?.guild_id}`}>
             <i className="bx bx-align-justify"></i>
             <span style={{ color: "white" }}>Leaderboard</span>
           </NavLink>

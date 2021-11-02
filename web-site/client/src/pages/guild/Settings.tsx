@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { GuildConfig } from "../../types";
+import { Server, Stats } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
 import { Side } from "../../components/SideBar";
 
 export const Settings: React.FC = () => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
+  const [Stats, setStats] = useState<Stats | null>(null);
   var pathArray = window.location.pathname.split("/");
   const guildID = pathArray[2];
   useEffect(() => {
@@ -24,6 +25,14 @@ export const Settings: React.FC = () => {
           }
         );
         setGuild(guildsRes.data);
+        const statsRes = await axios.get(
+          `${config.BOT_API_URL}/statsconf`, {
+            headers: {
+            guild_id: guildID,
+          }}
+        );
+        console.log(statsRes.data);
+        setStats(statsRes.data);
       } else {
         window.location.href = "/login";
       }
@@ -51,7 +60,7 @@ export const Settings: React.FC = () => {
     });
   };
   const EnableStats = () => {
-    const url = `${config.API_URL}/api/enablewelcome`; //change this
+    const url = `${config.BOT_API_URL}/stats`; //change this
     fetch(url, {
       method: "POST",
       headers: {
@@ -63,19 +72,18 @@ export const Settings: React.FC = () => {
     });
   };
   const disableStats = () => {
-    const url = `${config.API_URL}/api/disable`; //change this also
+    const url = `${config.BOT_API_URL}/stats`; // it may work
     fetch(url, {
       method: "POST",
       headers: {
         guild_id: guildID,
-        action: "welcome",
       },
     }).then((response) => {
       response.json();
       window.location.reload();
     });
   };
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
   return (
     <div>
       <Side />
@@ -99,7 +107,7 @@ export const Settings: React.FC = () => {
                       Select the prefix for the server
                     </label>
                     <input
-                      placeholder={guildConfig?.prefix}
+                      placeholder={Server?.prefix}
                       type="text"
                       maxLength={5}
                       id="prefix"
@@ -146,7 +154,7 @@ export const Settings: React.FC = () => {
                       content all the info of the server.
                     </p>
                     <br />
-                    {!1 /*replace this with the real condition*/ ? (
+                    {!Stats?.enabled /*replace this with the real condition*/ ? (
                       <div>
                         <button
                           type="button"

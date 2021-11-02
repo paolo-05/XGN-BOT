@@ -20,7 +20,7 @@ export interface Guild {
     icon_url: string;
     in: boolean;
 }
-export interface GuildConfig {
+export interface Server {
     guild_id: string;
     name: string;
     icon_url: string;
@@ -49,6 +49,9 @@ export interface GuildConfig {
 
     log_enabled: boolean;
     log_channel: string;
+}
+export interface Stats{
+    enabled: boolean;
 }
 
 export interface TextChannel {

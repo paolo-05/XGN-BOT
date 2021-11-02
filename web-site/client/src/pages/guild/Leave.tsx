@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GuildConfig, TextChannel, User } from "../../types";
+import { Server, TextChannel, User } from "../../types";
 import axios from "axios";
 
 import config from "../../config.json";
@@ -7,7 +7,7 @@ import "./side-bar.css";
 import { Side } from "../../components/SideBar";
 
 export const Leave: React.FC = () => {
-  const [guildConfig, setGuild] = useState<GuildConfig | null>(null);
+  const [Server, setGuild] = useState<Server | null>(null);
   const [TextChannels, setChannels] = useState<Array<TextChannel> | null>(null);
   const [user, setUser] = useState<User | null>(null);
   var pathArray = window.location.pathname.split("/");
@@ -95,7 +95,7 @@ export const Leave: React.FC = () => {
     };
     makeRequests();
   }, [guildID]);
-  document.title = `XGN BOT - ${guildConfig?.name}`;
+  document.title = `XGN BOT - ${Server?.name}`;
   return (
     <div>
       <section className="home-section" style={{ background: "" }}>
@@ -123,7 +123,7 @@ export const Leave: React.FC = () => {
                     keep note of those dumbs leaving the server
                   </p>
                   <hr />
-                  {!guildConfig?.leave_enabled ? (
+                  {!Server?.leave_enabled ? (
                     <div>
                       <button
                         type="button"
@@ -154,7 +154,7 @@ export const Leave: React.FC = () => {
                             width: 200,
                           }}
                         >
-                          <option selected>{guildConfig?.leave_channel}</option>
+                          <option selected>{Server?.leave_channel}</option>
                           {TextChannels?.map((channel: TextChannel) => {
                             return (
                               <option key={channel.id} value={channel.id}>
@@ -170,7 +170,7 @@ export const Leave: React.FC = () => {
                               Select the message for the leave event
                             </label>
                             <textarea
-                              placeholder={guildConfig?.leave_message}
+                              placeholder={Server?.leave_message}
                               onChange={(e) => setMessage(e.target.value)}
                               style={{
                                 color: "var(--text-color)",
@@ -228,7 +228,7 @@ export const Leave: React.FC = () => {
                         <div className="col-sm-6">
                           <img
                             className="img-container"
-                            src={`https://some-random-api.ml/welcome/img/7/stars?type=leave&username=${user?.username}&discriminator=${user?.discriminator}&guildName=${guildConfig?.name}&memberCount=${guildConfig?.members}&avatar=${user?.avatar_url}&textcolor=white&key=CEvvlVQ5nEPMsKx7xjZBEbJxc`}
+                            src={`https://some-random-api.ml/welcome/img/7/stars?type=leave&username=${user?.username}&discriminator=${user?.discriminator}&guildName=${Server?.name}&memberCount=${Server?.members}&avatar=${user?.avatar_url}&textcolor=white&key=CEvvlVQ5nEPMsKx7xjZBEbJxc`}
                             alt=""
                           />
                         </div>
