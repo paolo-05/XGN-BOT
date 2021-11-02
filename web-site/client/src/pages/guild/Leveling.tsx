@@ -27,10 +27,10 @@ export const Leveling: React.FC = (props) => {
         message: message,
       },
     }).then((response) => {
-      response.json()
+      response.json();
       alert("All settings are carefully saved.");
     });
- };
+  };
 
   const Enableleveling = () => {
     const url = `${config.API_URL}/api/enableleveling`;
@@ -40,9 +40,9 @@ export const Leveling: React.FC = (props) => {
         guild_id: guildID,
       },
     }).then((response) => {
-    response.json();
-    window.location.reload()});
-    
+      response.json();
+      window.location.reload();
+    });
   };
   const disableleveling = () => {
     const url = `${config.API_URL}/api/disable`;
@@ -53,10 +53,9 @@ export const Leveling: React.FC = (props) => {
         action: "leveling",
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
     });
-    
   };
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -95,12 +94,16 @@ export const Leveling: React.FC = (props) => {
   return (
     <div>
       <Side />
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section className="home-section" style={{ background: "" }}>
         <div className="container">
           <div className="row">
             <div
               className="card"
-              style={{ background: "var(--background)", borderRadius: 30 }}
+              style={{
+                background: "var(--background)",
+                borderRadius: 30,
+                borderColor: "var(--background)",
+              }}
               id="leveling"
             >
               <div className="card-body">

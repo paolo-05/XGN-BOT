@@ -57,7 +57,7 @@ export const Logging: React.FC = (props) => {
         channel_id: channel,
       },
     }).then((response) => response.json());
-    alert("All settings are carefully saved.")
+    alert("All settings are carefully saved.");
   };
 
   const Enablelogging = () => {
@@ -79,23 +79,25 @@ export const Logging: React.FC = (props) => {
         action: "log",
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
-    }
-      );
-    
+    });
   };
 
   document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
     <div>
       <Side />
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section className="home-section" style={{ background: "" }}>
         <div className="container">
           <div className="row">
             <div
               className="card"
-              style={{ background: "var(--background)", borderRadius: 30 }}
+              style={{
+                background: "var(--background)",
+                borderRadius: 30,
+                borderColor: "var(--background)",
+              }}
               id="logging"
             >
               <div className="card-body">

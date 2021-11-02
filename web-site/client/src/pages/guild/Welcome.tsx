@@ -102,12 +102,16 @@ export const Welcome: React.FC = (props) => {
   return (
     <div>
       <Side />
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section className="home-section" style={{ background: "" }}>
         <div className="container">
           <div className="row">
             <div
               className="card"
-              style={{ background: "var(--background)", borderRadius: 30 }}
+              style={{
+                background: "var(--background)",
+                borderRadius: 30,
+                borderColor: "var(--background)",
+              }}
               id="welcome"
             >
               <div className="card-body">

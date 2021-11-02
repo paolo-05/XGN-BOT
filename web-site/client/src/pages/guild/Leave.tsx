@@ -31,7 +31,6 @@ export const Leave: React.FC = () => {
       response.json();
       alert("All settings are carefully saved.");
     });
-    
   };
 
   const Enableleave = () => {
@@ -42,7 +41,7 @@ export const Leave: React.FC = () => {
         guild_id: guildID,
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
     });
   };
@@ -55,7 +54,7 @@ export const Leave: React.FC = () => {
         action: "leave",
       },
     }).then((response) => {
-      response.json()
+      response.json();
       window.location.reload();
     });
   };
@@ -99,13 +98,17 @@ export const Leave: React.FC = () => {
   document.title = `XGN BOT - ${guildConfig?.name}`;
   return (
     <div>
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section className="home-section" style={{ background: "" }}>
         <Side />
         <div className="container">
           <div className="row">
             <div
               className="card"
-              style={{ background: "var(--background)", borderRadius: 30 }}
+              style={{
+                background: "var(--background)",
+                borderRadius: 30,
+                borderColor: "var(--background)",
+              }}
               id="leave"
             >
               <div className="card-body">

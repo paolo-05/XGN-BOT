@@ -79,13 +79,17 @@ export const Settings: React.FC = () => {
   return (
     <div>
       <Side />
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section className="home-section" style={{ background: "" }}>
         <div className="container">
           <div className="row">
             <div className="col-sm-6">
               <div
                 className="card"
-                style={{ background: "var(--background)", borderRadius: 30 }}
+                style={{
+                  background: "var(--background)",
+                  borderRadius: 30,
+                  borderColor: "var(--background)",
+                }}
               >
                 <div className="card-body">
                   <div className="prefix">
@@ -122,7 +126,11 @@ export const Settings: React.FC = () => {
             <div className="col-sm-6">
               <div
                 className="card"
-                style={{ background: "var(--background)", borderRadius: 30 }}
+                style={{
+                  background: "var(--background)",
+                  borderRadius: 30,
+                  borderColor: "var(--background)",
+                }}
               >
                 <div className="card-body">
                   <div>

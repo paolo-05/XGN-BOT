@@ -37,22 +37,35 @@ export const Home: React.FC = () => {
   return (
     <div>
       <Side />
-      <section className="home-section" style={{ background: "#2c2f33" }}>
+      <section
+        className="home-section"
+        style={{ background: "var(--background)" }}
+      >
         <div className="container">
           <div className="row">
             <div className="col-sm-6">
-              <div className="features-boxed" style={{ background: "#2c2f33" }}>
+              <div
+                className="features-boxed"
+                style={{ background: "var(--background)" }}
+              >
                 <div
                   className="card"
-                  style={{ borderRadius: 30, background: "#1d1d1e" }}
+                  style={{
+                    background: "var(--background)",
+                    borderColor: "var(--background)",
+                  }}
                   id="info"
                 >
                   <div className="card-body text-center">
                     <h1
-                      style={{ color: "var(--main-color)", textAlign: "left" }}
+                      style={{
+                        color: "var(--main-color)",
+                        textAlign: "center",
+                      }}
                     >
                       Server Info
                     </h1>
+                    <br />
                     <p style={{ color: "var(--text-color)" }}>
                       Members:{" "}
                       <b style={{ color: "var(--secondary-text-color)" }}>
@@ -102,13 +115,19 @@ export const Home: React.FC = () => {
             <div className="col-sm-6">
               <div
                 className="card"
-                style={{ borderRadius: 30, background: "#1d1d1e" }}
+                style={{
+                  borderColor: "var(--background)",
+                  background: "#1d1d1e",
+                }}
                 id="plugins"
               >
                 <div className="card-body text-center">
-                  <h1 style={{ color: "var(--main-color)", textAlign: "left" }}>
+                  <h1
+                    style={{ color: "var(--main-color)", textAlign: "center" }}
+                  >
                     Plugins
                   </h1>
+                  <br />
                   <p style={{ color: "var(--text-color)" }}>
                     welcome:{" "}
                     {!guildConfig?.welcome_enabled ? (

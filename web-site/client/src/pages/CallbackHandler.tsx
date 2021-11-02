@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import axios from "axios";
 
 import config from "../config.json";
+import { NavBar } from "../components/NavBar";
+import { Footer } from "../components/Footer";
 
 interface TokenResponse {
   access_token: string | null;
@@ -23,11 +25,13 @@ export const CallbackHandler: React.FC = (props: any) => {
     });
   }, [code]);
 
-  
-
   return (
-    <div className="h-screen flex items-center justify-center">
-      <h1 className="text-white text-5xl text-center">Redirecting...</h1>
+    <div className="">
+      <NavBar />
+      <h1 style={{ margin: 300, textAlign: "center", fontSize: 60 }}>
+        Redirecting...
+      </h1>
+      <Footer />
     </div>
   );
 };
