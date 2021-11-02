@@ -5,18 +5,18 @@ from glob import glob
 import discord
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext import commands
-from dislash import InteractionClient, ContextMenuInteraction
+from dislash import InteractionClient, ContextMenuInteraction, ActionRow, Button, ButtonStyle, slash_command, Option, OptionType
 from tortoise import Tortoise
 
 import constants
 from models import GuildConfig
 
-COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
+COGS = [path.split("/")[-1][:-3] for path in glob("./cogs/*.py")]
 
 
 async def connect_db():
     await Tortoise.init(
-        db_url=f"postgres://xgnbot:12345@207.180.214.184:5432/bot",
+        db_url=f"postgres://xgnbot:12345@localhost:5432/bot",
         modules={"models": ["models"]},
     )
     await Tortoise.generate_schemas()
@@ -62,6 +62,7 @@ class XGNbot(commands.Bot):
         f = open("../data/config.json")
         data = json.load(f)
         token = data["TOKEN"]
+        f.close()
         print("Running bot...")
         super().run(token, reconnect=True)
 
@@ -111,19 +112,30 @@ class XGNbot(commands.Bot):
         message = msg.content.split()
 
         if bot.user.mentioned_in(msg) and not ("@everyone" in message or "@here" in message):
+            row = ActionRow(
+                Button(style=ButtonStyle.link, label="Website",
+                       url='https://xgnbot.xyz/'),
+                Button(style=ButtonStyle.link, label="Server Dashboard",
+                       url='https://xgnbot.xyz/guilds'),
+                Button(style=ButtonStyle.link, label="Top.gg",
+                       url='https://top.gg/bot/840300480382894080'),
+                Button(style=ButtonStyle.link, label="Prime Bots ",
+                       url='https://primebots.it/bots/840300480382894080'),
+            )
             embed = discord.Embed(title="🤖 XGN BOT 🤖",
                                   description=f"👋 | Hi \n\n" +
                                   f"🧷 | my prefix here is `{await get_prefix(bot, msg)}`\n\n"
                                   + "🆘 | `!help` to see all the commands available")
             embed.set_thumbnail(url=bot.user.avatar_url)
-            await msg.reply(embed=embed)
+            await msg.reply(embed=embed, components=[row])
 
 
 # launcher.py
 
 bot = XGNbot()
 components = InteractionClient(
-    bot, test_guilds=[872957721589219409])
+    bot,  # test_guilds=[623571834469744701]
+)
 
 
 @components.user_command(name="Created at")
