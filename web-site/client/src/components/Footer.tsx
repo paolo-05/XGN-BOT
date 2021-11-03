@@ -51,6 +51,9 @@ export const Footer: React.FC = () => {
                 <p>
                   <ul>
                     <li>
+                      <a href="/about" style={{color: "var(--text-color)", textDecoration:"none"}}>🔍 | About</a>
+                    </li>
+                    <li>
                       <a
                         href="https://discord.gg/8V62RTS25Q"
                         rel="noreferrer"

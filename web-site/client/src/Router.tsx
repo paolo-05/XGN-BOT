@@ -19,6 +19,7 @@ import { Leveling } from "./pages/guild/Leveling";
 import { Logging } from "./pages/guild/Logging";
 import { Settings } from "./pages/guild/Settings";
 import { Leaderboard } from "./pages/guild/Leaderboard";
+import { About } from "./pages/About";
 import { Privacy } from "./pages/Privacy";
 import { Footer } from "./components/Footer";
 
@@ -32,6 +33,7 @@ export const Router: React.FC = () => {
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/privacy" component={Privacy} />
         <Route exact path="/callback" component={CallbackHandler} />
+        <Route exact path="/about" component={About} />
         <Route exact path="/guilds" component={ShowGuilds} />
         <Route exact path="/guilds/:id" key="guild" component={Home} />
         <Route
