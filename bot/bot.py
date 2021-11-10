@@ -11,12 +11,12 @@ from tortoise import Tortoise
 import constants
 from models import GuildConfig
 
-COGS = [path.split("\\")[-1][:-3] for path in glob("./cogs/*.py")]
+COGS = [path.split("/")[-1][:-3] for path in glob("./cogs/*.py")]
 
 
 async def connect_db():
     await Tortoise.init(
-        db_url=f"postgres://xgnbot:12345@207.180.214.180:5432/bot",
+        db_url=f"postgres://xgnbot:12345@localhost:5432/bot",
         modules={"models": ["models"]},
     )
     await Tortoise.generate_schemas()
