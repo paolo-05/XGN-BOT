@@ -464,7 +464,7 @@ class Log(commands.Cog):
             return
 
         embed = discord.Embed(
-            title=f"{user} has been banned", timestamp=date, color=0x00aaff)
+            title=f"{user} has been banned", timestamp=date, colour=0x00aaff)
         embed.set_author(name=f"{user}", icon_url=user.avatar_url)
         embed.add_field(name="ID", value=f"```py\n User = {user.id}\n```")
         await audit_log_channel.send(embed=embed)
@@ -486,7 +486,7 @@ class Log(commands.Cog):
         else:
             return
         embed = discord.Embed(
-            title=f"{user} has been unbanned", timestamp=date, color=0x00aaff)
+            title=f"{user} has been unbanned", timestamp=date, colour=0x00aaff)
         embed.set_author(name=f"{user}", icon_url=user.avatar_url)
         embed.add_field(name="ID", value=f"```py\n User = {user.id}\n```")
         await audit_log_channel.send(embed=embed)

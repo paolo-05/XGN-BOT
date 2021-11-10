@@ -76,7 +76,7 @@ class ModCog(commands.Cog, name="moderation"):
     @has_permissions(manage_roles=True, kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason=None):
         embed = discord.Embed(
-            title=f'Member kicked', description=f'{user.name} has been kicked {user.guild.name} because {reason}!', colour=0xFF00FF)
+            title=f'Member kicked', description=f'{user.name} has been kicked {user.guild.name} because {reason}!', colour=ctx.author.colour)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(icon_url=ctx.author.avatar_url,
                          text=f'Requested by {ctx.author.name}.')
@@ -88,7 +88,7 @@ class ModCog(commands.Cog, name="moderation"):
     @has_permissions(manage_roles=True, ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason=None):
         embed = discord.Embed(
-            title=f'Member banned', description=f'{user.name} has been banned {user.guild.name} becasue {reason}!', colour=0xFF00FF)
+            title=f'Member banned', description=f'{user.name} has been banned {user.guild.name} becasue {reason}!', colour=ctx.author.colour)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(icon_url=ctx.author.avatar_url,
                          text=f'Requested by {ctx.author.name}.')
@@ -158,7 +158,7 @@ class ModCog(commands.Cog, name="moderation"):
     ])
     async def _kick(self, ctx, user: discord.Member, *, reason=None):
         embed = discord.Embed(
-            title=f'Member kicked', description=f'{user.name} has been kicked {user.guild.name} because {reason}!', colour=0xFF00FF)
+            title=f'Member kicked', description=f'{user.name} has been kicked {user.guild.name} because {reason}!', colour=ctx.author.colour)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(icon_url=ctx.author.avatar_url,
                          text=f'Requested by {ctx.author.name}.')
@@ -174,7 +174,7 @@ class ModCog(commands.Cog, name="moderation"):
     @dislash.has_permissions(manage_roles=True, ban_members=True)
     async def _ban(self, ctx, user: discord.Member, *, reason=None):
         embed = discord.Embed(
-            title=f'Member banned', description=f'{user.name} has been banned {user.guild.name} becasue {reason}!', colour=0xFF00FF)
+            title=f'Member banned', description=f'{user.name} has been banned {user.guild.name} becasue {reason}!', colour=ctx.author.colour)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_footer(icon_url=ctx.author.avatar_url,
                          text=f'Requested by {ctx.author.name}.')

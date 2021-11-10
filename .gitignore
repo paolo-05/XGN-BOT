@@ -1,7 +1,7 @@
 /jdk-13.0.2
 /data
 __pycache__/
+/web-site/client/build
 *.py[cod]
 *$py.class
 
-oldWB/

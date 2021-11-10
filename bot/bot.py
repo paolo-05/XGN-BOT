@@ -125,7 +125,8 @@ class XGNbot(commands.Bot):
             embed = discord.Embed(title="🤖 XGN BOT 🤖",
                                   description=f"👋 | Hi \n\n" +
                                   f"🧷 | my prefix here is `{await get_prefix(bot, msg)}`\n\n"
-                                  + "🆘 | `!help` to see all the commands available")
+                                  + "🆘 | `!help` to see all the commands available",
+                                  colour=0x00AAFF)
             embed.set_thumbnail(url=bot.user.avatar_url)
             await msg.reply(embed=embed, components=[row])
 

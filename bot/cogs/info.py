@@ -29,7 +29,7 @@ class InfoCog(commands.Cog, name="meta"):
         ans = db.record(
             f"SELECT user_id, exp, lvl FROM levels WHERE user_id = '{user.id}' and guild_id ='{user.guild.id}'")
         created_at = user.created_at.strftime(self.date_format)
-        embed = discord.Embed(title="INFO", colour=0xFF00FF)
+        embed = discord.Embed(title="INFO", colour=ctx.author.colour)
         embed.add_field(name="NAME", value=user.mention, inline=False)
         if ans is not None:
             xp = int(ans[1])
@@ -71,7 +71,7 @@ class InfoCog(commands.Cog, name="meta"):
         result = db.records(
             f"SELECT user_id, exp, lvl from levels WHERE guild_id = '{ctx.author.guild.id}' ORDER BY exp + 0 DESC LIMIT 1")
         for i, x in enumerate(result, 1):
-            embed = discord.Embed(colour=0xFF00FF)
+            embed = discord.Embed(colour=ctx.author.colour)
             embed.add_field(name="NAME", value=ctx.guild.name, inline=False)
             embed.add_field(
                 name="OWNER", value=ctx.guild.owner.name, inline=False)
@@ -83,6 +83,7 @@ class InfoCog(commands.Cog, name="meta"):
                 ctx.guild.roles), inline=True)
             embed.add_field(
                 name="BOOSTS", value=ctx.guild.premium_subscription_count, inline=True)
+            embed.add_field(name='Created At', value=ctx.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
             if result is not None:
                 embed.add_field(
                     name=f"MOST ACTIVE USER", value=f"<@{str(x[0])}> is on level `{str(x[2])}` with `{str(x[1])}` Total XP", inline=False)
@@ -176,7 +177,7 @@ class InfoCog(commands.Cog, name="meta"):
             user = inter.author
         ans = db.record(
             f"SELECT user_id, exp, lvl FROM levels WHERE user_id = '{user.id}' and guild_id ='{user.guild.id}'")
-        embed = discord.Embed(title="INFO", colour=0xFF00FF)
+        embed = discord.Embed(title="INFO", colour=inter.author.colour)
         embed.add_field(name="NAME", value=user.mention, inline=False)
         if ans is not None:
             xp = int(ans[1])
@@ -230,6 +231,7 @@ class InfoCog(commands.Cog, name="meta"):
                 inter.guild.roles), inline=True)
             embed.add_field(
                 name="BOOSTS", value=inter.guild.premium_subscription_count, inline=True)
+            embed.add_field(name='Created At', value=inter.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
             if result is not None:
                 embed.add_field(
                     name=f"MOST ACTIVE USER", value=f"<@{str(x[0])}> is on level `{str(x[2])}` with `{str(x[1])}` Total XP", inline=False)
