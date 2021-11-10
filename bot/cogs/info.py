@@ -231,7 +231,7 @@ class InfoCog(commands.Cog, name="meta"):
                 inter.guild.roles), inline=True)
             embed.add_field(
                 name="BOOSTS", value=inter.guild.premium_subscription_count, inline=True)
-            embed.add_field(name='Created At', value=inter.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
+            embed.add_field(name='CREATED AT', value=inter.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
             if result is not None:
                 embed.add_field(
                     name=f"MOST ACTIVE USER", value=f"<@{str(x[0])}> is on level `{str(x[2])}` with `{str(x[1])}` Total XP", inline=False)
