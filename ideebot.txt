@@ -7,3 +7,5 @@ sito:
         di conseguenza nel sito fare uno slider con attivo-disattivo, se disattivo mandare false. se nel sito si interagisce con
         lo slider si creano-rimuovono prima i canali nella categoria "📶 SERVER STATS" e poi la categoria stessa.
     front-end della parte sopra fatto
+
+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
