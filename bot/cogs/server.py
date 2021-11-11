@@ -58,6 +58,7 @@ class Server(commands.Cog):
             leaderboard.append({
                 'rank': j,
                 'user': record[0],
+                'counter':j,
                 'exp': record[1],
                 'lvl': record[2]
             })
