@@ -1,2 +1,1 @@
-# xgn-bot
- xgn bot made by paolo#0069
+<iframe src="https://xgnbot.xyz/" style="border:0px #ffffff none;" name="xgnBot" scrolling="yes" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
