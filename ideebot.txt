@@ -9,3 +9,5 @@ sito:
     front-end della parte sopra fatto
 
 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
+
+fare una pagina suggestions/feedback/bug-reports che manda per mail a me
