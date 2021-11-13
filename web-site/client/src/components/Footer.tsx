@@ -1,4 +1,5 @@
 import React from "react";
+import ContactUs from "./Contact";
 
 export const Footer: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ export const Footer: React.FC = () => {
     >
       <div className="container">
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-7">
             <div
               className="card"
               style={{
@@ -31,14 +32,11 @@ export const Footer: React.FC = () => {
                     XGN BOT
                   </h2>
                 </a>
-                <p style={{ color: "var(--text-color)" }}>
-                  designed by paolo#5731 with{" "}
-                  <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
-                </p>
+                <ContactUs />
               </div>
             </div>
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-4">
             <div
               className="card"
               style={{
@@ -51,7 +49,15 @@ export const Footer: React.FC = () => {
                 <p>
                   <ul>
                     <li>
-                      <a href="/about" style={{color: "var(--text-color)", textDecoration:"none"}}>🔍 | About</a>
+                      <a
+                        href="/about"
+                        style={{
+                          color: "var(--text-color)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        🔍 | About
+                      </a>
                     </li>
                     <li>
                       <a
@@ -146,6 +152,10 @@ export const Footer: React.FC = () => {
           >
             discord.com
           </a>
+        </h6>
+        <h6 style={{ textAlign: "center" }}>
+          designed by paolo#5731 with{" "}
+          <i className="bx bxs-heart" style={{ color: "#ff0000" }}></i>
         </h6>
       </div>
     </div>

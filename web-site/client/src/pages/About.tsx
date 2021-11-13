@@ -31,7 +31,7 @@ export const About: React.FC = () => {
                   <div className="row">
                     <div className="col-sm-4">
                       <img
-                        src="https://cdn.discordapp.com/avatars/623570551566237709/03f0c459ca27720f542f24a6decbbb68.png?size=512"
+                        src="https://cdn.discordapp.com/avatars/623570551566237709/18fc8d59426d233f3b794827bbc107a4.png?size=512"
                         className="rounded-full"
                         alt=""
                         width=""
