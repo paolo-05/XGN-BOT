@@ -76,7 +76,7 @@ class Events(commands.Cog):
             await cs[1].edit(
                 name=f"👨 People: {len([m for m in message.guild.members if not m.bot])}")
             await cs[2].edit(
-                name=f"🤖 Bot: {len([m for m in message.guild.members if not m.bot])}")
+                name=f"🤖 Bot: {len([m for m in message.guild.members if m.bot])}")
             await cs[3].edit(name=f"📑 Channels: {len(message.guild.channels)}")
 
         text = "watching /help | {users:,} users in {guilds:,} servers".format(
