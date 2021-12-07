@@ -80,16 +80,7 @@ async def mutual_guilds(request):
         raise Unauthorized("Invalid token!")
 
     valid_guilds = await utils.get_valid_guilds(token)
-    guilds = []
-    for i in valid_guilds:
-        guild_data = await utils.get_guild_data(i['id'])
-        guilds.append({
-            "id": str(i['id']),
-            "name": str(i['name']),
-            "icon_url": str(f"https://cdn.discordapp.com/icons/{i['id']}/{i['icon']}.png?size=512"),
-            'in': False if guild_data is None else True
-        })
-    return json({"guilds": guilds})
+    return json({"guilds": valid_guilds})
 
 
 @app.route("channels/<guild_id>")
