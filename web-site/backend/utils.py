@@ -36,13 +36,6 @@ async def get_user_info_by_id(user_id):
     return f'{resp.json()["username"]}#{resp.json()["discriminator"]}'
 
 
-async def get_valid_guilds(token: str):
-    resp = requests.get("https://discord.com/api/v6/users/@me/guilds",
-                        headers={"Authorization": f"Bearer {token}"})
-    resp.raise_for_status()
-    return [guild for guild in resp.json() if (guild['permissions'] & 0x20) == 0x20]
-
-
 async def get_guild_data(guild_id: int):
     token = constants.BOT_TOKEN
     resp = requests.get(
@@ -52,6 +45,20 @@ async def get_guild_data(guild_id: int):
         return resp.json()
     except requests.exceptions.HTTPError:
         return None
+
+
+async def get_valid_guilds(token: str):
+    resp = requests.get("https://discord.com/api/v6/users/@me/guilds",
+                        headers={"Authorization": f"Bearer {token}"})
+    resp.raise_for_status()
+
+    return [
+        {
+            "id": str(guild['id']),
+            "name": str(guild['name']),
+            "icon_url": str(f"https://cdn.discordapp.com/icons/{guild['id']}/{guild['icon']}.png?size=512"),
+            "in":False if get_guild_data(guild['id']) is None else True
+        } for guild in resp.json() if (guild['permissions'] & 0x20) == 0x20]
 
 
 async def get_guild_channels(guild_id: int):
