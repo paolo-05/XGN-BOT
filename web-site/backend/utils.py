@@ -57,7 +57,7 @@ async def get_valid_guilds(token: str):
             "id": str(guild['id']),
             "name": str(guild['name']),
             "icon_url": str(f"https://cdn.discordapp.com/icons/{guild['id']}/{guild['icon']}.png?size=512"),
-            "in":False if get_guild_data(guild['id']) is None else True
+            "in":False if await get_guild_data(guild['id']) is None else True
         } for guild in resp.json() if (guild['permissions'] & 0x20) == 0x20]
 
 
