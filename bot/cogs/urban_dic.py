@@ -37,15 +37,19 @@ class Dictionary(commands.Cog, name="dictionary"):
                 example = r['list'][0]['example']
                 thumbs_up = r['list'][0]['thumbs_up']
                 thumbs_down = r['list'][0]['thumbs_down']
+                permanent_link = r['list'][0]['permalink']
+                author = r['list'][0]['author']
                 embed = discord.Embed(
                     title=f"First result for: {term}", colour=ctx.author.color)
                 embed.add_field(name="DEFINITION",
                                 value=definition, inline=False)
                 embed.add_field(name="EXAMPLES", value=example, inline=False)
                 embed.add_field(
-                    name=f":thumbsup: : {thumbs_up}", value="Likes", inline=False)
+                    name=f":thumbsup: : {thumbs_up}", value="Likes", inline=True)
                 embed.add_field(
-                    name=f":thumbsdown: {thumbs_down}", value="Dislikes", inline=False)
+                    name=f":thumbsdown: {thumbs_down}", value="Dislikes", inline=True)
+                embed.add_field(name=f"Definion author: {author}",
+                                value=f"[See on UrbanDictionary.com]({permanent_link})", inline=False)
 
                 await ctx.send(embed=embed)
 
@@ -71,15 +75,19 @@ class Dictionary(commands.Cog, name="dictionary"):
                 example = r['list'][0]['example']
                 thumbs_up = r['list'][0]['thumbs_up']
                 thumbs_down = r['list'][0]['thumbs_down']
+                permanent_link = r['list'][0]['permalink']
+                author = r['list'][0]['author']
                 embed = discord.Embed(
                     title=f"First result for: {term}", colour=ctx.author.color)
                 embed.add_field(name="DEFINITION",
                                 value=definition, inline=False)
                 embed.add_field(name="EXAMPLES", value=example, inline=False)
                 embed.add_field(
-                    name=f":thumbsup: : {thumbs_up}", value="Likes", inline=False)
+                    name=f":thumbsup: : {thumbs_up}", value="Likes", inline=True)
                 embed.add_field(
-                    name=f":thumbsdown: {thumbs_down}", value="Dislikes", inline=False)
+                    name=f":thumbsdown: {thumbs_down}", value="Dislikes", inline=True)
+                embed.add_field(name=f"Definion author: {author}",
+                                value=f"[See on UrbanDictionary.com]({permanent_link})", inline=False)
 
                 await ctx.send(embed=embed)
 

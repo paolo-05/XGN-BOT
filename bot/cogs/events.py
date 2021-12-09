@@ -182,7 +182,10 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_slash_command_error(self, ctx, error):
-        print(error)
+        channel = ctx.channel
+        embed = discord.Embed(
+            title=f"Sorry {ctx.author.name}, there was error in the command: ", description=error, colour=0xFF0000)
+        await channel.send(embed=embed)
 
 
 def setup(bot: commands.Bot):
