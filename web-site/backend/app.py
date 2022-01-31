@@ -1,5 +1,3 @@
-import time
-
 import aiohttp
 import hikari
 import requests

@@ -3,7 +3,7 @@ import discord
 from aiohttp import ClientSession
 from discord.ext import commands
 import dislash
-from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+from dislash import (Option, OptionType,
                      slash_command)
 
 

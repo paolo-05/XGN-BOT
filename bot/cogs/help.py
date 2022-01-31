@@ -1,8 +1,7 @@
 import discord
 from discord.errors import Forbidden
 from discord.ext import commands
-from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
-                     slash_command)
+from dislash import (Option, slash_command)
 
 
 def syntax(command):

@@ -1,6 +1,3 @@
-import asyncio
-import typing
-
 import constants
 import discord
 from discord.ext import commands

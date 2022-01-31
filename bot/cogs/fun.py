@@ -4,11 +4,11 @@ from random import choice
 import aiohttp
 import discord
 from aiohttp import request
-from discord import Embed, Member
+from discord import Embed
 from discord.ext import commands
-from discord.ext.commands import (BadArgument, BucketType, Cog,
-                                  MissingRequiredArgument, cooldown)
-from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+from discord.ext.commands import (BucketType, Cog,
+                                  cooldown)
+from dislash import (Option, OptionType,
                      slash_command)
 
 

@@ -1,6 +1,4 @@
-# async python for the postgres DB
 from tortoise import Tortoise
-
 from models import GuildConfig, WelcomeConfig, LeaveConfig, LevelUpConfig, LogChannel
 
 

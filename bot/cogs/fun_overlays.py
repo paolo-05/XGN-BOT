@@ -5,7 +5,7 @@ import discord
 import dislash
 from discord.ext import commands
 from discord.ext.commands import BucketType, Cog, cooldown
-from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+from dislash import (Option, OptionType,
                      slash_command)
 
 

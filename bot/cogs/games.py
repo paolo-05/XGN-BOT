@@ -4,7 +4,8 @@ import random
 import db
 import discord
 from discord.ext import commands
-from dislash import ActionRow, Button, ButtonStyle, slash_command, Option, OptionType
+from dislash import (ActionRow, Button, ButtonStyle,
+                     slash_command, Option, OptionType)
 
 GAME_XP = 250
 

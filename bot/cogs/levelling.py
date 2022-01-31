@@ -6,10 +6,9 @@ from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import command
 from discord.ext.menus import ListPageSource
-from dislash import ActionRow, Button, ButtonStyle
-from models import GuildConfig, LevelUpConfig
 from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
                      slash_command)
+from models import GuildConfig, LevelUpConfig
 
 intents = discord.Intents.all()
 

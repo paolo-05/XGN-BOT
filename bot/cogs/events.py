@@ -2,11 +2,10 @@ import json
 import time
 
 import discord
-import dislash
 import requests
 from discord.ext import commands
 from models import (GuildConfig, LeaveConfig,
-                    WelcomeConfig, LogChannel, LevelUpConfig)
+                    WelcomeConfig)
 from requests import get
 
 

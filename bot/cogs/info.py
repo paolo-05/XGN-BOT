@@ -6,7 +6,8 @@ import db
 import discord
 from discord import Embed
 from discord.ext import commands
-from dislash import ActionRow, Button, ButtonStyle, slash_command, Option, OptionType
+from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType,
+                     slash_command)
 from models import GuildConfig
 from psutil import Process, virtual_memory
 
@@ -83,7 +84,8 @@ class InfoCog(commands.Cog, name="meta"):
                 ctx.guild.roles), inline=True)
             embed.add_field(
                 name="BOOSTS", value=ctx.guild.premium_subscription_count, inline=True)
-            embed.add_field(name='Created At', value=ctx.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
+            embed.add_field(name='Created At', value=ctx.guild.created_at.__format__(
+                '%A, %d. %B %Y @ %H:%M:%S'), inline=True)
             if result is not None:
                 embed.add_field(
                     name=f"MOST ACTIVE USER", value=f"<@{str(x[0])}> is on level `{str(x[2])}` with `{str(x[1])}` Total XP", inline=False)
@@ -231,7 +233,8 @@ class InfoCog(commands.Cog, name="meta"):
                 inter.guild.roles), inline=True)
             embed.add_field(
                 name="BOOSTS", value=inter.guild.premium_subscription_count, inline=True)
-            embed.add_field(name='CREATED AT', value=inter.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=True)
+            embed.add_field(name='CREATED AT', value=inter.guild.created_at.__format__(
+                '%A, %d. %B %Y @ %H:%M:%S'), inline=True)
             if result is not None:
                 embed.add_field(
                     name=f"MOST ACTIVE USER", value=f"<@{str(x[0])}> is on level `{str(x[2])}` with `{str(x[1])}` Total XP", inline=False)

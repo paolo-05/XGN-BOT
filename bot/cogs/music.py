@@ -7,10 +7,9 @@ from enum import Enum
 
 import aiohttp
 import discord
-import dislash
 import wavelink
 from discord.ext import commands
-from dislash import (ActionRow, Button, ButtonStyle, Option, OptionType, SlashInteraction,
+from dislash import (Option, OptionType, SlashInteraction,
                      slash_command)
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
