@@ -26,7 +26,7 @@ export const NavBar: React.FC = () => {
   }, [accessToken]);
 
   return (
-    <div id="top" style={{ height: 12, background: "var(--background)" }}>
+    <div id="top" style={{ height: 12, background: "#23272a" }}>
       <nav
         className="navbar navbar-dark navbar-expand fixed-top"
         style={{
@@ -34,7 +34,7 @@ export const NavBar: React.FC = () => {
           borderTopWidth: 6,
           borderTopStyle: "solid",
           borderColor: "var(--main-color)",
-          background: "var(--background)",
+          background: "#23272a",
         }}
       >
         <div className="container-fluid">
@@ -118,7 +118,7 @@ export const NavBar: React.FC = () => {
                     <Dropdown>
                       <Dropdown.Toggle
                         style={{
-                          background: "var(--background)",
+                          background: "#23272a",
                           border: "none",
                         }}
                       >
@@ -127,7 +127,7 @@ export const NavBar: React.FC = () => {
 
                       <Dropdown.Menu
                         variant="dark"
-                        style={{ background: "var(--background)" }}
+                        style={{ background: "#23272a" }}
                       >
                         <Dropdown.Item className="nav-link">
                           <NavLink

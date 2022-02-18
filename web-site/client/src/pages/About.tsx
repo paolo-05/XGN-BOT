@@ -31,7 +31,7 @@ export const About: React.FC = () => {
                   <div className="row">
                     <div className="col-sm-4">
                       <img
-                        src="https://cdn.discordapp.com/avatars/623570551566237709/18fc8d59426d233f3b794827bbc107a4.png?size=512"
+                        src="https://cdn.discordapp.com/avatars/623570551566237709/692018969f68aefec124ce0114745645.png?size=512"
                         className="rounded-full"
                         alt=""
                         width=""
@@ -41,10 +41,7 @@ export const About: React.FC = () => {
                       <p>
                         roles:
                         <ul style={{ listStyleType: "circle" }}>
-                          <li>Owner of the Bot</li>
-                          <li>Owner of the Website</li>
-                          <li>Head Developer</li>
-                          <li>Manager of the Support Server</li>
+                          <li>He's doing all the work</li>
                         </ul>
                       </p>
                     </div>
