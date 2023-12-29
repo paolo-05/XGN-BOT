@@ -34,3 +34,6 @@ I couldn't stand with that so I purchased a domain `xgn-bot.xyz` and rent for â‚
 So I started my linux adventure, had to figure out how to set up a proxy and other boring things, but by the start of the 2021 summer I got the bot working `24/7` and a very first version of what I call a dashboard. It was made with `Flask` and plain `html` with `Boostrap 5`, but I wasn't satisfied and I discovered `React` so I started to work on that trying to convert the plain html to react compatible code.
 
 # <img src="https://cdn.discordapp.com/avatars/840300480382894080/e5a858d980d6ef15b7ffaebe29624396.png" /> XGN BOT
+
+
+![prove](https://github.com/paolo-05/xgn-bot/assets/78367917/cb7cd37f-b110-4e38-aa19-ada54a44bc44)
