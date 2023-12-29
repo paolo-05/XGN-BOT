@@ -1,3 +1,5 @@
+ <img src="https://skillicons.dev/icons?i=react,ts,discord,python,html,css,js,nodejs,postgres,sqlite" />
+
 # ❓ What is `xgn-bot`
 
 > xgn-bot **was** a discord bot made by me during 2021. As I started to gain experience with python, I discoverd that it was possible to code my own bot for discord, which I really enjoied doing, but in the mean time I also discovered [MEE6](https://mee6.xyz/en) the most complete bot out there, so I took inspiration on that project.
